@@ -1,0 +1,4 @@
+io/flutter/plugins/GeneratedPluginRegistrant.java
+ io.flutter.plugins.GeneratedPluginRegistrant
+vn/newwave/flutter_app/BuildConfig.java
+ vn.newwave.flutter_app.BuildConfig
