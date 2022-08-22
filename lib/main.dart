@@ -10,8 +10,8 @@ import 'configs/app_env_config.dart';
 
 void main() async {
   AppConfigs.env = Environment.prod;
-  await Firebase.initializeApp();
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   final storage = await HydratedStorage.build(
       storageDirectory: kIsWeb ? HydratedStorage.webStorageDirectory : await getTemporaryDirectory());
   HydratedBlocOverrides.runZoned(

@@ -7,7 +7,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:342742479309:android:b95029d222f39115fa5484",
+        "mobilesdk_app_id": "1:342742479309:android:b6adad623376e484fa5484",
         "android_client_info": {
           "package_name": "vn.newwave.flutter_app"
         }
@@ -37,6 +37,13 @@
             {
               "client_id": "342742479309-gur5em1mljek3velinnofo0gpogntd60.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "342742479309-mnhcstpp8ih29gt01k647vgbo867jpn7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "it.thoson.flutterBase"
+              }
             }
           ]
         }

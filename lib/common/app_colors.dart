@@ -44,6 +44,7 @@ class AppColors {
 
   static const Color btnColor = Color(0xFF002DE3);
   static const Color titleColor = Color(0xffF7F7FC);
+  static const Color greyBG = Color(0xffEDEDED);
 
-
+  static const Color hintTextColor = Color(0xffADB5BD);
 }

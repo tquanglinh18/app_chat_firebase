@@ -41,7 +41,7 @@ class _SplashChildPageState extends State<SplashChildPage> {
 
   init() async {
     await Future.delayed(const Duration(seconds: 2));
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => IntroAppPage()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const IntroAppPage()));
   }
 
   @override
