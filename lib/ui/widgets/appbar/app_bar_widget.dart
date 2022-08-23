@@ -10,7 +10,7 @@ class AppBarWidget extends AppBar {
     Colors? shadowColor,
   }) : super(
           key: key,
-      shadowColor: Colors.transparent,
+          shadowColor: Colors.transparent,
           title: Text(title),
           toolbarHeight: 50,
           leading: showBackButton
@@ -19,4 +19,3 @@ class AppBarWidget extends AppBar {
           actions: rightActions,
         );
 }
-

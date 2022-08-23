@@ -60,12 +60,6 @@ class Avatar extends StatelessWidget {
                 height: avatarSize,
                 imageUrl: url!,
                 fit: BoxFit.cover,
-                // httpHeaders: needHttpHeader!
-                //     ? {
-                //   'X-User-Id': GlobalData.instance.userInfoFromRocketChatEntity?.userId ?? '',
-                //   'X-Auth-Token': GlobalData.instance.userInfoFromRocketChatEntity?.personalAccessToken ?? ''
-                // }
-                //: null,
                 progressIndicatorBuilder: (context, url, progress) {
                   return SizedBox(
                     width: double.infinity,

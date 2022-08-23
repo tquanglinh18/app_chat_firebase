@@ -45,6 +45,8 @@ class AppColors {
   static const Color btnColor = Color(0xFF002DE3);
   static const Color titleColor = Color(0xffF7F7FC);
   static const Color greyBG = Color(0xffEDEDED);
-
+  static const Color messageColor = Color(0xffD2D5F9);
   static const Color hintTextColor = Color(0xffADB5BD);
+
+  static const Color isOnlineColor = Color(0xff2CC069);
 }

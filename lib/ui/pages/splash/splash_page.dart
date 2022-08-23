@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base/common/app_images.dart';
 import 'package:flutter_base/repositories/auth_repository.dart';
+import 'package:flutter_base/ui/pages/contact/contact_page.dart';
+import 'package:flutter_base/ui/pages/profile_user/profile_user_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../repositories/user_repository.dart';
@@ -41,7 +43,11 @@ class _SplashChildPageState extends State<SplashChildPage> {
 
   init() async {
     await Future.delayed(const Duration(seconds: 2));
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const IntroAppPage()));
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const IntroAppPage(),
+      ),
+    );
   }
 
   @override

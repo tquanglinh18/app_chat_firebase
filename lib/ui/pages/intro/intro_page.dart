@@ -38,6 +38,7 @@ class IntroAppPage extends StatelessWidget {
               ),
               const SizedBox(height: 18),
               AppButtons(
+                buttonType: ButtonType.ACTIVE,
                 onTap: () =>
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => const InputNumberPage())),
                 title: "Start Messaging",

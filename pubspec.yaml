@@ -98,6 +98,7 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
+    - assets/images/
     - assets/images/bg_image_placeholder.png
     - assets/images/ic_logo.png
     - assets/images/ic_logo_transparent.png

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base/common/app_images.dart';
 import 'package:flutter_base/common/app_text_styles.dart';
 import 'package:flutter_base/ui/commons/app_buttons.dart';
+import 'package:flutter_base/ui/pages/contact/contact_page.dart';
 import 'package:flutter_base/ui/widgets/appbar/app_bar_widget.dart';
 import 'package:flutter_base/ui/widgets/images/app_circle_avatar.dart';
 
@@ -25,7 +27,7 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
             title: "Your Profile",
           ),
           const SizedBox(height: 46),
-          Avatar(),
+          avatar(),
           const SizedBox(height: 31),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 24),
@@ -63,9 +65,31 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
           const SizedBox(height: 70),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 24),
-            child: const AppButtons(
+            child: AppButtons(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ContactPage()));
+              },
               title: "Save",
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget avatar() {
+    return SizedBox(
+      height: 100,
+      width: 100,
+      child: Stack(
+        children: [
+          Image.asset(
+            AppImages.icAvatarDefault,
+          ),
+          Positioned(
+            right: 5,
+            bottom: 1,
+            child: Image.asset(AppImages.icAdd),
           ),
         ],
       ),
