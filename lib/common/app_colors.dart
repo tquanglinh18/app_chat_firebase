@@ -49,4 +49,5 @@ class AppColors {
   static const Color hintTextColor = Color(0xffADB5BD);
 
   static const Color isOnlineColor = Color(0xff2CC069);
+  static const Color bgrColorsChatPage = Color(0xffE5E5E5);
 }

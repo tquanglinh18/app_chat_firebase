@@ -63,6 +63,7 @@ dependencies:
 
   #fire_base
   firebase_core: ^1.21.0
+  firebase_auth:
 
 dev_dependencies:
   flutter_test:

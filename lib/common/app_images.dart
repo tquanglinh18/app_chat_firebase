@@ -17,4 +17,23 @@ class AppImages {
 
   static const icAvatarDefault = 'assets/images/ic_avatar_default.png';
   static const icAdd = 'assets/images/ic_add.png';
+  static const icAddContact = 'assets/images/ic_add_contact.png';
+  static const icNewMessage = 'assets/images/ic_new_message.png';
+  static const icMarkAsRead = 'assets/images/ic_mark_as_read.png';
+
+  ///More
+  static const icAccount = 'assets/images/ic_account.png';
+  static const icChats = 'assets/images/ic_chats.png';
+  static const icAppereance = 'assets/images/ic_appereance.png';
+  static const icNotification = 'assets/images/ic_notification.png';
+  static const icPrivacy = 'assets/images/ic_privacy.png';
+  static const icDataUsage = 'assets/images/ic_data_usage.png';
+  static const icHelp = 'assets/images/ic_help.png';
+  static const icInviteYourFriends = 'assets/images/ic_invite_your_friends.png';
+  static const icNext = 'assets/images/ic_next.png';
+
+  ///Chat
+  static const icSearchMessage = "assets/images/ic_search_message.png";
+  static const icOption = "assets/images/ic_option.png";
+  static const icSentMessage = "assets/images/ic_sent_message.png";
 }
