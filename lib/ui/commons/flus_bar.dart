@@ -1,0 +1,68 @@
+import 'package:another_flushbar/flushbar.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+enum FlushBarType {
+  NOTIFICATION,
+  SUCCESS,
+  ERROR,
+  WARNING,
+}
+
+class DxFlushBar {
+  static void showFlushBar(
+    BuildContext context, {
+    FlushBarType type = FlushBarType.NOTIFICATION,
+    String title = "",
+    String message = "",
+    int duration = 3,
+    FlushbarPosition position = FlushbarPosition.TOP,
+  }) {
+    Color backgroundColor;
+    Icon icon;
+    //String _title;
+    switch (type) {
+      case FlushBarType.NOTIFICATION:
+        backgroundColor = const Color(0xFF63a026);
+        icon = const Icon(Icons.info, color: Colors.white);
+        // _title = "Warning";
+        break;
+      case FlushBarType.SUCCESS:
+        backgroundColor = const Color(0xFF63a026);
+        icon = const Icon(Icons.check_circle, color: Colors.white);
+        // _title = "Success";
+        break;
+      case FlushBarType.ERROR:
+        backgroundColor = const Color(0xFFf64438);
+        icon = const Icon(Icons.error, color: Colors.white);
+        // _title = "Error";
+        break;
+      case FlushBarType.WARNING:
+        backgroundColor = const Color(0xFFedbc38);
+        icon = const Icon(Icons.warning, color: Colors.white);
+        // _title = "Alert";
+        break;
+    }
+
+    // if (title != null && title.isNotEmpty) {
+    //   _title = title;
+    // }
+
+    Flushbar flushBar;
+    flushBar = Flushbar(
+      isDismissible: true,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      message: message != ""
+          ? message
+          : title == ""
+              ? "He thong loi"
+              : title,
+      duration: Duration(seconds: duration),
+      flushbarPosition: position,
+      backgroundColor: backgroundColor,
+      icon: icon,
+      flushbarStyle: FlushbarStyle.GROUNDED,
+    );
+    flushBar.show(context);
+  }
+}

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/linhtq/StudioProjects/app_chat_firebase/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-ka/values-ka.xml",
+            "outputFile": "/Users/linhtq/Documents/GitHub/app_chat_firebase/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-ka/values-ka.xml",
             "map": [
                 {
                     "source": "/Users/linhtq/.gradle/caches/transforms-2/files-2.1/aa910492c4e287e0face2dd8ba1a7d3b/jetified-play-services-basement-18.0.0/res/values-ka/values.xml",

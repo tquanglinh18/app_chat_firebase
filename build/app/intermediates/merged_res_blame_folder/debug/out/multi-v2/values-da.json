@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/linhtq/StudioProjects/app_chat_firebase/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-da/values-da.xml",
+            "outputFile": "/Users/linhtq/Documents/GitHub/app_chat_firebase/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-da/values-da.xml",
             "map": [
                 {
                     "source": "/Users/linhtq/.gradle/caches/transforms-2/files-2.1/e9e6c3f9746e96d055ec52906731052b/browser-1.4.0/res/values-da/values-da.xml",

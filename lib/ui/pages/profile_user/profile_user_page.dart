@@ -4,10 +4,8 @@ import 'package:flutter_base/common/app_text_styles.dart';
 import 'package:flutter_base/ui/commons/app_buttons.dart';
 import 'package:flutter_base/ui/pages/contact/contact_page.dart';
 import 'package:flutter_base/ui/widgets/appbar/app_bar_widget.dart';
-import 'package:flutter_base/ui/widgets/images/app_circle_avatar.dart';
 
 import '../../../common/app_colors.dart';
-import '../../widgets/images/avatar.dart';
 
 class ProfileUserPage extends StatefulWidget {
   const ProfileUserPage({Key? key}) : super(key: key);

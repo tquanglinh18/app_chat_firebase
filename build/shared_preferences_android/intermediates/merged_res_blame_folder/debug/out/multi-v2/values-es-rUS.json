@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/linhtq/StudioProjects/app_chat_firebase/build/shared_preferences_android/intermediates/incremental/mergeDebugResources/merged.dir/values-es-rUS/values-es-rUS.xml",
+            "outputFile": "/Users/linhtq/Documents/GitHub/app_chat_firebase/build/shared_preferences_android/intermediates/res/merged/debug/values-es-rUS/values-es-rUS.xml",
             "map": [
                 {
                     "source": "/Users/linhtq/.gradle/caches/transforms-2/files-2.1/62db4687cf4190f51b448593bbf603fe/core-1.6.0/res/values-es-rUS/values-es-rUS.xml",
@@ -16,7 +16,7 @@
             ]
         },
         {
-            "outputFile": "/Users/linhtq/StudioProjects/app_chat_firebase/build/shared_preferences_android/intermediates/res/merged/debug/values-es-rUS/values-es-rUS.xml",
+            "outputFile": "/Users/linhtq/Documents/GitHub/app_chat_firebase/build/shared_preferences_android/intermediates/incremental/mergeDebugResources/merged.dir/values-es-rUS/values-es-rUS.xml",
             "map": [
                 {
                     "source": "/Users/linhtq/.gradle/caches/transforms-2/files-2.1/62db4687cf4190f51b448593bbf603fe/core-1.6.0/res/values-es-rUS/values-es-rUS.xml",

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/linhtq/StudioProjects/app_chat_firebase/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
+            "outputFile": "/Users/linhtq/Documents/GitHub/app_chat_firebase/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
             "map": [
                 {
                     "source": "/Users/linhtq/.gradle/caches/transforms-2/files-2.1/62db4687cf4190f51b448593bbf603fe/core-1.6.0/res/values/values.xml",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "/Users/linhtq/StudioProjects/app_chat_firebase/android/app/src/main/res/values/styles.xml",
+                    "source": "/Users/linhtq/Documents/GitHub/app_chat_firebase/android/app/src/main/res/values/styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",
@@ -80,6 +80,23 @@
                     }
                 },
                 {
+                    "source": "/Users/linhtq/Documents/GitHub/app_chat_firebase/build/app/generated/res/google-services/debug/values/values.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "55,199,281,385,494,614,725",
+                        "endColumns": "143,81,103,108,119,110,87",
+                        "endOffsets": "194,276,380,489,609,720,808"
+                    },
+                    "to": {
+                        "startLines": "126,130,131,132,133,134,135",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "8973,9332,9414,9518,9627,9747,9858",
+                        "endColumns": "143,81,103,108,119,110,87",
+                        "endOffsets": "9112,9409,9513,9622,9742,9853,9941"
+                    }
+                },
+                {
                     "source": "/Users/linhtq/.gradle/caches/transforms-2/files-2.1/aa910492c4e287e0face2dd8ba1a7d3b/jetified-play-services-basement-18.0.0/res/values/values.xml",
                     "from": {
                         "startLines": "4,7",
@@ -111,23 +128,6 @@
                         "startOffsets": "661,719,785,848,1713,1784,8905,9117,9184,9263",
                         "endColumns": "57,65,62,61,70,71,67,66,78,68",
                         "endOffsets": "714,780,843,905,1779,1851,8968,9179,9258,9327"
-                    }
-                },
-                {
-                    "source": "/Users/linhtq/StudioProjects/app_chat_firebase/build/app/generated/res/google-services/debug/values/values.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8",
-                        "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "55,199,281,385,494,614,725",
-                        "endColumns": "143,81,103,108,119,110,87",
-                        "endOffsets": "194,276,380,489,609,720,808"
-                    },
-                    "to": {
-                        "startLines": "126,130,131,132,133,134,135",
-                        "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "8973,9332,9414,9518,9627,9747,9858",
-                        "endColumns": "143,81,103,108,119,110,87",
-                        "endOffsets": "9112,9409,9513,9622,9742,9853,9941"
                     }
                 }
             ]
