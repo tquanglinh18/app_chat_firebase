@@ -37,7 +37,7 @@ class AppButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: buttonType == ButtonType.ACTIVE ? onTap : null,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 48),
         height: 52,

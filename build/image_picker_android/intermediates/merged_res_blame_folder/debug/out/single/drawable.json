@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/Users/linhtq/Documents/GitHub/app_chat_firebase/build/image_picker_android/intermediates/res/merged/debug/drawable/notification_bg_low.xml",
+        "source": "/Users/linhtq/.gradle/caches/transforms-2/files-2.1/77b035f20aa3b08ab9e74401360e5436/core-1.8.0/res/drawable/notification_bg_low.xml"
+    },
+    {
+        "merged": "/Users/linhtq/Documents/GitHub/app_chat_firebase/build/image_picker_android/intermediates/res/merged/debug/drawable/notification_icon_background.xml",
+        "source": "/Users/linhtq/.gradle/caches/transforms-2/files-2.1/77b035f20aa3b08ab9e74401360e5436/core-1.8.0/res/drawable/notification_icon_background.xml"
+    },
+    {
+        "merged": "/Users/linhtq/Documents/GitHub/app_chat_firebase/build/image_picker_android/intermediates/res/merged/debug/drawable/notification_bg.xml",
+        "source": "/Users/linhtq/.gradle/caches/transforms-2/files-2.1/77b035f20aa3b08ab9e74401360e5436/core-1.8.0/res/drawable/notification_bg.xml"
+    },
+    {
+        "merged": "/Users/linhtq/Documents/GitHub/app_chat_firebase/build/image_picker_android/intermediates/res/merged/debug/drawable/notification_tile_bg.xml",
+        "source": "/Users/linhtq/.gradle/caches/transforms-2/files-2.1/77b035f20aa3b08ab9e74401360e5436/core-1.8.0/res/drawable/notification_tile_bg.xml"
+    }
+]

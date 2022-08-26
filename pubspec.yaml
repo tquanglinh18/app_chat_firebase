@@ -65,7 +65,11 @@ dependencies:
   firebase_core: ^1.21.0
   firebase_auth:
 
+ #Flush bar
   another_flushbar: ^1.10.29
+
+  #Image picker
+  image_picker: ^0.8.5+3
 
 dev_dependencies:
   flutter_test:

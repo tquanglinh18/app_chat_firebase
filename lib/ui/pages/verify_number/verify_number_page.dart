@@ -6,7 +6,7 @@ import 'package:flutter_base/models/enums/load_status.dart';
 import 'package:flutter_base/ui/commons/custom_progress_hud.dart';
 import 'package:flutter_base/ui/commons/flus_bar.dart';
 import 'package:flutter_base/ui/commons/my_dialog.dart';
-import 'package:flutter_base/ui/pages/contact/contact_page.dart';
+import 'package:flutter_base/ui/pages/home_app/home_app_page.dart';
 import 'package:flutter_base/ui/pages/verify_number/verify_number_cubit.dart';
 import 'package:flutter_base/ui/widgets/appbar/app_bar_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +15,7 @@ import '../../../common/app_text_styles.dart';
 import '../../commons/otp/animation_type.dart';
 import '../../commons/otp/pin_theme.dart';
 import '../../commons/otp/pin_code_text_field.dart';
+import '../home_app/contact/contact_page.dart';
 import '../input_number/input_number_cubit.dart';
 
 class VerifyNumberPage extends StatefulWidget {
@@ -43,11 +44,6 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
       loading: false,
       color: Colors.red,
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override
@@ -82,6 +78,19 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
                     _customProgressHUD.progress.show();
                   } else {
                     _customProgressHUD.progress.dismiss();
+                     if (state.loadStatus == LoadStatus.success) {
+                      DxFlushBar.showFlushBar(
+                        context,
+                        type: FlushBarType.SUCCESS,
+                        message: "Nhap ma OTP nhan duoc!",
+                      );
+                    } else if (state.loadStatus == LoadStatus.failure) {
+                      DxFlushBar.showFlushBar(
+                        context,
+                        type: FlushBarType.ERROR,
+                        message: state.error,
+                      );
+                    }
                   }
                 },
                 listenWhen: (pre, cur) => pre.loadStatus != cur.loadStatus,
@@ -121,6 +130,12 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
               type: FlushBarType.ERROR,
               message: state.error,
             );
+          } else if (state.loadStatus == LoadStatus.success) {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => const HomeAppPage(),
+              ),
+            );
           }
         }
       },
@@ -146,9 +161,6 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
             cursorColor: Colors.grey,
             backgroundColor: Colors.white,
             onCompleted: (value) {
-              // _cubit.otpValueChanged(value);
-              //verificationIDInput = value;
-              print("onCompleted -- $value");
             },
             onChanged: (value) {
               if (_textOTPController.text.length == 6) {

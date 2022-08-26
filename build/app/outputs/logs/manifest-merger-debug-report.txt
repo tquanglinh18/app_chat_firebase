@@ -5,14 +5,16 @@ INJECTED from /Users/linhtq/Documents/GitHub/app_chat_firebase/android/app/src/m
 INJECTED from /Users/linhtq/Documents/GitHub/app_chat_firebase/android/app/src/main/AndroidManifest.xml:1:1-41:12
 INJECTED from /Users/linhtq/Documents/GitHub/app_chat_firebase/android/app/src/main/AndroidManifest.xml:1:1-41:12
 MERGED from /Users/linhtq/Documents/GitHub/app_chat_firebase/android/app/src/main/AndroidManifest.xml:1:1-41:12
-MERGED from [:shared_preferences_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/shared_preferences_android/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:firebase_auth] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-15:12
 MERGED from [:firebase_core] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-15:12
-MERGED from [:permission_handler_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/permission_handler_android/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [:image_picker_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/image_picker_android/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-19:12
+MERGED from [:flutter_plugin_android_lifecycle] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/flutter_plugin_android_lifecycle/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:sqflite] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/sqflite/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
-MERGED from [:libphonenumber_plugin] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/libphonenumber_plugin/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:path_provider_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/path_provider_android/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:flutter_secure_storage] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/flutter_secure_storage/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-13:12
+MERGED from [:shared_preferences_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/shared_preferences_android/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [:permission_handler_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/permission_handler_android/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [:libphonenumber_plugin] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/libphonenumber_plugin/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:libphonenumber] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/libphonenumber/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:package_info] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/package_info/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.multidex:multidex:2.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/f7037fc1d9d74ea7f6e6151a036adf71/multidex-2.0.0/AndroidManifest.xml:17:1-22:12
@@ -33,17 +35,18 @@ MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/linhtq/.gradle/caches/tr
 MERGED from [androidx.loader:loader:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/ff8e273c8feec7e26d81fd606faa2561/loader-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.activity:activity:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/e37fe68ed747c9ef32d79760cd271308/jetified-activity-1.0.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.customview:customview:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/653477cd4a7b4e85fa842d89666e000f/customview-1.0.0/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.core:core:1.6.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/62db4687cf4190f51b448593bbf603fe/core-1.6.0/AndroidManifest.xml:17:1-26:12
-MERGED from [androidx.lifecycle:lifecycle-runtime:2.2.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/c5b7ccaa1752516e99bb95bd7db07126/lifecycle-runtime-2.2.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.core:core:1.8.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/77b035f20aa3b08ab9e74401360e5436/core-1.8.0/AndroidManifest.xml:17:1-26:12
+MERGED from [androidx.exifinterface:exifinterface:1.3.3] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/d9331c0a1f1d42dfc35a88e34a25daaa/exifinterface-1.3.3/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.tracing:tracing:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/f1a403337472c8c0feb0a644f0d18828/jetified-tracing-1.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.firebase:firebase-components:17.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/5de68d0742fb7b59f506ca58a7f0c956/jetified-firebase-components-17.0.0/AndroidManifest.xml:15:1-23:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/d77c63217ee4e022c840cbde011ab3af/versionedparcelable-1.1.1/AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/303a41916fc0737cf62b385d4181e121/localbroadcastmanager-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.3.1] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/7185241feee15ca25606db1af2f3cccc/lifecycle-runtime-2.3.1/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/4bcb3ba8315759b873f8b87c4c99b948/interpolator-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.savedstate:savedstate:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/ab1e085a6549586127400cbbd60bfcc8/jetified-savedstate-1.0.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/b2573d48a909b4846ea0d6c591340ca9/lifecycle-livedata-2.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/4526515ff06f7dd5fc26c3ce7b11edd8/lifecycle-livedata-core-2.0.0/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.tracing:tracing:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/f1a403337472c8c0feb0a644f0d18828/jetified-tracing-1.0.0/AndroidManifest.xml:17:1-24:12
-MERGED from [com.google.firebase:firebase-components:17.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/5de68d0742fb7b59f506ca58a7f0c956/jetified-firebase-components-17.0.0/AndroidManifest.xml:15:1-23:12
-MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/303a41916fc0737cf62b385d4181e121/localbroadcastmanager-1.0.0/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/d77c63217ee4e022c840cbde011ab3af/versionedparcelable-1.1.1/AndroidManifest.xml:17:1-27:12
-MERGED from [androidx.arch.core:core-runtime:2.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/81a55d024a64bff25cb355d1cf5ef458/core-runtime-2.0.0/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/4bcb3ba8315759b873f8b87c4c99b948/interpolator-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.arch.core:core-runtime:2.1.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/8c751469bc7adc2b8264b939fd86b813/core-runtime-2.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/9c4a748f451409f3136baaed2e16fb75/lifecycle-viewmodel-2.1.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/369855ab950efc476aaf9bf6b9c9ae24/jetified-annotation-experimental-1.1.0/AndroidManifest.xml:17:1-24:12
 INJECTED from /Users/linhtq/Documents/GitHub/app_chat_firebase/android/app/src/debug/AndroidManifest.xml:1:1-7:12
@@ -69,6 +72,8 @@ MERGED from [:firebase_auth] /Users/linhtq/Documents/GitHub/app_chat_firebase/bu
 MERGED from [:firebase_auth] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
 MERGED from [:firebase_core] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
 MERGED from [:firebase_core] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
+MERGED from [:image_picker_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/image_picker_android/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-17:19
+MERGED from [:image_picker_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/image_picker_android/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-17:19
 MERGED from [androidx.window:window:1.0.0-beta04] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/2f6ba965fecc197202037c00739a590f/jetified-window-1.0.0-beta04/AndroidManifest.xml:24:5-31:19
 MERGED from [androidx.window:window:1.0.0-beta04] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/2f6ba965fecc197202037c00739a590f/jetified-window-1.0.0-beta04/AndroidManifest.xml:24:5-31:19
 MERGED from [com.google.firebase:firebase-auth:21.0.7] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/484890e7a0e662344e789212641c8d74/jetified-firebase-auth-21.0.7/AndroidManifest.xml:26:5-71:19
@@ -85,12 +90,12 @@ MERGED from [com.google.android.gms:play-services-tasks:18.0.1] /Users/linhtq/.g
 MERGED from [com.google.android.gms:play-services-tasks:18.0.1] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/ebcac1cdf3d9e8abad78a9794c57b462/jetified-play-services-tasks-18.0.1/AndroidManifest.xml:5:5-20
 MERGED from [com.google.android.gms:play-services-basement:18.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/aa910492c4e287e0face2dd8ba1a7d3b/jetified-play-services-basement-18.0.0/AndroidManifest.xml:20:5-24:19
 MERGED from [com.google.android.gms:play-services-basement:18.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/aa910492c4e287e0face2dd8ba1a7d3b/jetified-play-services-basement-18.0.0/AndroidManifest.xml:20:5-24:19
-MERGED from [androidx.core:core:1.6.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/62db4687cf4190f51b448593bbf603fe/core-1.6.0/AndroidManifest.xml:24:5-89
-MERGED from [androidx.core:core:1.6.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/62db4687cf4190f51b448593bbf603fe/core-1.6.0/AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.8.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/77b035f20aa3b08ab9e74401360e5436/core-1.8.0/AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.8.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/77b035f20aa3b08ab9e74401360e5436/core-1.8.0/AndroidManifest.xml:24:5-89
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/d77c63217ee4e022c840cbde011ab3af/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/d77c63217ee4e022c840cbde011ab3af/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
 	android:appComponentFactory
-		ADDED from [androidx.core:core:1.6.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/62db4687cf4190f51b448593bbf603fe/core-1.6.0/AndroidManifest.xml:24:18-86
+		ADDED from [androidx.core:core:1.8.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/77b035f20aa3b08ab9e74401360e5436/core-1.8.0/AndroidManifest.xml:24:18-86
 	android:label
 		ADDED from /Users/linhtq/Documents/GitHub/app_chat_firebase/android/app/src/main/AndroidManifest.xml:4:9-45
 	android:icon
@@ -141,22 +146,26 @@ uses-sdk
 INJECTED from /Users/linhtq/Documents/GitHub/app_chat_firebase/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/linhtq/Documents/GitHub/app_chat_firebase/android/app/src/main/AndroidManifest.xml
 INJECTED from /Users/linhtq/Documents/GitHub/app_chat_firebase/android/app/src/main/AndroidManifest.xml
-MERGED from [:shared_preferences_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/shared_preferences_android/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
-MERGED from [:shared_preferences_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/shared_preferences_android/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:firebase_auth] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:firebase_auth] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:firebase_core] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:firebase_core] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
-MERGED from [:permission_handler_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/permission_handler_android/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
-MERGED from [:permission_handler_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/permission_handler_android/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:image_picker_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/image_picker_android/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:image_picker_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/image_picker_android/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:flutter_plugin_android_lifecycle] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/flutter_plugin_android_lifecycle/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:flutter_plugin_android_lifecycle] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/flutter_plugin_android_lifecycle/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:sqflite] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/sqflite/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:sqflite] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/sqflite/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
-MERGED from [:libphonenumber_plugin] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/libphonenumber_plugin/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
-MERGED from [:libphonenumber_plugin] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/libphonenumber_plugin/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:path_provider_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/path_provider_android/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:path_provider_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/path_provider_android/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:flutter_secure_storage] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/flutter_secure_storage/intermediates/library_manifest/debug/AndroidManifest.xml:8:5-11:53
 MERGED from [:flutter_secure_storage] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/flutter_secure_storage/intermediates/library_manifest/debug/AndroidManifest.xml:8:5-11:53
+MERGED from [:shared_preferences_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/shared_preferences_android/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:shared_preferences_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/shared_preferences_android/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:permission_handler_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/permission_handler_android/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:permission_handler_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/permission_handler_android/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:libphonenumber_plugin] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/libphonenumber_plugin/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:libphonenumber_plugin] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/libphonenumber_plugin/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:libphonenumber] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/libphonenumber/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:libphonenumber] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/libphonenumber/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:package_info] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/package_info/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
@@ -197,28 +206,30 @@ MERGED from [androidx.activity:activity:1.0.0] /Users/linhtq/.gradle/caches/tran
 MERGED from [androidx.activity:activity:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/e37fe68ed747c9ef32d79760cd271308/jetified-activity-1.0.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.customview:customview:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/653477cd4a7b4e85fa842d89666e000f/customview-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.customview:customview:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/653477cd4a7b4e85fa842d89666e000f/customview-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.core:core:1.6.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/62db4687cf4190f51b448593bbf603fe/core-1.6.0/AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.core:core:1.6.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/62db4687cf4190f51b448593bbf603fe/core-1.6.0/AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.lifecycle:lifecycle-runtime:2.2.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/c5b7ccaa1752516e99bb95bd7db07126/lifecycle-runtime-2.2.0/AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.lifecycle:lifecycle-runtime:2.2.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/c5b7ccaa1752516e99bb95bd7db07126/lifecycle-runtime-2.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.8.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/77b035f20aa3b08ab9e74401360e5436/core-1.8.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.8.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/77b035f20aa3b08ab9e74401360e5436/core-1.8.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.exifinterface:exifinterface:1.3.3] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/d9331c0a1f1d42dfc35a88e34a25daaa/exifinterface-1.3.3/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.exifinterface:exifinterface:1.3.3] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/d9331c0a1f1d42dfc35a88e34a25daaa/exifinterface-1.3.3/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.tracing:tracing:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/f1a403337472c8c0feb0a644f0d18828/jetified-tracing-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.tracing:tracing:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/f1a403337472c8c0feb0a644f0d18828/jetified-tracing-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.firebase:firebase-components:17.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/5de68d0742fb7b59f506ca58a7f0c956/jetified-firebase-components-17.0.0/AndroidManifest.xml:19:5-21:41
+MERGED from [com.google.firebase:firebase-components:17.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/5de68d0742fb7b59f506ca58a7f0c956/jetified-firebase-components-17.0.0/AndroidManifest.xml:19:5-21:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/d77c63217ee4e022c840cbde011ab3af/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/d77c63217ee4e022c840cbde011ab3af/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/303a41916fc0737cf62b385d4181e121/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/303a41916fc0737cf62b385d4181e121/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.3.1] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/7185241feee15ca25606db1af2f3cccc/lifecycle-runtime-2.3.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.3.1] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/7185241feee15ca25606db1af2f3cccc/lifecycle-runtime-2.3.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/4bcb3ba8315759b873f8b87c4c99b948/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/4bcb3ba8315759b873f8b87c4c99b948/interpolator-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.savedstate:savedstate:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/ab1e085a6549586127400cbbd60bfcc8/jetified-savedstate-1.0.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.savedstate:savedstate:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/ab1e085a6549586127400cbbd60bfcc8/jetified-savedstate-1.0.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/b2573d48a909b4846ea0d6c591340ca9/lifecycle-livedata-2.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/b2573d48a909b4846ea0d6c591340ca9/lifecycle-livedata-2.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/4526515ff06f7dd5fc26c3ce7b11edd8/lifecycle-livedata-core-2.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/4526515ff06f7dd5fc26c3ce7b11edd8/lifecycle-livedata-core-2.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.tracing:tracing:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/f1a403337472c8c0feb0a644f0d18828/jetified-tracing-1.0.0/AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.tracing:tracing:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/f1a403337472c8c0feb0a644f0d18828/jetified-tracing-1.0.0/AndroidManifest.xml:20:5-22:41
-MERGED from [com.google.firebase:firebase-components:17.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/5de68d0742fb7b59f506ca58a7f0c956/jetified-firebase-components-17.0.0/AndroidManifest.xml:19:5-21:41
-MERGED from [com.google.firebase:firebase-components:17.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/5de68d0742fb7b59f506ca58a7f0c956/jetified-firebase-components-17.0.0/AndroidManifest.xml:19:5-21:41
-MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/303a41916fc0737cf62b385d4181e121/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/303a41916fc0737cf62b385d4181e121/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/d77c63217ee4e022c840cbde011ab3af/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/d77c63217ee4e022c840cbde011ab3af/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.arch.core:core-runtime:2.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/81a55d024a64bff25cb355d1cf5ef458/core-runtime-2.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.arch.core:core-runtime:2.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/81a55d024a64bff25cb355d1cf5ef458/core-runtime-2.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/4bcb3ba8315759b873f8b87c4c99b948/interpolator-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/4bcb3ba8315759b873f8b87c4c99b948/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.1.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/8c751469bc7adc2b8264b939fd86b813/core-runtime-2.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.arch.core:core-runtime:2.1.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/8c751469bc7adc2b8264b939fd86b813/core-runtime-2.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/9c4a748f451409f3136baaed2e16fb75/lifecycle-viewmodel-2.1.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/9c4a748f451409f3136baaed2e16fb75/lifecycle-viewmodel-2.1.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/369855ab950efc476aaf9bf6b9c9ae24/jetified-annotation-experimental-1.1.0/AndroidManifest.xml:20:5-22:41
@@ -267,6 +278,22 @@ ADDED from [:firebase_core] /Users/linhtq/Documents/GitHub/app_chat_firebase/bui
 		ADDED from [:firebase_core] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
 	android:name
 		ADDED from [:firebase_core] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-124
+provider#io.flutter.plugins.imagepicker.ImagePickerFileProvider
+ADDED from [:image_picker_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/image_picker_android/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-16:20
+	android:grantUriPermissions
+		ADDED from [:image_picker_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/image_picker_android/intermediates/library_manifest/debug/AndroidManifest.xml:12:13-47
+	android:authorities
+		ADDED from [:image_picker_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/image_picker_android/intermediates/library_manifest/debug/AndroidManifest.xml:10:13-74
+	android:exported
+		ADDED from [:image_picker_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/image_picker_android/intermediates/library_manifest/debug/AndroidManifest.xml:11:13-37
+	android:name
+		ADDED from [:image_picker_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/image_picker_android/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-82
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from [:image_picker_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/image_picker_android/intermediates/library_manifest/debug/AndroidManifest.xml:13:13-15:75
+	android:resource
+		ADDED from [:image_picker_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/image_picker_android/intermediates/library_manifest/debug/AndroidManifest.xml:15:17-72
+	android:name
+		ADDED from [:image_picker_android] /Users/linhtq/Documents/GitHub/app_chat_firebase/build/image_picker_android/intermediates/library_manifest/debug/AndroidManifest.xml:14:17-67
 uses-library#androidx.window.extensions
 ADDED from [androidx.window:window:1.0.0-beta04] /Users/linhtq/.gradle/caches/transforms-2/files-2.1/2f6ba965fecc197202037c00739a590f/jetified-window-1.0.0-beta04/AndroidManifest.xml:25:9-27:40
 	android:required

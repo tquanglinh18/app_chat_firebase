@@ -1,4 +1,4 @@
-#Thu Aug 25 13:36:33 ICT 2022
+#Fri Aug 26 16:47:10 ICT 2022
 base.1=/Users/linhtq/Documents/GitHub/app_chat_firebase/build/app/intermediates/dex/debug/mergeDexDebug/classes2.dex
 path.1=classes2.dex
 base.0=/Users/linhtq/Documents/GitHub/app_chat_firebase/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex

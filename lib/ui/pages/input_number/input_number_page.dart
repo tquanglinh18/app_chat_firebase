@@ -1,4 +1,3 @@
-import 'package:another_flushbar/flushbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/common/app_text_styles.dart';
@@ -6,7 +5,6 @@ import 'package:flutter_base/models/enums/load_status.dart';
 import 'package:flutter_base/ui/commons/flus_bar.dart';
 import 'package:flutter_base/ui/pages/verify_number/verify_number_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/state_manager.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 import '../../commons/app_buttons.dart';
@@ -88,12 +86,14 @@ class _InputNumberPageState extends State<InputNumberPage> {
                         listenWhen: (pre, cur) => pre.loadStatus != cur.loadStatus,
                         listener: (context, state) {
                           if (state.loadStatus == LoadStatus.success) {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => VerifyNumberPage(
-                                phoneNumber: "$heardPhone $phoneNumber",
-                                verificationIDReceived: state.verificationIDReceived,
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => VerifyNumberPage(
+                                  phoneNumber: "$heardPhone $phoneNumber",
+                                  verificationIDReceived: state.verificationIDReceived,
+                                ),
                               ),
-                            ));
+                            );
                           } else {
                             if (state.loadStatus == LoadStatus.failure) {
                               DxFlushBar.showFlushBar(

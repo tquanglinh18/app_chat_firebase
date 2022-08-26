@@ -15,7 +15,7 @@ class DxFlushBar {
     FlushBarType type = FlushBarType.NOTIFICATION,
     String title = "",
     String message = "",
-    int duration = 3,
+    int duration = 2,
     FlushbarPosition position = FlushbarPosition.TOP,
   }) {
     Color backgroundColor;
@@ -55,7 +55,7 @@ class DxFlushBar {
       message: message != ""
           ? message
           : title == ""
-              ? "He thong loi"
+              ? "Hệ thông lỗi!"
               : title,
       duration: Duration(seconds: duration),
       flushbarPosition: position,

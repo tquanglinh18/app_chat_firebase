@@ -7,6 +7,7 @@ part 'verify_number_state.dart';
 
 class VerifyNumberCubit extends Cubit<VerifyNumberState> {
   final FirebaseAuth fireBaseAuth;
+
   VerifyNumberCubit({required this.fireBaseAuth}) : super(const VerifyNumberState());
 
   otpValueChanged(String? otpValue) {
@@ -20,12 +21,13 @@ class VerifyNumberCubit extends Cubit<VerifyNumberState> {
         verificationId: verificationIDReceived,
         smsCode: verificationIDInput,
       );
-      await fireBaseAuth.signInWithCredential(credential).then((value) {
-        emit(state.copyWith(loadStatus: LoadStatus.success));
-      });
+      await fireBaseAuth.signInWithCredential(credential).then(
+        (value) {
+          emit(state.copyWith(loadStatus: LoadStatus.success));
+        },
+      );
     } catch (e) {
       emit(state.copyWith(loadStatus: LoadStatus.failure, error: e.toString()));
-
     }
   }
 }
