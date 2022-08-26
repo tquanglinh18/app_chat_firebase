@@ -12,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../common/app_colors.dart';
+import '../home_app/contact/contact_page.dart';
 
 class ProfileUserPage extends StatefulWidget {
   const ProfileUserPage({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class ProfileUserPage extends StatefulWidget {
 class _ProfileUserPageState extends State<ProfileUserPage> {
   late ProfileUserCubit _cubit;
   File? _image;
-  late bool _isHide;
+  bool _isHide = false;
 
   @override
   void initState() {
@@ -147,9 +148,9 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
             right: 5,
             bottom: 1,
             child: InkWell(
-              onTap: () async {
-                _isHide == !_isHide;
-              },
+              onTap: () => setState(() {
+                _isHide = !_isHide;
+              }),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100),
@@ -186,6 +187,7 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                 height: 60,
                 width: MediaQuery.of(context).size.width - 100,
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
                     Icon(Icons.camera_alt_outlined),
                     SizedBox(width: 15),
@@ -202,6 +204,7 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                 height: 60,
                 width: MediaQuery.of(context).size.width - 100,
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
                     Icon(Icons.camera),
                     SizedBox(width: 15),
@@ -222,9 +225,11 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
       return;
     }
     final imageGallery = File(image.path);
-    setState(() {
-      _image = imageGallery;
-    });
+    setState(
+      () {
+        _image = imageGallery;
+      },
+    );
   }
 
   _getFromCamera() async {
@@ -233,8 +238,10 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
       return;
     }
     final imageCamera = File(image.path);
-    setState(() {
-      _image = imageCamera;
-    });
+    setState(
+      () {
+        _image = imageCamera;
+      },
+    );
   }
 }
