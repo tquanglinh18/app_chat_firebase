@@ -207,13 +207,19 @@
     },
     {
       "name": "ffi",
-      "rootUri": "file:///Users/linhtq/Desktop/Development/flutter/.pub-cache/hosted/pub.dartlang.org/ffi-2.0.1",
+      "rootUri": "file:///Users/linhtq/Desktop/Development/flutter/.pub-cache/hosted/pub.dartlang.org/ffi-1.2.1",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "2.12"
     },
     {
       "name": "file",
       "rootUri": "file:///Users/linhtq/Desktop/Development/flutter/.pub-cache/hosted/pub.dartlang.org/file-6.1.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "file_picker",
+      "rootUri": "file:///Users/linhtq/Desktop/Development/flutter/.pub-cache/hosted/pub.dartlang.org/file_picker-4.6.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -262,6 +268,12 @@
     {
       "name": "flutter",
       "rootUri": "file:///Users/linhtq/Desktop/Development/flutter/packages/flutter",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_audio_recorder2",
+      "rootUri": "file:///Users/linhtq/Desktop/Development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_audio_recorder2-0.0.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -560,6 +572,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "multi_image_picker",
+      "rootUri": "file:///Users/linhtq/Desktop/Development/flutter/.pub-cache/hosted/pub.dartlang.org/multi_image_picker-4.8.01",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "nested",
       "rootUri": "file:///Users/linhtq/Desktop/Development/flutter/.pub-cache/hosted/pub.dartlang.org/nested-1.0.0",
       "packageUri": "lib/",
@@ -633,9 +651,9 @@
     },
     {
       "name": "path_provider_windows",
-      "rootUri": "file:///Users/linhtq/Desktop/Development/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-2.1.2",
+      "rootUri": "file:///Users/linhtq/Desktop/Development/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-2.0.7",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "2.12"
     },
     {
       "name": "pedantic",
@@ -956,6 +974,12 @@
       "languageVersion": "2.14"
     },
     {
+      "name": "video_thumbnail",
+      "rootUri": "file:///Users/linhtq/Desktop/Development/flutter/.pub-cache/hosted/pub.dartlang.org/video_thumbnail-0.5.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "vm_service",
       "rootUri": "file:///Users/linhtq/Desktop/Development/flutter/.pub-cache/hosted/pub.dartlang.org/vm_service-8.3.0",
       "packageUri": "lib/",
@@ -981,7 +1005,7 @@
     },
     {
       "name": "win32",
-      "rootUri": "file:///Users/linhtq/Desktop/Development/flutter/.pub-cache/hosted/pub.dartlang.org/win32-2.7.0",
+      "rootUri": "file:///Users/linhtq/Desktop/Development/flutter/.pub-cache/hosted/pub.dartlang.org/win32-2.6.1",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
@@ -1010,7 +1034,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2022-08-26T07:29:27.398762Z",
+  "generated": "2022-08-29T02:25:17.281854Z",
   "generator": "pub",
   "generatorVersion": "2.17.5"
 }

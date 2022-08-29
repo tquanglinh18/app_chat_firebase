@@ -71,6 +71,11 @@ dependencies:
   #Image picker
   image_picker: ^0.8.5+3
 
+  multi_image_picker: ^4.8.01
+  file_picker: ^4.6.1
+  video_thumbnail: ^0.5.0
+  flutter_audio_recorder2: ^0.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

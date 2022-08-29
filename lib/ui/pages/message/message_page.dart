@@ -99,7 +99,6 @@ class _ChatPageState extends State<ChatPage> {
 
   Widget _inputMessageField() {
     return Container(
-      height: 60,
       padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
       decoration: const BoxDecoration(
         color: AppColors.backgroundLight,
@@ -128,7 +127,7 @@ class _ChatPageState extends State<ChatPage> {
                 minLines: 1,
                 maxLines: 3,
                 decoration: const InputDecoration(
-                  // contentPadding: EdgeInsets.all(5),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 10),
                   border: InputBorder.none,
                   hintText: "Typing the message...",
                 ),

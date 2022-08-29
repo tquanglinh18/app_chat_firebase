@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_base/common/app_images.dart';
 import 'package:flutter_base/common/app_text_styles.dart';
 import 'package:flutter_base/ui/commons/app_buttons.dart';
@@ -12,7 +10,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../common/app_colors.dart';
-import '../home_app/contact/contact_page.dart';
 
 class ProfileUserPage extends StatefulWidget {
   const ProfileUserPage({Key? key}) : super(key: key);
@@ -189,12 +186,19 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
-                    Icon(Icons.camera_alt_outlined),
+                    Icon(
+                      Icons.camera_alt_outlined,
+                      color: AppColors.textBlack,
+                    ),
                     SizedBox(width: 15),
                     Text('Pick Image from Camera'),
                   ],
                 ),
               ),
+            ),
+            Container(
+              height: 1,
+              color: AppColors.backgroundLight,
             ),
             InkWell(
               onTap: () {
@@ -206,7 +210,10 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
-                    Icon(Icons.camera),
+                    Icon(
+                      Icons.camera,
+                      color: AppColors.textBlack,
+                    ),
                     SizedBox(width: 15),
                     Text('Pick image from gallery'),
                   ],
