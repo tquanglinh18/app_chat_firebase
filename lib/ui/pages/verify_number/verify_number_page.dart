@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_base/blocs/app_cubit.dart';
 import 'package:flutter_base/common/app_colors.dart';
 import 'package:flutter_base/models/enums/load_status.dart';
 import 'package:flutter_base/ui/commons/custom_progress_hud.dart';
@@ -15,7 +16,6 @@ import '../../../common/app_text_styles.dart';
 import '../../commons/otp/animation_type.dart';
 import '../../commons/otp/pin_theme.dart';
 import '../../commons/otp/pin_code_text_field.dart';
-import '../home_app/contact/contact_page.dart';
 import '../input_number/input_number_cubit.dart';
 
 class VerifyNumberPage extends StatefulWidget {
@@ -32,6 +32,7 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
   static final TextEditingController _textOTPController = TextEditingController();
   late VerifyNumberCubit _cubitVerify;
   late InputNumberCubit _cubitInput;
+  late AppCubit _cubitApp;
   late final CustomProgressHUD _customProgressHUD;
 
   @override
@@ -40,6 +41,7 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
     super.initState();
     _cubitVerify = VerifyNumberCubit(fireBaseAuth: FirebaseAuth.instance);
     _cubitInput = InputNumberCubit(fireBaseAuth: FirebaseAuth.instance);
+    _cubitApp = BlocProvider.of<AppCubit>(context);
     _customProgressHUD = MyDialog.buildProgressDialog(
       loading: false,
       color: Colors.red,
@@ -78,7 +80,7 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
                     _customProgressHUD.progress.show();
                   } else {
                     _customProgressHUD.progress.dismiss();
-                     if (state.loadStatus == LoadStatus.success) {
+                    if (state.loadStatus == LoadStatus.success) {
                       DxFlushBar.showFlushBar(
                         context,
                         type: FlushBarType.SUCCESS,
@@ -131,6 +133,8 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
               message: state.error,
             );
           } else if (state.loadStatus == LoadStatus.success) {
+            _cubitApp.saveIdUser(state.idUser);
+            print(state.idUser);
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) => const HomeAppPage(),
@@ -160,8 +164,7 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
             ),
             cursorColor: Colors.grey,
             backgroundColor: Colors.white,
-            onCompleted: (value) {
-            },
+            onCompleted: (value) {},
             onChanged: (value) {
               if (_textOTPController.text.length == 6) {
                 _cubitVerify.verifyCode(

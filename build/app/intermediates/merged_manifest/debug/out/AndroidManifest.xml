@@ -5,13 +5,23 @@
     android:versionName="1.0.0" >
 
     <uses-sdk
-        android:minSdkVersion="18"
+        android:minSdkVersion="19"
         android:targetSdkVersion="31" />
     <!--
          Flutter needs it to communicate with the running application
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.GET_CONTENT" />
+
+            <data android:mimeType="*/*" />
+        </intent>
+    </queries>
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
@@ -67,6 +77,9 @@
             android:directBootAware="true"
             android:exported="false" >
             <meta-data
+                android:name="com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
                 android:name="com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar"
                 android:value="com.google.firebase.components.ComponentRegistrar" />
             <meta-data
@@ -74,6 +87,9 @@
                 android:value="com.google.firebase.components.ComponentRegistrar" />
             <meta-data
                 android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
                 android:value="com.google.firebase.components.ComponentRegistrar" />
         </service>
 
@@ -86,6 +102,26 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/flutter_image_picker_file_paths" />
         </provider>
+        <provider
+            android:name="com.sangcomz.fishbun.FishBunFileProvider"
+            android:authorities="vn.newwave.flutter_app.fishbunfileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <activity
+            android:name="com.sangcomz.fishbun.ui.album.AlbumActivity"
+            android:label="@string/album"
+            android:theme="@style/FishBunTheme" />
+        <activity
+            android:name="com.sangcomz.fishbun.ui.picker.PickerActivity"
+            android:theme="@style/FishBunTheme" />
+        <activity
+            android:name="com.sangcomz.fishbun.ui.detail.DetailActivity"
+            android:theme="@style/DetailViewTheme" />
 
         <uses-library
             android:name="androidx.window.extensions"

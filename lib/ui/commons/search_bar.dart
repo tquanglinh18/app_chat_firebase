@@ -5,39 +5,57 @@ import '../../common/app_text_styles.dart';
 
 class SearchBar extends StatelessWidget {
   String? hintText;
-  SearchBar({Key? key, this.hintText,}) : super(key: key);
+  TextEditingController? controller;
+  bool isClose;
+  VoidCallback? onClose;
+  void Function(String)? onChanged;
+
+  SearchBar({
+    Key? key,
+    this.hintText,
+    this.controller,
+    this.isClose = true,
+    this.onClose,
+    this.onChanged,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 24),
-      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 24),
       height: 36,
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(color: AppColors.titleColor, borderRadius: BorderRadius.circular(10)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(
-            Icons.search,
-            color: AppColors.hintTextColor,
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: TextField(
-              textAlign: TextAlign.left,
-              textAlignVertical: TextAlignVertical.center,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: hintText ?? "Search",
-                hintStyle: AppTextStyle.greyS14.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.hintTextColor,
-                ),
+      child: TextField(
+        controller: controller,
+        maxLines: 1,
+        style: const TextStyle(fontSize: 17),
+        textAlignVertical: TextAlignVertical.center,
+        onChanged: onChanged,
+        decoration: InputDecoration(
+          filled: true,
+          suffixIcon: Visibility(
+            visible: isClose,
+            child: InkWell(
+              onTap: onClose,
+              child: const Icon(
+                Icons.close,
+                color: AppColors.hintTextColor,
               ),
             ),
           ),
-        ],
+          prefixIcon: const Icon(
+            Icons.search,
+            color: AppColors.hintTextColor,
+          ),
+          border: const OutlineInputBorder(
+              borderSide: BorderSide.none, borderRadius: BorderRadius.all(Radius.circular(30))),
+          fillColor: Theme.of(context).inputDecorationTheme.fillColor,
+          contentPadding: EdgeInsets.zero,
+          hintText: hintText ?? "Search",
+          hintStyle: AppTextStyle.greyS14.copyWith(
+            fontWeight: FontWeight.w600,
+            color: AppColors.hintTextColor,
+          ),
+        ),
       ),
     );
   }

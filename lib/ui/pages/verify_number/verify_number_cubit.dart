@@ -10,8 +10,8 @@ class VerifyNumberCubit extends Cubit<VerifyNumberState> {
 
   VerifyNumberCubit({required this.fireBaseAuth}) : super(const VerifyNumberState());
 
-  otpValueChanged(String? otpValue) {
-    emit(state.copyWith(otpValue: otpValue));
+  idUserValue(String? idUser) {
+    emit(state.copyWith(idUser: idUser));
   }
 
   void verifyCode({required String verificationIDReceived, required String verificationIDInput}) async {
@@ -23,7 +23,7 @@ class VerifyNumberCubit extends Cubit<VerifyNumberState> {
       );
       await fireBaseAuth.signInWithCredential(credential).then(
         (value) {
-          emit(state.copyWith(loadStatus: LoadStatus.success));
+          emit(state.copyWith(loadStatus: LoadStatus.success, idUser: value.user!.uid));
         },
       );
     } catch (e) {

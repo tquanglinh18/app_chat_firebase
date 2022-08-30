@@ -7,7 +7,7 @@ import 'chats/chats_page.dart';
 import 'home_app_cubit.dart';
 import 'more/more_page.dart';
 
-List<String> listUrlImage = [AppImages.icPerson, AppImages.icChat, AppImages.icMenu];
+List<String> listUrlImage = [AppImages.icPerson, AppImages.icChat, AppImages.icMore];
 List<String> listTitle = ["Contacts", "Chats", "More"];
 
 class HomeAppPage extends StatefulWidget {
@@ -40,7 +40,7 @@ class _HomeAppPageState extends State<HomeAppPage> {
                   case 0:
                     return const ContactPage();
                   case 1:
-                    return const ChatsPage();
+                    return ChatsPage();
                   case 2:
                     return const MorePage();
                   default:
@@ -76,8 +76,14 @@ class _HomeAppPageState extends State<HomeAppPage> {
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width / 3,
                   child: state.selectedIndex == index
-                      ? itemBottomNavigatorIsSelected(listUrlImage[index], listTitle[index])
-                      : itemBottomNavigatorIsNotSelected(listUrlImage[index], listTitle[index]),
+                      ? itemBottomNavigatorIsSelected(
+                          listUrlImage[index],
+                          listTitle[index],
+                        )
+                      : itemBottomNavigatorIsNotSelected(
+                          listUrlImage[index],
+                          listTitle[index],
+                        ),
                 ),
               );
             },

@@ -12,7 +12,7 @@ class AppImages {
   static const icIntroApp = 'assets/images/ic_intro_app.png';
   static const icPerson = 'assets/images/ic_person.png';
   static const icChat = 'assets/images/ic_chat.png';
-  static const icMenu = 'assets/images/ic_menu.png';
+  static const icMore = 'assets/images/ic_more.png';
   static const icStory = 'assets/images/ic_story.png';
 
   static const icAvatarDefault = 'assets/images/ic_avatar_default.png';

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base/ui/pages/home_app/chats/chats_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/app_colors.dart';
 import '../../../../common/app_images.dart';
@@ -7,8 +9,23 @@ import '../../../commons/custom_app_bar.dart';
 import '../../../commons/flus_bar.dart';
 import '../../../commons/search_bar.dart';
 
-class ChatsPage extends StatelessWidget {
-  const ChatsPage({Key? key}) : super(key: key);
+class ChatsPage extends StatefulWidget {
+  ChatsPage({Key? key}) : super(key: key);
+
+  @override
+  State<ChatsPage> createState() => _ChatsPageState();
+}
+
+class _ChatsPageState extends State<ChatsPage> {
+  TextEditingController controller = TextEditingController(text: "");
+  late ChatsCubit _cubit;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _cubit = ChatsCubit();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +41,23 @@ class ChatsPage extends StatelessWidget {
             },
           ),
           _story(),
-          SearchBar(),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: BlocBuilder<ChatsCubit, ChatsState>(
+              bloc: _cubit,
+              buildWhen: (pre, cur) => pre.searchText != cur.searchText,
+              builder: (context, state) {
+                return SearchBar(
+                  onChanged: (value) => _cubit.onSearchTextChanged(value),
+                  controller: controller,
+                  onClose: () {
+                    controller.text = '';
+                  },
+                  isClose: state.searchText!.isEmpty ? false : true,
+                );
+              },
+            ),
+          ),
           Expanded(
             child: _userChat(),
             // child: RefreshIndicator(
@@ -115,12 +148,12 @@ class ChatsPage extends StatelessWidget {
   Widget _userChat() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 24),
-      padding: const EdgeInsets.all(4),
       child: ListView.separated(
         padding: EdgeInsets.zero,
         itemBuilder: (context, index) {
-          return SizedBox(
-            height: 68,
+          return Container(
+            padding: const EdgeInsets.all(4),
+            height: 56,
             width: MediaQuery.of(context).size.width - 24 * 2,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -192,11 +225,7 @@ class ChatsPage extends StatelessWidget {
           );
         },
         separatorBuilder: (BuildContext context, int index) {
-          return Container(
-            height: 1,
-            width: MediaQuery.of(context).size.width - 24 * 2,
-            color: AppColors.greyBG,
-          );
+          return const SizedBox(height: 16);
         },
         itemCount: 10,
       ),

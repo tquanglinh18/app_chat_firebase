@@ -12,10 +12,12 @@ part 'app_state.dart';
 class AppCubit extends Cubit<AppState> {
   UserRepository userRepo;
   AuthRepository authRepo;
+  String? idUser;
 
   AppCubit({
     required this.userRepo,
     required this.authRepo,
+    this.idUser,
   }) : super(const AppState());
 
   void fetchProfile() {
@@ -24,6 +26,10 @@ class AppCubit extends Cubit<AppState> {
 
   void updateProfile(UserEntity user) {
     emit(state.copyWith(user: user));
+  }
+
+  void saveIdUser(String? idUser) {
+    emit(state.copyWith(idUser: idUser));
   }
 
   ///Sign Out

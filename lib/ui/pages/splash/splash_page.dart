@@ -45,7 +45,7 @@ class _SplashChildPageState extends State<SplashChildPage> {
     await Future.delayed(const Duration(seconds: 2));
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const ProfileUserPage(),
+        builder: (context) => const HomeAppPage(),
       ),
     );
   }

@@ -1,23 +1,23 @@
 part of 'verify_number_cubit.dart';
 
 class VerifyNumberState extends Equatable {
-  final String? otpValue;
+  final String? idUser;
   final LoadStatus? loadStatus;
   final String error;
 
   const VerifyNumberState({
-    this.otpValue = '',
+    this.idUser = '',
     this.loadStatus,
     this.error = '',
   });
 
   VerifyNumberState copyWith({
-    String? otpValue,
+    String? idUser,
     LoadStatus? loadStatus,
     String? error,
   }) {
     return VerifyNumberState(
-      otpValue: otpValue ?? this.otpValue,
+      idUser: idUser ?? this.idUser,
       loadStatus: loadStatus ?? this.loadStatus,
       error: error ?? this.error,
     );
@@ -26,7 +26,7 @@ class VerifyNumberState extends Equatable {
   // TODO: implement props
   @override
   List<Object?> get props => [
-        otpValue,
+        idUser,
         loadStatus,
         error,
       ];

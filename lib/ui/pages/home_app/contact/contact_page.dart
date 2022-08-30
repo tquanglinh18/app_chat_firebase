@@ -1,11 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/common/app_colors.dart';
 import 'package:flutter_base/common/app_images.dart';
 import 'package:flutter_base/common/app_text_styles.dart';
 import 'package:flutter_base/ui/commons/flus_bar.dart';
 import 'package:flutter_base/ui/commons/search_bar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../commons/custom_app_bar.dart';
 import '../../message/message_page.dart';
+import 'contact_cubit.dart';
 
 class ContactPage extends StatefulWidget {
   const ContactPage({Key? key}) : super(key: key);
@@ -15,6 +18,29 @@ class ContactPage extends StatefulWidget {
 }
 
 class _ContactPageState extends State<ContactPage> {
+  TextEditingController controller = TextEditingController(text: "");
+  late ContactCubit _cubit;
+  late FirebaseFirestore db;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _cubit = ContactCubit();
+    db = FirebaseFirestore.instance;
+    getData();
+  }
+
+  getData() async {
+    await db.collection("user").get().then(
+      (event) {
+        for (var doc in event.docs) {
+          print("${doc.id} => ${doc.data()}");
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,18 +55,25 @@ class _ContactPageState extends State<ContactPage> {
               DxFlushBar.showFlushBar(context, type: FlushBarType.WARNING, title: "Tính năng đang được cập nhật !");
             },
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            child: SearchBar(),
+          BlocBuilder<ContactCubit, ContactState>(
+            bloc: _cubit,
+            buildWhen: (pre, cur) => pre.searchText != cur.searchText,
+            builder: (context, state) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: SearchBar(
+                  onChanged: (value) => _cubit.onSearchTextChanged(value),
+                  controller: controller,
+                  onClose: () {
+                    controller.text = "";
+                  },
+                  isClose: state.searchText != "" ? true : false,
+                ),
+              );
+            },
           ),
           Expanded(
             child: _contacts(),
-            // child: RefreshIndicator(
-            //   onRefresh: () {
-            //     return _cubit.onItemTapped(2);
-            //   },
-            //   child: _contacts(),
-            // ),
           ),
         ],
       ),
@@ -50,6 +83,7 @@ class _ContactPageState extends State<ContactPage> {
   Widget _contacts() {
     return InkWell(
       onTap: () {
+        getData();
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => const ChatPage(),
@@ -58,12 +92,12 @@ class _ContactPageState extends State<ContactPage> {
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 24),
-        padding: const EdgeInsets.all(4),
         child: ListView.separated(
           padding: EdgeInsets.zero,
           itemBuilder: (context, index) {
-            return SizedBox(
-              height: 68,
+            return Container(
+              padding: const EdgeInsets.all(4),
+              height: 56,
               width: MediaQuery.of(context).size.width - 24 * 2,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -115,8 +149,9 @@ class _ContactPageState extends State<ContactPage> {
           },
           separatorBuilder: (BuildContext context, int index) {
             return Container(
+              margin: const EdgeInsets.only(top: 15.5, bottom: 12.5),
               height: 1,
-              width: MediaQuery.of(context).size.width - 24 * 2,
+              width: MediaQuery.of(context).size.width,
               color: AppColors.greyBG,
             );
           },
