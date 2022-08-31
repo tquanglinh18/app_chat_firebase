@@ -48,26 +48,32 @@ class _SplashChildPageState extends State<SplashChildPage> {
         if (value.isNotEmpty) {
           SharedPreferencesHelper.getNameUserLoginKey().then((value) {
             if (value.isNotEmpty) {
-              Navigator.of(context).push(
+              Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
-                  builder: (context) => HomeAppPage(),
+                  builder: (_) => HomeAppPage(),
+                  settings: const RouteSettings(name: "home"),
                 ),
+                (route) => false,
               );
             } else {
-              Navigator.of(context).push(
+              Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
-                  builder: (context) => const ProfileUserPage(
+                  builder: (_) => const ProfileUserPage(
                     colorIcon: Colors.transparent,
                   ),
+                  settings: const RouteSettings(name: "profile"),
                 ),
+                (route) => false,
               );
             }
           });
         } else {
-          Navigator.of(context).push(
+          Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-              builder: (context) => const IntroAppPage(),
+              builder: (_) => const ProfileUserPage(),
+              settings: const RouteSettings(name: "intro"),
             ),
+            (route) => false,
           );
         }
       },

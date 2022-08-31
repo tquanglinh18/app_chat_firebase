@@ -110,10 +110,12 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                     listener: (context, state) {
                       // TODO: implement listener
                       if (state.loadStatus == LoadStatus.success) {
-                        Navigator.of(context).push(
+                        Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
-                            builder: (context) => HomeAppPage(name: '${state.firstName} ${state.lastName}'),
+                            builder: (_) => HomeAppPage(),
+                            settings: const RouteSettings(name: "home"),
                           ),
+                          (route) => false,
                         );
                       } else if (state.loadStatus == LoadStatus.failure) {
                         DxFlushBar.showFlushBar(

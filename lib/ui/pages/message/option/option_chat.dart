@@ -18,17 +18,18 @@ import '../../../commons/dialog_helper.dart';
 
 class OptionChat extends StatefulWidget {
   final bool isSelected;
-  final Function(List<File>) onChooseImage;
-  final Function(List<File>, File) onChooseVideo;
-  final Function(List<File>) onChooseDocument;
-  final Function(Recording? record) callBackRecord;
+  final Function(List<File>)? onChooseImage;
+  final Function(List<File>, File)? onChooseVideo;
+  final Function(List<File>)? onChooseDocument;
+  final Function(Recording? record)? callBackRecord;
+
   const OptionChat({
     Key? key,
     this.isSelected = false,
-    required this.onChooseImage,
-    required this.onChooseVideo,
-    required this.onChooseDocument,
-    required this.callBackRecord,
+    this.onChooseImage,
+    this.onChooseVideo,
+    this.onChooseDocument,
+    this.callBackRecord,
   }) : super(key: key);
 
   @override
@@ -79,9 +80,7 @@ class _OptionChatState extends State<OptionChat> {
         ),
       ),
       secondCurve: Curves.easeIn,
-      crossFadeState: widget.isSelected
-          ? CrossFadeState.showSecond
-          : CrossFadeState.showFirst,
+      crossFadeState: widget.isSelected ? CrossFadeState.showSecond : CrossFadeState.showFirst,
       duration: const Duration(milliseconds: 250),
     );
   }
@@ -97,7 +96,7 @@ class _OptionChatState extends State<OptionChat> {
           t.cancel();
         }
         var current = await _recorder.current(channel: 0);
-        widget.callBackRecord(current);
+        widget.callBackRecord!(current);
       });
     } catch (e) {
       logger.d(e);
@@ -116,11 +115,8 @@ class _OptionChatState extends State<OptionChat> {
           appDocDirectory = (await getExternalStorageDirectory())!;
         }
         // can add extension like ".mp4" ".wav" ".m4a" ".aac"
-        customPath = appDocDirectory.path +
-            customPath +
-            DateTime.now().millisecondsSinceEpoch.toString();
-        _recorder =
-            FlutterAudioRecorder2(customPath, audioFormat: AudioFormat.WAV);
+        customPath = appDocDirectory.path + customPath + DateTime.now().millisecondsSinceEpoch.toString();
+        _recorder = FlutterAudioRecorder2(customPath, audioFormat: AudioFormat.WAV);
 
         await _recorder.initialized;
         // after initialization
@@ -145,11 +141,9 @@ class _OptionChatState extends State<OptionChat> {
   //get image
   Future<void> loadAssets() async {
     if (Platform.isIOS) {
-      PermissionStatus permissionPhotosAddOnly =
-          await Permission.photosAddOnly.status;
+      PermissionStatus permissionPhotosAddOnly = await Permission.photosAddOnly.status;
       PermissionStatus permissionPhoto = await Permission.photos.status;
-      if (permissionPhotosAddOnly == PermissionStatus.limited &&
-          permissionPhoto == PermissionStatus.limited) {
+      if (permissionPhotosAddOnly == PermissionStatus.limited && permissionPhoto == PermissionStatus.limited) {
         ///LIMITED
       } else {
         if (permissionPhoto == PermissionStatus.denied) {
@@ -160,8 +154,8 @@ class _OptionChatState extends State<OptionChat> {
           }
         } else {
           if (permissionPhoto == PermissionStatus.permanentlyDenied) {
-            await DialogHelper.showAlertSetting(context, "Thông báo",
-                "Bạn cần mở quyền cho phép truy cập camera ở cài đặt để sử dụng tính năng này.");
+            await DialogHelper.showAlertSetting(
+                context, "Thông báo", "Bạn cần mở quyền cho phép truy cập camera ở cài đặt để sử dụng tính năng này.");
           } else {
             getAssets();
           }
@@ -213,8 +207,7 @@ class _OptionChatState extends State<OptionChat> {
         filesPost.add(file);
         totalLength = totalLength + file.lengthSync();
       }
-
-      widget.onChooseImage(filesPost);
+      widget.onChooseImage!(filesPost);
     }
   }
 
@@ -258,11 +251,9 @@ class _OptionChatState extends State<OptionChat> {
             String tempDir;
             getTemporaryDirectory().then((d) async {
               tempDir = d.path;
-              File file = await File(
-                      '$tempDir/THUMBNAIL${DateTime.now().toIso8601String()}.JPEG')
-                  .writeAsBytes(bytes!);
+              File file = await File('$tempDir/THUMBNAIL${DateTime.now().toIso8601String()}.JPEG').writeAsBytes(bytes!);
 
-              widget.onChooseVideo(check, file);
+              widget.onChooseVideo!(check, file);
             });
           } else {
             ///TODO
@@ -292,7 +283,7 @@ class _OptionChatState extends State<OptionChat> {
       if (result != null) {
         List<File> files = result.paths.map((path) => File(path!)).toList();
         if (files.isNotEmpty) {
-          widget.onChooseDocument(files);
+          widget.onChooseDocument!(files);
         }
       } else {}
     } catch (e) {

@@ -14,6 +14,8 @@ class MessageState extends Equatable {
   int? indexMsg;
   String uidFireBase;
   bool isSelected;
+  List<Document> listDocument;
+  String? nameSend;
 
   MessageState({
     this.listMessage = const [],
@@ -26,6 +28,8 @@ class MessageState extends Equatable {
     this.indexMsg,
     this.uidFireBase = "",
     this.isSelected = false,
+    this.listDocument = const [],
+    this.nameSend,
   });
 
   MessageState copyWith({
@@ -39,6 +43,8 @@ class MessageState extends Equatable {
     int? indexMsg,
     String? uidFireBase,
     bool? isSelected,
+    List<Document>? listDocument,
+    String? nameSend,
   }) {
     return MessageState(
       listMessage: listMessage ?? this.listMessage,
@@ -51,6 +57,8 @@ class MessageState extends Equatable {
       indexMsg: indexMsg ?? this.indexMsg,
       uidFireBase: uidFireBase ?? this.uidFireBase,
       isSelected: isSelected ?? this.isSelected,
+      listDocument: listDocument ?? this.listDocument,
+      nameSend: nameSend ?? this.nameSend,
     );
   }
 
@@ -66,5 +74,7 @@ class MessageState extends Equatable {
         indexMsg,
         uidFireBase,
         isSelected,
+        listDocument,
+        nameSend,
       ];
 }

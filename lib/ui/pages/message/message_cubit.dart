@@ -1,10 +1,9 @@
 import 'package:flutter_base/database/share_preferences_helper.dart';
 import 'package:flutter_base/models/entities/message_entity.dart';
 import 'package:flutter_base/models/enums/load_status.dart';
-import 'package:flutter_base/ui/commons/datetime_formatter.dart';
+import 'package:flutter_base/ui/pages/message/option/option_chat.dart';
 import 'package:flutter_base/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 
 import '../../../network/fire_base_api.dart';
 import 'message_state.dart';
@@ -15,17 +14,30 @@ class MessageCubit extends Cubit<MessageState> {
   initData(String icConversion) async {
     try {
       String uidFireBase = "";
+      String nameSend = '';
       emit(state.copyWith(loadStatus: LoadStatus.loading));
-      SharedPreferencesHelper.getUidFireBaseKey().then((value) {
-        uidFireBase = value;
-      });
-      FirebaseApi.getMessages(icConversion).then((value) {
-        emit(state.copyWith(
-          loadStatus: LoadStatus.success,
-          listMessage: value,
-          uidFireBase: uidFireBase,
-        ));
-      });
+      SharedPreferencesHelper.getNameUserLoginKey().then(
+        (value) {
+          nameSend = value;
+        },
+      );
+      SharedPreferencesHelper.getUidFireBaseKey().then(
+        (value) {
+          uidFireBase = value;
+        },
+      );
+      FirebaseApi.getMessages(icConversion).then(
+        (value) {
+          emit(
+            state.copyWith(
+              loadStatus: LoadStatus.success,
+              listMessage: value,
+              uidFireBase: uidFireBase,
+              nameSend: nameSend,
+            ),
+          );
+        },
+      );
     } catch (e) {
       logger.e(e);
       emit(state.copyWith(loadStatus: LoadStatus.failure));
@@ -39,12 +51,14 @@ class MessageCubit extends Cubit<MessageState> {
         icConversion: state.uidFireBase,
         message: text,
         createdAt: DateTime.now().toUtc().toString(),
+        document: state.listDocument,
+        nameSend: state.nameSend,
       );
       List<MessageEntity> msgList = state.listMessage;
       msgList.add(newMessage);
       FirebaseApi.uploadMessage(icConversion, msgList).then((value) {
         if (value) {
-          emit(state.copyWith(sendMsgLoadStatus: LoadStatus.success));
+          emit(state.copyWith(sendMsgLoadStatus: LoadStatus.success, listDocument: []));
         } else {
           emit(state.copyWith(sendMsgLoadStatus: LoadStatus.failure));
         }
@@ -71,7 +85,6 @@ class MessageCubit extends Cubit<MessageState> {
     try {
       List<MessageEntity> listMsg = state.listMessage;
       listMsg.removeAt(state.indexMsg!);
-
       FirebaseApi.uploadMessage(icConversion, listMsg).then(
         (value) {
           if (value) {
@@ -91,7 +104,16 @@ class MessageCubit extends Cubit<MessageState> {
     try {
       List<MessageEntity> listMsg = state.listMessage;
       MessageEntity msg = listMsg[state.indexMsg!];
-      msg.replyMsg = textReply;
+      MessageEntity msgReply = MessageEntity(
+        createdAt: DateTime.now().toUtc().toString(),
+        icConversion: state.uidFireBase,
+        message: msg.message,
+        replyMsg: textReply,
+        document: msg.document,
+        nameSend: msg.nameSend,
+        nameReply: state.nameSend,
+      );
+      listMsg.insert(listMsg.length, msgReply);
       FirebaseApi.uploadMessage(icConversion, listMsg).then(
         (value) {
           if (value) {
@@ -117,8 +139,28 @@ class MessageCubit extends Cubit<MessageState> {
     emit(state.copyWith(hintOptionMsg: !state.hintOptionMsg));
   }
 
-  isSelected(){
+  isSelected() {
     emit(state.copyWith(isSelected: !state.isSelected));
   }
 
+  addDocument(String type, String path, String pathThumbnail) {
+    try {
+      List<Document> listDocument = List.from(state.listDocument);
+      listDocument.add(
+        Document(
+          type: type,
+          path: path,
+          pathThumbnail: pathThumbnail,
+        ),
+      );
+
+      emit(state.copyWith(listDocument: listDocument));
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  removeImgSelected() {
+    emit(state.copyWith(listDocument: []));
+  }
 }

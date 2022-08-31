@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/common/app_colors.dart';
 import 'package:flutter_base/common/app_images.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_base/common/app_text_styles.dart';
 import 'package:flutter_base/ui/commons/flus_bar.dart';
 import 'package:flutter_base/ui/commons/search_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../utils/logger.dart';
 import '../../../commons/custom_app_bar.dart';
 import '../../message/message_page.dart';
 import 'contact_cubit.dart';
@@ -26,6 +28,12 @@ class _ContactPageState extends State<ContactPage> {
     super.initState();
     _cubit = ContactCubit();
     _cubit.initData();
+    FirebaseFirestore.instance.collection('user').snapshots().listen(
+      (event) {
+        _cubit.realTimeFireBase();
+      },
+      onError: (error) => logger.d("Realtime $error"),
+    );
   }
 
   @override
@@ -81,6 +89,7 @@ class _ContactPageState extends State<ContactPage> {
                   MaterialPageRoute(
                     builder: (context) => ChatPage(
                       idConversion: state.listConversion![index].idConversion ?? "",
+                      nameConversion: state.listConversion![index].nameConversion ?? '',
                     ),
                   ),
                 );

@@ -1,15 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_base/models/entities/chat_user_entity.dart';
 import 'package:flutter_base/models/entities/message_entity.dart';
 import 'package:flutter_base/models/entities/user_entity.dart';
 
 class FirebaseApi {
-  static Future<bool> uploadMessage(String idUser, List<MessageEntity> listMessage) async {
+  static Future<bool> uploadMessage(
+    String idUser,
+    List<MessageEntity> listMessage,
+  ) async {
     bool isCheck = false;
     final refMessages = FirebaseFirestore.instance.collection('user').doc(idUser);
     await refMessages.update({
-      'messages': listMessage.map((e) => e.toJson()).toList(),
+      'messages': listMessage.map((e) => convertMessageEntityToJson(e)).toList(),
     }).then(
       (value) {
         isCheck = true;
@@ -19,6 +21,29 @@ class FirebaseApi {
       },
     );
     return isCheck;
+  }
+
+  static Map<String, dynamic> convertMessageEntityToJson(MessageEntity instance) {
+    return {
+      'createdAt': instance.createdAt,
+      'icConversion': instance.icConversion,
+      'message': instance.message,
+      'replyMsg': instance.replyMsg,
+      'type': instance.type,
+      'nameSend': instance.nameSend,
+      'nameReply': instance.nameReply,
+      'document': (instance.document ?? []).isNotEmpty
+          ? instance.document!.map((document) => convertDocumentToJson(document)).toList()
+          : [],
+    };
+  }
+
+  static Map<String, dynamic> convertDocumentToJson(Document instance) {
+    return {
+      'path': instance.path,
+      'type': instance.type,
+      'pathThumbnail': instance.pathThumbnail,
+    };
   }
 
   static Future<List<MessageEntity>> getMessages(String idUser) async {

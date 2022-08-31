@@ -14,6 +14,12 @@ class MessageEntity {
   String? replyMsg;
   @JsonKey()
   String? type;
+  @JsonKey()
+  List<Document>? document;
+  @JsonKey()
+  String? nameSend;
+  @JsonKey()
+  String? nameReply;
 
   MessageEntity({
     this.createdAt,
@@ -21,6 +27,9 @@ class MessageEntity {
     this.message,
     this.replyMsg,
     this.type,
+    this.document,
+    this.nameSend,
+    this.nameReply,
   });
 
   factory MessageEntity.fromJson(Map<String, dynamic> json) => _$MessageEntityFromJson(json);
@@ -33,6 +42,9 @@ class MessageEntity {
     String? message,
     String? replyMsg,
     String? type,
+    String? nameSend,
+    String? nameReply,
+    List<Document>? document,
   }) {
     return MessageEntity(
       createdAt: createdAt ?? this.createdAt,
@@ -40,6 +52,29 @@ class MessageEntity {
       message: message ?? this.message,
       replyMsg: replyMsg ?? this.replyMsg,
       type: type ?? this.type,
+      document: document ?? this.document,
+      nameSend: nameSend ?? this.nameSend,
+      nameReply: nameReply ?? this.nameReply,
     );
   }
+}
+
+@JsonSerializable()
+class Document {
+  @JsonKey()
+  String? path;
+  @JsonKey()
+  String? type;
+  @JsonKey()
+  String? pathThumbnail;
+
+  Document({
+    this.path,
+    this.type,
+    this.pathThumbnail,
+  });
+
+  factory Document.fromJson(Map<String, dynamic> json) => _$DocumentFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DocumentToJson(this);
 }

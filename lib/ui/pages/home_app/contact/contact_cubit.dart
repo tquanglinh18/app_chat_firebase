@@ -35,4 +35,16 @@ class ContactCubit extends Cubit<ContactState> {
       emit(state.copyWith(loadStatus: LoadStatus.failure));
     }
   }
+
+  realTimeFireBase() {
+    FirebaseApi.getConversion().then(
+      (value) {
+        emit(
+          state.copyWith(
+            listConversion: value,
+          ),
+        );
+      },
+    );
+  }
 }
