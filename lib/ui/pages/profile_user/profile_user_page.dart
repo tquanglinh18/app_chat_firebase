@@ -2,7 +2,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/common/app_images.dart';
 import 'package:flutter_base/common/app_text_styles.dart';
+import 'package:flutter_base/models/enums/load_status.dart';
 import 'package:flutter_base/ui/commons/app_buttons.dart';
+import 'package:flutter_base/ui/commons/flus_bar.dart';
 import 'package:flutter_base/ui/pages/home_app/home_app_page.dart';
 import 'package:flutter_base/ui/pages/profile_user/profile_user_cubit.dart';
 import 'package:flutter_base/ui/widgets/appbar/app_bar_widget.dart';
@@ -12,7 +14,12 @@ import 'package:image_picker/image_picker.dart';
 import '../../../common/app_colors.dart';
 
 class ProfileUserPage extends StatefulWidget {
-  const ProfileUserPage({Key? key}) : super(key: key);
+  final Color colorIcon;
+
+  const ProfileUserPage({
+    Key? key,
+    this.colorIcon = Colors.black,
+  }) : super(key: key);
 
   @override
   State<ProfileUserPage> createState() => _ProfileUserPageState();
@@ -28,6 +35,7 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
     // TODO: implement initState
     super.initState();
     _cubit = ProfileUserCubit();
+    _cubit.getListUser();
   }
 
   @override
@@ -44,6 +52,7 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                   AppBarWidget(
                     onBackPressed: Navigator.of(context).pop,
                     title: "Your Profile",
+                    colorIcon: widget.colorIcon,
                   ),
                   const SizedBox(height: 46),
                   avatar(),
@@ -90,22 +99,38 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                   const SizedBox(height: 70),
                   BlocConsumer<ProfileUserCubit, ProfileUserState>(
                     bloc: _cubit,
-                    buildWhen: (pre, cur) => pre.firstName != cur.firstName,
-                    listenWhen: (pre, cur) => pre.firstName != cur.firstName,
+                    buildWhen: (pre, cur) =>
+                        pre.firstName != cur.firstName ||
+                        pre.loadStatus != cur.loadStatus ||
+                        pre.lastName != cur.lastName,
+                    listenWhen: (pre, cur) =>
+                        pre.firstName != cur.firstName ||
+                        pre.loadStatus != cur.loadStatus ||
+                        pre.loadStatus != cur.loadStatus,
                     listener: (context, state) {
                       // TODO: implement listener
+                      if (state.loadStatus == LoadStatus.success) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => HomeAppPage(name: '${state.firstName} ${state.lastName}'),
+                          ),
+                        );
+                      } else if (state.loadStatus == LoadStatus.failure) {
+                        DxFlushBar.showFlushBar(
+                          context,
+                          type: FlushBarType.ERROR,
+                          title: "Không thể lưu",
+                        );
+                      }
                     },
                     builder: (context, state) {
                       return Container(
                         margin: const EdgeInsets.symmetric(horizontal: 24),
                         child: AppButtons(
+                          isLoading: state.loadStatus == LoadStatus.loading,
                           buttonType: state.firstName != '' ? ButtonType.ACTIVE : ButtonType.IN_ACTIVE,
                           onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const HomeAppPage(),
-                              ),
-                            );
+                            _cubit.uploadUser('${state.firstName} ${state.lastName}');
                           },
                           title: "Save",
                         ),

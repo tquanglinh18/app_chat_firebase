@@ -16,16 +16,23 @@ List<SettingType> listType = [
   SettingType.INVITE_YOUR_FRIENDS,
 ];
 
-class MorePage extends StatelessWidget {
-  const MorePage({Key? key}) : super(key: key);
+class MorePage extends StatefulWidget {
+  String? name;
 
+  MorePage({Key? key, this.name,}) : super(key: key);
+
+  @override
+  State<MorePage> createState() => _MorePageState();
+}
+
+class _MorePageState extends State<MorePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
           AppBarCustom(title: "More"),
-          _infoUser(name: "Almayra Zamzamy", phoneNumber: "+62 1309 - 1710 - 1920"),
+          _infoUser(name: widget.name, phoneNumber: "+62 1309 - 1710 - 1920"),
           Expanded(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),

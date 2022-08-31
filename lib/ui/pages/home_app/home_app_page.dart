@@ -11,7 +11,16 @@ List<String> listUrlImage = [AppImages.icPerson, AppImages.icChat, AppImages.icM
 List<String> listTitle = ["Contacts", "Chats", "More"];
 
 class HomeAppPage extends StatefulWidget {
-  const HomeAppPage({Key? key}) : super(key: key);
+  String? name;
+  String? phoneNumber;
+  String? urlAvatar;
+
+  HomeAppPage({
+    Key? key,
+    this.name ,
+    this.phoneNumber,
+    this.urlAvatar,
+  }) : super(key: key);
 
   @override
   State<HomeAppPage> createState() => _HomeAppPageState();
@@ -42,7 +51,7 @@ class _HomeAppPageState extends State<HomeAppPage> {
                   case 1:
                     return ChatsPage();
                   case 2:
-                    return const MorePage();
+                    return MorePage(name: widget.name,);
                   default:
                     return const ContactPage();
                 }

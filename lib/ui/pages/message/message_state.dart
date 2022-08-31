@@ -10,8 +10,10 @@ class MessageState extends Equatable {
   LoadStatus? deletLoadStatus;
   LoadStatus? replyLoadStatus;
   bool hintOptionMsg;
-  bool hintReplyMsg;
+  bool isReplyMsg;
   int? indexMsg;
+  String uidFireBase;
+  bool isSelected;
 
   MessageState({
     this.listMessage = const [],
@@ -20,8 +22,10 @@ class MessageState extends Equatable {
     this.deletLoadStatus,
     this.hintOptionMsg = false,
     this.replyLoadStatus,
-    this.hintReplyMsg = false,
+    this.isReplyMsg = false,
     this.indexMsg,
+    this.uidFireBase = "",
+    this.isSelected = false,
   });
 
   MessageState copyWith({
@@ -31,7 +35,10 @@ class MessageState extends Equatable {
     LoadStatus? deletLoadStatus,
     LoadStatus? replyLoadStatus,
     bool? hintOptionMsg,
+    bool? isReplyMsg,
     int? indexMsg,
+    String? uidFireBase,
+    bool? isSelected,
   }) {
     return MessageState(
       listMessage: listMessage ?? this.listMessage,
@@ -40,7 +47,10 @@ class MessageState extends Equatable {
       deletLoadStatus: deletLoadStatus ?? this.deletLoadStatus,
       replyLoadStatus: replyLoadStatus ?? this.replyLoadStatus,
       hintOptionMsg: hintOptionMsg ?? this.hintOptionMsg,
+      isReplyMsg: isReplyMsg ?? this.isReplyMsg,
       indexMsg: indexMsg ?? this.indexMsg,
+      uidFireBase: uidFireBase ?? this.uidFireBase,
+      isSelected: isSelected ?? this.isSelected,
     );
   }
 
@@ -52,6 +62,9 @@ class MessageState extends Equatable {
         deletLoadStatus,
         replyLoadStatus,
         hintOptionMsg,
+        isReplyMsg,
         indexMsg,
+        uidFireBase,
+        isSelected,
       ];
 }

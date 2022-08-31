@@ -6,12 +6,14 @@ class ProfileUserState extends Equatable {
   final String? lastName;
   final LoadStatus? loadStatus;
   final String error;
+  final List<UserEntity> listUser;
 
   const ProfileUserState({
     this.firstName = '',
     this.lastName = '',
     this.loadStatus,
     this.error = '',
+    this.listUser = const [],
   });
 
   ProfileUserState copyWith({
@@ -19,22 +21,24 @@ class ProfileUserState extends Equatable {
     String? lastName,
     LoadStatus? loadStatus,
     String? error,
+    List<UserEntity>? listUser,
   }) {
     return ProfileUserState(
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       loadStatus: loadStatus ?? this.loadStatus,
       error: error ?? this.error,
+      listUser: listUser ?? this.listUser,
     );
   }
 
   // TODO: implement props
   @override
   List<Object?> get props => [
-    firstName,
-    lastName,
-    loadStatus,
-    error,
-  ];
+        firstName,
+        lastName,
+        loadStatus,
+        error,
+        listUser,
+      ];
 }
-

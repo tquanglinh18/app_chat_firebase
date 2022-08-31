@@ -6,6 +6,53 @@ class SharedPreferencesHelper {
 
   static const _authKey = '_authKey';
 
+  static const _uidFireBase = '_uidFireBase';
+
+  static const _nameUserLogin = '_nameUserLogin';
+
+  static Future<String> getNameUserLoginKey() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      return prefs.getString(_nameUserLogin) ?? "";
+    } catch (e) {
+      logger.e(e);
+      return "";
+    }
+  }
+
+  //Set authKey
+  static void setNameUserLoginKey(String nameUserLogin) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_nameUserLogin, nameUserLogin);
+  }
+
+  static void removeNameUserLoginKey() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_nameUserLogin);
+  }
+
+  //Get authKey
+  static Future<String> getUidFireBaseKey() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      return prefs.getString(_uidFireBase) ?? "";
+    } catch (e) {
+      logger.e(e);
+      return "";
+    }
+  }
+
+  //Set authKey
+  static void setUidFireBaseKey(String uidFireBase) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_uidFireBase, uidFireBase);
+  }
+
+  static void removeUidFireBaseKey() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_uidFireBase);
+  }
+
   //Get authKey
   static Future<String> getApiTokenKey() async {
     try {

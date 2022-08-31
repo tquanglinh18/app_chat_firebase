@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base/common/app_images.dart';
+import 'package:flutter_base/database/share_preferences_helper.dart';
 import 'package:flutter_base/repositories/auth_repository.dart';
 import 'package:flutter_base/ui/pages/home_app/home_app_page.dart';
 import 'package:flutter_base/ui/pages/profile_user/profile_user_page.dart';
@@ -42,11 +43,34 @@ class _SplashChildPageState extends State<SplashChildPage> {
   }
 
   init() async {
-    await Future.delayed(const Duration(seconds: 2));
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const HomeAppPage(),
-      ),
+    SharedPreferencesHelper.getUidFireBaseKey().then(
+      (value) {
+        if (value.isNotEmpty) {
+          SharedPreferencesHelper.getNameUserLoginKey().then((value) {
+            if (value.isNotEmpty) {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => HomeAppPage(),
+                ),
+              );
+            } else {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const ProfileUserPage(
+                    colorIcon: Colors.transparent,
+                  ),
+                ),
+              );
+            }
+          });
+        } else {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const IntroAppPage(),
+            ),
+          );
+        }
+      },
     );
   }
 

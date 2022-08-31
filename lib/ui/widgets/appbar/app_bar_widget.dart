@@ -7,6 +7,7 @@ class AppBarWidget extends AppBar {
     String title = "",
     List<Widget> rightActions = const [],
     bool showBackButton = true,
+    Color colorIcon = Colors.black,
     Colors? shadowColor,
   }) : super(
           key: key,
@@ -14,7 +15,12 @@ class AppBarWidget extends AppBar {
           title: Text(title),
           toolbarHeight: 50,
           leading: showBackButton
-              ? IconButton(onPressed: onBackPressed, icon: const Icon(Icons.arrow_back_ios_rounded))
+              ? IconButton(
+                  onPressed: onBackPressed,
+                  icon: Icon(
+                    Icons.arrow_back_ios_rounded,
+                    color: colorIcon,
+                  ))
               : null,
           actions: rightActions,
         );

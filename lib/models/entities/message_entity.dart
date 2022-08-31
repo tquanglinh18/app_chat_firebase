@@ -7,7 +7,7 @@ class MessageEntity {
   @JsonKey()
   String? createdAt;
   @JsonKey()
-  String? idUser;
+  String? icConversion;
   @JsonKey()
   String? message;
   @JsonKey()
@@ -17,7 +17,7 @@ class MessageEntity {
 
   MessageEntity({
     this.createdAt,
-    this.idUser,
+    this.icConversion,
     this.message,
     this.replyMsg,
     this.type,
@@ -29,14 +29,14 @@ class MessageEntity {
 
   MessageEntity copyWith({
     String? createdAt,
-    String? idUser,
+    String? icConversion,
     String? message,
     String? replyMsg,
     String? type,
   }) {
     return MessageEntity(
       createdAt: createdAt ?? this.createdAt,
-      idUser: idUser ?? this.idUser,
+      icConversion: icConversion ?? this.icConversion,
       message: message ?? this.message,
       replyMsg: replyMsg ?? this.replyMsg,
       type: type ?? this.type,
