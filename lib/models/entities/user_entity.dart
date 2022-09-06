@@ -10,11 +10,14 @@ class UserEntity {
   String? uid;
   @JsonKey()
   String? avatar;
+  @JsonKey()
+  String? phoneNumber;
 
   UserEntity({
     this.name,
     this.uid,
     this.avatar,
+    this.phoneNumber,
   });
 
   factory UserEntity.fromJson(Map<String, dynamic> json) => _$UserEntityFromJson(json);
@@ -25,11 +28,13 @@ class UserEntity {
     String? name,
     String? uid,
     String? avatar,
+    String? phoneNumber,
   }) {
     return UserEntity(
       name: name ?? this.name,
       uid: uid ?? this.uid,
       avatar: avatar ?? this.avatar,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
     );
   }
 }

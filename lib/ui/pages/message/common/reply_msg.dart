@@ -9,7 +9,8 @@ import '../../../../common/app_text_styles.dart';
 
 class ReplyMsg extends StatelessWidget {
   String? message;
-  bool? isSent = false;
+  bool isSent;
+
   String? textReply;
   String? timer;
   String nameSend;
@@ -94,10 +95,29 @@ class ReplyMsg extends StatelessWidget {
                             listDocument.isNotEmpty
                                 ? SizedBox(
                                     height: 200,
-                                    child:
-
-                                    Image.file(
+                                    child: Image.file(
                                       File(listDocument.first.path!),
+                                      errorBuilder: (
+                                        context,
+                                        error,
+                                        stackTrace,
+                                      ) {
+                                        return Center(
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+
+                                            children: [
+
+                                              Icon(Icons.info_outline),
+                                              Text(
+                                                'Đã xảy ra lỗi \nVui lòng thử lại',
+                                                textAlign: TextAlign.center,
+                                                style: isSent ? AppTextStyle.whiteS14 : AppTextStyle.blackS14,
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
                                     ),
                                   )
                                 : SizedBox(),

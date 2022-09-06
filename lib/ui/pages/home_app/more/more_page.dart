@@ -1,9 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_base/ui/pages/home_app/more/more_cubit.dart';
 import 'package:flutter_base/ui/pages/home_app/more/type_setting.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import '../../../../common/app_colors.dart';
 import '../../../../common/app_images.dart';
 import '../../../../common/app_text_styles.dart';
 import '../../../commons/custom_app_bar.dart';
+import '../../setting/setting_page.dart';
 
 List<SettingType> listType = [
   SettingType.ACCOUNT,
@@ -17,29 +23,45 @@ List<SettingType> listType = [
 ];
 
 class MorePage extends StatefulWidget {
-  String? name;
-
-  MorePage({Key? key, this.name,}) : super(key: key);
+  const MorePage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<MorePage> createState() => _MorePageState();
 }
 
 class _MorePageState extends State<MorePage> {
+  late MoreCubit _cubit;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _cubit = MoreCubit();
+    _cubit.initData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          AppBarCustom(title: "More"),
-          _infoUser(name: widget.name, phoneNumber: "+62 1309 - 1710 - 1920"),
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-              child: _itemMore(),
-            ),
-          ),
-        ],
+      body: BlocBuilder<MoreCubit, MoreState>(
+        bloc: _cubit,
+        buildWhen: (pre, cur) => pre.loadStatus != cur.loadStatus,
+        builder: (context, state) {
+          return Column(
+            children: [
+              AppBarCustom(title: "More"),
+              _infoUser(name: state.name, phoneNumber: state.phoneNumber, urlImage: state.avatar),
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                  child: _itemMore(),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -49,11 +71,38 @@ class _MorePageState extends State<MorePage> {
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
       child: Row(
         children: [
-          SizedBox(
-            height: 50,
-            width: 50,
-            child: CircleAvatar(
-              backgroundImage: AssetImage(urlImage ?? AppImages.icAvatarDefault),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(100),
+            child: SizedBox(
+              height: 50,
+              width: 50,
+              child: (urlImage ?? "").isNotEmpty
+                  ? Image.file(
+                      File(urlImage!),
+                      errorBuilder: (
+                        context,
+                        error,
+                        stackTrace,
+                      ) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(
+                              width: 1,
+                              color: AppColors.greyBG,
+                            ),
+                          ),
+                          child: const Icon(
+                            Icons.info_outline,
+                            color: AppColors.border,
+                          ),
+                        );
+                      },
+                fit: BoxFit.cover,
+                    )
+                  : const CircleAvatar(
+                      backgroundImage: AssetImage(AppImages.icAvatarDefault),
+                    ),
             ),
           ),
           const SizedBox(width: 20),
@@ -93,7 +142,9 @@ class _MorePageState extends State<MorePage> {
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return InkWell(
-          onTap: onTap,
+          onTap: () {
+            Get.to(() => const SettingPage());
+          },
           child: SizedBox(
             height: 40,
             child: Row(

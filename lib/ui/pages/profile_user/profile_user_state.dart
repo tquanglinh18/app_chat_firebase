@@ -7,6 +7,8 @@ class ProfileUserState extends Equatable {
   final LoadStatus? loadStatus;
   final String error;
   final List<UserEntity> listUser;
+  final String image;
+  final bool isHide;
 
   const ProfileUserState({
     this.firstName = '',
@@ -14,6 +16,8 @@ class ProfileUserState extends Equatable {
     this.loadStatus,
     this.error = '',
     this.listUser = const [],
+    this.image = '',
+    this.isHide = false,
   });
 
   ProfileUserState copyWith({
@@ -22,6 +26,8 @@ class ProfileUserState extends Equatable {
     LoadStatus? loadStatus,
     String? error,
     List<UserEntity>? listUser,
+    String? image,
+    bool? isHide,
   }) {
     return ProfileUserState(
       firstName: firstName ?? this.firstName,
@@ -29,6 +35,8 @@ class ProfileUserState extends Equatable {
       loadStatus: loadStatus ?? this.loadStatus,
       error: error ?? this.error,
       listUser: listUser ?? this.listUser,
+      image: image ?? this.image,
+      isHide: isHide ?? this.isHide,
     );
   }
 
@@ -40,5 +48,7 @@ class ProfileUserState extends Equatable {
         loadStatus,
         error,
         listUser,
+        image,
+        isHide,
       ];
 }

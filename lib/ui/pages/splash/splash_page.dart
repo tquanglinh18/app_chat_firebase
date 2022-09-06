@@ -70,7 +70,7 @@ class _SplashChildPageState extends State<SplashChildPage> {
         } else {
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-              builder: (_) => const ProfileUserPage(),
+              builder: (_) => const IntroAppPage(),
               settings: const RouteSettings(name: "intro"),
             ),
             (route) => false,

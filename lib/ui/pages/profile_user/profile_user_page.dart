@@ -15,10 +15,12 @@ import '../../../common/app_colors.dart';
 
 class ProfileUserPage extends StatefulWidget {
   final Color colorIcon;
+  final String phoneNumber;
 
   const ProfileUserPage({
     Key? key,
     this.colorIcon = Colors.black,
+    this.phoneNumber = '',
   }) : super(key: key);
 
   @override
@@ -27,8 +29,6 @@ class ProfileUserPage extends StatefulWidget {
 
 class _ProfileUserPageState extends State<ProfileUserPage> {
   late ProfileUserCubit _cubit;
-  File? _image;
-  bool _isHide = false;
 
   @override
   void initState() {
@@ -55,7 +55,7 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                     colorIcon: widget.colorIcon,
                   ),
                   const SizedBox(height: 46),
-                  avatar(),
+                  avatar(context),
                   const SizedBox(height: 31),
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 24),
@@ -132,7 +132,7 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                           isLoading: state.loadStatus == LoadStatus.loading,
                           buttonType: state.firstName != '' ? ButtonType.ACTIVE : ButtonType.IN_ACTIVE,
                           onTap: () {
-                            _cubit.uploadUser('${state.firstName} ${state.lastName}');
+                            _cubit.uploadUser('${state.firstName} ${state.lastName}', widget.phoneNumber);
                           },
                           title: "Save",
                         ),
@@ -149,107 +149,120 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
     );
   }
 
-  Widget avatar() {
-    return SizedBox(
-      height: 100,
-      width: 100,
-      child: Stack(
-        children: [
-          _image != null
-              ? ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: SizedBox(
-                    height: 100,
-                    width: 100,
-                    child: Image.file(
-                      _image!,
-                      fit: BoxFit.cover,
+  Widget avatar(BuildContext contextKey) {
+    return BlocBuilder<ProfileUserCubit, ProfileUserState>(
+      bloc: _cubit,
+      buildWhen: (pre, cur) => pre.image != cur.image,
+      builder: (context, state) {
+        return SizedBox(
+          height: 100,
+          width: 100,
+          child: Stack(
+            children: [
+              state.image.isNotEmpty
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: SizedBox(
+                        height: 100,
+                        width: 100,
+                        child: Image.file(
+                          File(state.image),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    )
+                  : Image.asset(AppImages.icAvatarDefault),
+              Positioned(
+                right: 5,
+                bottom: 1,
+                child: InkWell(
+                  onTap: () {
+                    _cubit.isHide();
+                    FocusScope.of(contextKey).unfocus();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      color: AppColors.backgroundLight,
+                    ),
+                    child: Image.asset(
+                      AppImages.icAdd,
                     ),
                   ),
-                )
-              : Image.asset(AppImages.icAvatarDefault),
-          Positioned(
-            right: 5,
-            bottom: 1,
-            child: InkWell(
-              onTap: () => setState(() {
-                _isHide = !_isHide;
-              }),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  color: AppColors.backgroundLight,
-                ),
-                child: Image.asset(
-                  AppImages.icAdd,
                 ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
   Widget _choseOptionImage() {
-    return Visibility(
-      visible: _isHide,
-      child: Container(
-        height: 150,
-        width: MediaQuery.of(context).size.width,
-        decoration: const BoxDecoration(
-          color: AppColors.buttonBGWhite,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            InkWell(
-              onTap: () {
-                _getFromCamera();
-              },
-              child: SizedBox(
-                height: 60,
-                width: MediaQuery.of(context).size.width - 100,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(
-                      Icons.camera_alt_outlined,
-                      color: AppColors.textBlack,
+    return BlocBuilder<ProfileUserCubit, ProfileUserState>(
+      bloc: _cubit,
+      buildWhen: (pre, cur) => pre.isHide != cur.isHide,
+      builder: (context, state) {
+        return Visibility(
+          visible: state.isHide,
+          child: Container(
+            height: 150,
+            width: MediaQuery.of(context).size.width,
+            decoration: const BoxDecoration(
+              color: AppColors.buttonBGWhite,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                InkWell(
+                  onTap: () {
+                    _getFromCamera();
+                  },
+                  child: SizedBox(
+                    height: 60,
+                    width: MediaQuery.of(context).size.width - 100,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Icon(
+                          Icons.camera_alt_outlined,
+                          color: AppColors.textBlack,
+                        ),
+                        SizedBox(width: 15),
+                        Text('Pick Image from Camera'),
+                      ],
                     ),
-                    SizedBox(width: 15),
-                    Text('Pick Image from Camera'),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            Container(
-              height: 1,
-              color: AppColors.backgroundLight,
-            ),
-            InkWell(
-              onTap: () {
-                _getFromGallery();
-              },
-              child: SizedBox(
-                height: 60,
-                width: MediaQuery.of(context).size.width - 100,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(
-                      Icons.camera,
-                      color: AppColors.textBlack,
+                Container(
+                  height: 1,
+                  color: AppColors.backgroundLight,
+                ),
+                InkWell(
+                  onTap: () {
+                    _getFromGallery();
+                  },
+                  child: SizedBox(
+                    height: 60,
+                    width: MediaQuery.of(context).size.width - 100,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Icon(
+                          Icons.camera,
+                          color: AppColors.textBlack,
+                        ),
+                        SizedBox(width: 15),
+                        Text('Pick image from gallery'),
+                      ],
                     ),
-                    SizedBox(width: 15),
-                    Text('Pick image from gallery'),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -258,12 +271,7 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
     if (image == null) {
       return;
     }
-    final imageGallery = File(image.path);
-    setState(
-      () {
-        _image = imageGallery;
-      },
-    );
+    _cubit.setImage(image.path);
   }
 
   _getFromCamera() async {
@@ -271,11 +279,6 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
     if (image == null) {
       return;
     }
-    final imageCamera = File(image.path);
-    setState(
-      () {
-        _image = imageCamera;
-      },
-    );
+    _cubit.setImage(image.path);
   }
 }

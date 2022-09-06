@@ -20,8 +20,8 @@ import '../../commons/otp/pin_code_text_field.dart';
 import '../input_number/input_number_cubit.dart';
 
 class VerifyNumberPage extends StatefulWidget {
-  String? phoneNumber;
-  String? verificationIDReceived;
+  String phoneNumber;
+  String verificationIDReceived;
 
   VerifyNumberPage({Key? key, required this.phoneNumber, required this.verificationIDReceived}) : super(key: key);
 
@@ -137,7 +137,7 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
             _cubitApp.saveIdUser(state.idUser);
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (context) => const ProfileUserPage(),
+                builder: (context) => ProfileUserPage(phoneNumber: widget.phoneNumber,),
               ),
             );
           }

@@ -36,6 +36,33 @@ class ContactCubit extends Cubit<ContactState> {
     }
   }
 
+  listSearch(String? searchText) {
+    if ((searchText ?? "").isEmpty) return;
+    emit(state.copyWith(loadStatus: LoadStatus.loading));
+    try {
+      FirebaseApi.getConversion().then(
+        (value) {
+          List<ConversionEntity> listSearch = value.isNotEmpty
+              ? value.where((element) => (element.nameConversion ?? "").contains(searchText ?? "")).toList()
+              : [];
+          emit(
+            state.copyWith(
+              loadStatus: LoadStatus.success,
+              listConversion: listSearch,
+            ),
+          );
+        },
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          loadStatus: LoadStatus.failure,
+
+        ),
+      );
+    }
+  }
+
   realTimeFireBase() {
     FirebaseApi.getConversion().then(
       (value) {

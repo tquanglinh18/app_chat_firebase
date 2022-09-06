@@ -17,7 +17,7 @@ class HomeAppPage extends StatefulWidget {
 
   HomeAppPage({
     Key? key,
-    this.name ,
+    this.name,
     this.phoneNumber,
     this.urlAvatar,
   }) : super(key: key);
@@ -51,7 +51,7 @@ class _HomeAppPageState extends State<HomeAppPage> {
                   case 1:
                     return ChatsPage();
                   case 2:
-                    return MorePage(name: widget.name,);
+                    return const MorePage();
                   default:
                     return const ContactPage();
                 }

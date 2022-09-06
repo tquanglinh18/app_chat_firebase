@@ -25,21 +25,21 @@ import 'common/text_message.dart';
 import 'message_cubit.dart';
 import 'message_state.dart';
 
-class ChatPage extends StatefulWidget {
+class MessagePage extends StatefulWidget {
   final String idConversion;
   final String nameConversion;
 
-  const ChatPage({
+  const MessagePage({
     Key? key,
     this.idConversion = '',
     this.nameConversion = '',
   }) : super(key: key);
 
   @override
-  State<ChatPage> createState() => _ChatPageState();
+  State<MessagePage> createState() => _MessagePageState();
 }
 
-class _ChatPageState extends State<ChatPage> {
+class _MessagePageState extends State<MessagePage> {
   late MessageCubit _cubit;
   TextEditingController controllerMsg = TextEditingController(text: "");
   late final CustomProgressHUD _customProgressHUD;
@@ -294,20 +294,9 @@ class _ChatPageState extends State<ChatPage> {
                                         child: Column(
                                           children: [
                                             state.listDocument.first.type == TypeDocument.FILE.name
-                                                ? Column(
-                                                    children: [
-                                                      const Icon(
-                                                        Icons.file_present_outlined,
-                                                        size: 45,
-                                                      ),
-                                                      Text(
-                                                        state.listDocument.first.name ?? 'Filen enfbhe',
-                                                        style: AppTextStyle.blackS14.copyWith(
-                                                          fontWeight: FontWeight.w400,
-                                                          fontSize: 14,
-                                                        ),
-                                                      ),
-                                                    ],
+                                                ? const Icon(
+                                                    Icons.file_present_outlined,
+                                                    size: 45,
                                                   )
                                                 : Image.file(
                                                     File(
@@ -422,7 +411,7 @@ class _ChatPageState extends State<ChatPage> {
                         TypeDocument.FILE.toTypeDocument,
                         file.first.path,
                         '',
-                        '',
+                        file.first.path.split('/').last,
                       );
                     },
                   ),

@@ -4,7 +4,7 @@ part of 'input_number_cubit.dart';
 class InputNumberState extends Equatable {
   final String? phoneNumber;
   final LoadStatus? loadStatus;
-  final String? verificationIDReceived;
+  final String verificationIDReceived;
   final String error;
 
   const InputNumberState({

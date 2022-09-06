@@ -32,7 +32,7 @@ class ProfileUserCubit extends Cubit<ProfileUserState> {
     } catch (e) {}
   }
 
-  uploadUser(String name) async {
+  uploadUser(String name, String phoneNumber) async {
     emit(state.copyWith(loadStatus: LoadStatus.loading));
     try {
       emit(state.copyWith(loadStatus: LoadStatus.loading));
@@ -45,16 +45,22 @@ class ProfileUserCubit extends Cubit<ProfileUserState> {
             if (index != -1) {
               UserEntity user = listUserFireBase[index];
               user.name = name;
+              user.avatar = state.image;
+              user.phoneNumber = phoneNumber;
             } else {
               listUserFireBase.add(UserEntity(
                 name: name,
                 uid: uidFireBase,
+                avatar: state.image,
+                phoneNumber: phoneNumber,
               ));
             }
           } else {
             listUserFireBase.add(UserEntity(
               name: name,
               uid: uidFireBase,
+              avatar: state.image,
+              phoneNumber: phoneNumber,
             ));
           }
           FirebaseApi.uploadProfile(uidFireBase, listUserFireBase).then(
@@ -72,5 +78,13 @@ class ProfileUserCubit extends Cubit<ProfileUserState> {
     } catch (e) {
       emit(state.copyWith(loadStatus: LoadStatus.failure));
     }
+  }
+
+  isHide() {
+    emit(state.copyWith(isHide: !state.isHide));
+  }
+
+  setImage(String path) {
+    emit(state.copyWith(image: path));
   }
 }

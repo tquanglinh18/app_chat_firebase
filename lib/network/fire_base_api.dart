@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_base/models/entities/chat_user_entity.dart';
 import 'package:flutter_base/models/entities/message_entity.dart';
+import 'package:flutter_base/models/entities/story_entity.dart';
 import 'package:flutter_base/models/entities/user_entity.dart';
 
 class FirebaseApi {
@@ -103,6 +104,38 @@ class FirebaseApi {
       },
     );
     return isCheck;
+  }
+
+  static Future<bool> upStory(List<StoryEntity> story) async {
+    bool isCheck = false;
+    final updateStory = FirebaseFirestore.instance.collection('story').doc('story');
+    await updateStory.update({'story': story.map((e) => e.toJson()).toList()}).then(
+      (value) {
+        isCheck = true;
+      },
+      onError: (e) {
+        isCheck = false;
+      },
+    );
+    return isCheck;
+  }
+
+  static Future<List<StoryEntity>> getStory() async {
+    try {
+      List<StoryEntity> listStory = [];
+      await FirebaseFirestore.instance.collection('story').get().then((value) {
+        if (value.docs.isNotEmpty) {
+          for (var doc in value.docs) {
+            for (var msg in doc.data()['story']) {
+              listStory.add(StoryEntity.fromJson(msg));
+            }
+          }
+        }
+      });
+      return listStory;
+    } catch (e) {
+      return [];
+    }
   }
 
   static Future<List<UserEntity>> getListUser() async {

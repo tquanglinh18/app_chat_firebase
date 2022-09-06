@@ -11,7 +11,7 @@ import '../../../../common/app_text_styles.dart';
 
 class TextMessage extends StatelessWidget {
   String? message;
-  bool? isSent = false;
+  bool isSent;
   String? timer;
   Function()? onLongPress;
   List<Document> listDocumnet;
@@ -65,7 +65,27 @@ class TextMessage extends StatelessWidget {
                 children: [
                   listDocumnet.isNotEmpty
                       ? (listDocumnet.first.type == TypeDocument.IMAGE.toTypeDocument)
-                          ? Image.file(File(listDocumnet.first.path!))
+                          ? Image.file(
+                              File(listDocumnet.first.path!),
+                              errorBuilder: (
+                                context,
+                                error,
+                                stackTrace,
+                              ) {
+                                return Center(
+                                  child: Column(
+                                    children: [
+                                      Icon(Icons.info_outline),
+                                      Text(
+                                        'Đã xảy ra lỗi \nVui lòng thử lại',
+                                        textAlign: TextAlign.center,
+                                        style: isSent ? AppTextStyle.whiteS14 : AppTextStyle.blackS14,
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            )
                           : (listDocumnet.first.type == TypeDocument.VIDEO.toTypeDocument)
                               ? InkWell(
                                   onTap: () {
@@ -86,6 +106,21 @@ class TextMessage extends StatelessWidget {
                                         width: double.infinity,
                                         child: Image.file(
                                           File(listDocumnet.first.pathThumbnail ?? ""),
+                                          errorBuilder: (
+                                            context,
+                                            error,
+                                            stackTrace,
+                                          ) {
+                                            return Padding(
+                                                padding: EdgeInsets.only(top: 150),
+                                                child: Center(
+                                                  child: Text(
+                                                    'Đã xảy ra lỗi \nVui lòng thử lại',
+                                                    textAlign: TextAlign.center,
+                                                    style: isSent ? AppTextStyle.whiteS14 : AppTextStyle.blackS14,
+                                                  ),
+                                                ));
+                                          },
                                           fit: BoxFit.cover,
                                         ),
                                       ),
@@ -101,20 +136,9 @@ class TextMessage extends StatelessWidget {
                                       onTap: () {
                                         OpenFile.open(listDocumnet.first.path);
                                       },
-                                      child: Column(
-                                        children: [
-                                          const Icon(
-                                            Icons.file_present_outlined,
-                                            size: 100,
-                                          ),
-                                          Text(
-                                            listDocumnet.first.name ?? '',
-                                            style: AppTextStyle.blackS14.copyWith(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 10,
-                                            ),
-                                          )
-                                        ],
+                                      child: const Icon(
+                                        Icons.file_present_outlined,
+                                        size: 100,
                                       ),
                                     )
                                   : const SizedBox()

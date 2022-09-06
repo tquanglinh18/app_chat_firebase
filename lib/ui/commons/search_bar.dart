@@ -9,6 +9,7 @@ class SearchBar extends StatelessWidget {
   bool isClose;
   VoidCallback? onClose;
   void Function(String)? onChanged;
+  void Function(String)? onSubmit;
 
   SearchBar({
     Key? key,
@@ -17,6 +18,7 @@ class SearchBar extends StatelessWidget {
     this.isClose = true,
     this.onClose,
     this.onChanged,
+    this.onSubmit,
   }) : super(key: key);
 
   @override
@@ -30,6 +32,7 @@ class SearchBar extends StatelessWidget {
         style: const TextStyle(fontSize: 17),
         textAlignVertical: TextAlignVertical.center,
         onChanged: onChanged,
+        onSubmitted: onSubmit,
         decoration: InputDecoration(
           filled: true,
           suffixIcon: Visibility(
