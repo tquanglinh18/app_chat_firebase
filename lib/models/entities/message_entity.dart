@@ -67,11 +67,14 @@ class Document {
   String? type;
   @JsonKey()
   String? pathThumbnail;
+  @JsonKey()
+  String? name;
 
   Document({
     this.path,
     this.type,
     this.pathThumbnail,
+    this.name,
   });
 
   factory Document.fromJson(Map<String, dynamic> json) => _$DocumentFromJson(json);

@@ -166,7 +166,6 @@ class _ChatPageState extends State<ChatPage> {
                         listDocumnet: listMessage[index].document ?? [],
                         nameSend: listMessage[index].nameSend ?? "",
                         nameConversion: widget.nameConversion,
-
                         onLongPress: () {
                           _focusNode.unfocus();
                           _cubit.setIndexMsg(index);
@@ -292,12 +291,32 @@ class _ChatPageState extends State<ChatPage> {
                                     children: [
                                       Container(
                                         padding: const EdgeInsets.only(top: 5, right: 5),
-                                        child: Image.file(
-                                          File(
-                                            state.listDocument.first.type == TypeDocument.VIDEO.toTypeDocument
-                                                ? state.listDocument.first.pathThumbnail!
-                                                : state.listDocument.first.path!,
-                                          ),
+                                        child: Column(
+                                          children: [
+                                            state.listDocument.first.type == TypeDocument.FILE.name
+                                                ? Column(
+                                                    children: [
+                                                      const Icon(
+                                                        Icons.file_present_outlined,
+                                                        size: 45,
+                                                      ),
+                                                      Text(
+                                                        state.listDocument.first.name ?? 'Filen enfbhe',
+                                                        style: AppTextStyle.blackS14.copyWith(
+                                                          fontWeight: FontWeight.w400,
+                                                          fontSize: 14,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                : Image.file(
+                                                    File(
+                                                      state.listDocument.first.type == TypeDocument.VIDEO.toTypeDocument
+                                                          ? state.listDocument.first.pathThumbnail!
+                                                          : state.listDocument.first.path!,
+                                                    ),
+                                                  ),
+                                          ],
                                         ),
                                       ),
                                       InkWell(
@@ -387,6 +406,7 @@ class _ChatPageState extends State<ChatPage> {
                         TypeDocument.IMAGE.toTypeDocument,
                         file.first.path,
                         '',
+                        '',
                       );
                     },
                     onChooseVideo: (listFile, file) {
@@ -394,6 +414,15 @@ class _ChatPageState extends State<ChatPage> {
                         TypeDocument.VIDEO.toTypeDocument,
                         listFile.first.path,
                         file.path,
+                        '',
+                      );
+                    },
+                    onChooseDocument: (file) {
+                      _cubit.addDocument(
+                        TypeDocument.FILE.toTypeDocument,
+                        file.first.path,
+                        '',
+                        '',
                       );
                     },
                   ),

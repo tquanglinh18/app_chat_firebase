@@ -43,6 +43,7 @@ class FirebaseApi {
       'path': instance.path,
       'type': instance.type,
       'pathThumbnail': instance.pathThumbnail,
+      'name': instance.name,
     };
   }
 

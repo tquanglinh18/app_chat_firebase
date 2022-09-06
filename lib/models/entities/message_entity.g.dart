@@ -36,10 +36,12 @@ Document _$DocumentFromJson(Map<String, dynamic> json) => Document(
       path: json['path'] as String?,
       type: json['type'] as String?,
       pathThumbnail: json['pathThumbnail'] as String?,
+      name: json['name'] as String?,
     );
 
 Map<String, dynamic> _$DocumentToJson(Document instance) => <String, dynamic>{
       'path': instance.path,
       'type': instance.type,
       'pathThumbnail': instance.pathThumbnail,
+      'name': instance.name,
     };

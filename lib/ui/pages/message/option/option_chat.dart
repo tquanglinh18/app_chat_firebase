@@ -26,9 +26,9 @@ class OptionChat extends StatefulWidget {
   const OptionChat({
     Key? key,
     this.isSelected = false,
-    this.onChooseImage,
-    this.onChooseVideo,
-    this.onChooseDocument,
+    required this.onChooseImage,
+    required this.onChooseVideo,
+    required this.onChooseDocument,
     this.callBackRecord,
   }) : super(key: key);
 
@@ -283,9 +283,11 @@ class _OptionChatState extends State<OptionChat> {
       if (result != null) {
         List<File> files = result.paths.map((path) => File(path!)).toList();
         if (files.isNotEmpty) {
-          widget.onChooseDocument!(files);
+          (widget.onChooseDocument!(files));
+        } else {
+          print('null');
         }
-      } else {}
+      }
     } catch (e) {
       if (!mounted) return;
       DxFlushBar.showFlushBar(

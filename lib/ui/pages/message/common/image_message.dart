@@ -43,11 +43,10 @@ class ImageMessage extends StatelessWidget {
           crossAxisAlignment: (isSent != true) ? CrossAxisAlignment.start : CrossAxisAlignment.end,
           mainAxisSize: MainAxisSize.min,
           children: [
-           // AspectRatio(
-             // aspectRatio: 246 / 150,
-             // child:
-              Image.network(urlImage!, fit: BoxFit.cover,),
-            //),
+            Image.network(
+              urlImage!,
+              fit: BoxFit.cover,
+            ),
             const SizedBox(height: 10),
             Text(
               message!,
