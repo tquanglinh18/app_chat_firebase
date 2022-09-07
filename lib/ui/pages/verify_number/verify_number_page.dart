@@ -7,7 +7,6 @@ import 'package:flutter_base/models/enums/load_status.dart';
 import 'package:flutter_base/ui/commons/custom_progress_hud.dart';
 import 'package:flutter_base/ui/commons/flus_bar.dart';
 import 'package:flutter_base/ui/commons/my_dialog.dart';
-import 'package:flutter_base/ui/pages/home_app/home_app_page.dart';
 import 'package:flutter_base/ui/pages/profile_user/profile_user_page.dart';
 import 'package:flutter_base/ui/pages/verify_number/verify_number_cubit.dart';
 import 'package:flutter_base/ui/widgets/appbar/app_bar_widget.dart';
@@ -38,7 +37,6 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _cubitVerify = VerifyNumberCubit(fireBaseAuth: FirebaseAuth.instance);
     _cubitInput = InputNumberCubit(fireBaseAuth: FirebaseAuth.instance);
@@ -121,7 +119,7 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
       builder: (context, state) {
         return GestureDetector(
           onTap: () {
-            _cubitInput.verifyNumber(widget.phoneNumber ?? "");
+            _cubitInput.verifyNumber(widget.phoneNumber);
           },
           child: Text(
             'Resent code',
@@ -185,7 +183,7 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
             onChanged: (value) {
               if (_textOTPController.text.length == 6) {
                 _cubitVerify.verifyCode(
-                  verificationIDReceived: widget.verificationIDReceived ?? "",
+                  verificationIDReceived: widget.verificationIDReceived,
                   verificationIDInput: _textOTPController.text,
                 );
               }
