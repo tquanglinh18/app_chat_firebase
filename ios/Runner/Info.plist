@@ -39,6 +39,8 @@
 	<string>Upload image from camera for screen background</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Post videos to profile</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+    <string>This app requires access to the photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Upload images for screen background</string>
 	<key>UILaunchStoryboardName</key>

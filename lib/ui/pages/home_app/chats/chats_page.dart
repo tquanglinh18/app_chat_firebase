@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/models/enums/load_status.dart';
 import 'package:flutter_base/ui/pages/home_app/chats/chats_cubit.dart';
+import 'package:flutter_base/ui/pages/home_app/chats/view_story.dart';
 import 'package:flutter_base/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -97,7 +98,7 @@ class _ChatsPageState extends State<ChatsPage> {
 
   Widget _story() {
     return SizedBox(
-      height: 112,
+      height: 113,
       width: MediaQuery.of(context).size.width,
       child: Row(
         children: [
@@ -143,67 +144,87 @@ class _ChatsPageState extends State<ChatsPage> {
                     itemCount: state.listStory.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      return Container(
-                        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 8),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                Container(
-                                  height: 56,
-                                  width: 56,
-                                  decoration: BoxDecoration(
-                                    gradient: const LinearGradient(
-                                      begin: Alignment.centerLeft,
-                                      end: Alignment.centerRight,
-                                      colors: [
-                                        Color(0xffD2D5F9),
-                                        Color(0xff2C37E1),
-                                      ],
-                                    ),
-                                    borderRadius: BorderRadius.circular(18),
-                                  ),
-                                ),
-                                Container(
-                                  height: 50,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16),
-                                    color: Colors.white,
-                                    border: Border.all(
-                                      width: 2,
-                                      color: AppColors.backgroundLight,
-                                    ),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(16),
-                                    child: Image.file(
-                                      File(state.listStory[index].listImagePath?.last ?? ''),
-                                      errorBuilder: (
-                                        context,
-                                        error,
-                                        stackTrace,
-                                      ) {
-                                        return const Icon(
-                                          Icons.info_outline,
-                                          color: AppColors.border,
-                                        );
-                                      },
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                      return InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => ViewStory(
+                                urlImagePath: state.listStory[index].listImagePath ?? [],
+                                urlAvatar: state.listUser.isNotEmpty
+                                    ? state.listUser
+                                            .where((element) => element.uid == state.listStory[index].uid)
+                                            .toList()
+                                            .first
+                                            .avatar ??
+                                        ""
+                                    : "",
+                                name: state.listStory[index].name ?? '',
+                              ),
                             ),
-                            const SizedBox(height: 4),
-                            Text(
-                              state.uid == state.listStory[index].uid
-                                  ? "Your Story"
-                                  : state.listStory[index].name ?? "",
-                            ),
-                          ],
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 8),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Container(
+                                    height: 56,
+                                    width: 56,
+                                    decoration: BoxDecoration(
+                                      gradient: const LinearGradient(
+                                        begin: Alignment.centerLeft,
+                                        end: Alignment.centerRight,
+                                        colors: [
+                                          Color(0xffD2D5F9),
+                                          Color(0xff2C37E1),
+                                        ],
+                                      ),
+                                      borderRadius: BorderRadius.circular(18),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 50,
+                                    width: 50,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16),
+                                      color: Colors.white,
+                                      border: Border.all(
+                                        width: 2,
+                                        color: AppColors.backgroundLight,
+                                      ),
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(16),
+                                      child: Image.file(
+                                        File(state.listStory[index].listImagePath?.last ?? ''),
+                                        errorBuilder: (
+                                          context,
+                                          error,
+                                          stackTrace,
+                                        ) {
+                                          return const Icon(
+                                            Icons.info_outline,
+                                            color: AppColors.border,
+                                          );
+                                        },
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                state.uid == state.listStory[index].uid
+                                    ? "Your Story"
+                                    : state.listStory[index].name ?? "",
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     });
