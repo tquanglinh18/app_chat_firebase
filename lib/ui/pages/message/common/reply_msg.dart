@@ -105,10 +105,8 @@ class ReplyMsg extends StatelessWidget {
                                         return Center(
                                           child: Column(
                                             mainAxisAlignment: MainAxisAlignment.center,
-
                                             children: [
-
-                                              Icon(Icons.info_outline),
+                                              const Icon(Icons.info_outline),
                                               Text(
                                                 'Đã xảy ra lỗi \nVui lòng thử lại',
                                                 textAlign: TextAlign.center,
@@ -120,12 +118,14 @@ class ReplyMsg extends StatelessWidget {
                                       },
                                     ),
                                   )
-                                : SizedBox(),
-                            Text(
-                              message!,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: AppTextStyle.blackS14.copyWith(),
+                                : const SizedBox(),
+                            Expanded(
+                              child: Text(
+                                message!,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: AppTextStyle.blackS14.copyWith(),
+                              ),
                             ),
                           ],
                         ),

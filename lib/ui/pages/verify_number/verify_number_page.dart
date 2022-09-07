@@ -57,64 +57,78 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
         children: [
           Column(
             children: [
-              AppBarWidget(onBackPressed: Navigator.of(context).pop),
+              AppBarWidget(onBackPressed: Navigator
+                  .of(context)
+                  .pop),
               const SizedBox(height: 80),
-              Text(
-                'Enter Code',
-                style: AppTextStyle.blackS18.copyWith(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 24,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'We have sent you an SMS with the code to \n ${widget.phoneNumber}',
-                textAlign: TextAlign.center,
-                style: AppTextStyle.blackS14.copyWith(fontWeight: FontWeight.w400, height: 2),
-              ),
+              _enterCodeInfo,
               const SizedBox(height: 50),
               buildOtp(),
               const SizedBox(height: 50),
-              BlocConsumer<InputNumberCubit, InputNumberState>(
-                listener: (context, state) {
-                  if (state.loadStatus == LoadStatus.loading) {
-                    _customProgressHUD.progress.show();
-                  } else {
-                    _customProgressHUD.progress.dismiss();
-                    if (state.loadStatus == LoadStatus.success) {
-                      DxFlushBar.showFlushBar(
-                        context,
-                        type: FlushBarType.SUCCESS,
-                        message: "Nhap ma OTP nhan duoc!",
-                      );
-                    } else if (state.loadStatus == LoadStatus.failure) {
-                      DxFlushBar.showFlushBar(
-                        context,
-                        type: FlushBarType.ERROR,
-                        message: state.error,
-                      );
-                    }
-                  }
-                },
-                listenWhen: (pre, cur) => pre.loadStatus != cur.loadStatus,
-                bloc: _cubitInput,
-                builder: (context, state) {
-                  return GestureDetector(
-                    onTap: () {
-                      _cubitInput.verifyNumber(widget.phoneNumber ?? "");
-                    },
-                    child: Text(
-                      'Resent code',
-                      style: AppTextStyle.whiteS16.copyWith(color: AppColors.btnColor),
-                    ),
-                  );
-                },
-              )
+              _reSentCode,
             ],
           ),
           _customProgressHUD,
         ],
       ),
+    );
+  }
+
+  Widget get _enterCodeInfo {
+    return Column(
+      children: [
+        Text(
+          'Enter Code',
+          style: AppTextStyle.blackS18.copyWith(
+            fontWeight: FontWeight.w600,
+            fontSize: 24,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          'We have sent you an SMS with the code to \n ${widget.phoneNumber}',
+          textAlign: TextAlign.center,
+          style: AppTextStyle.blackS14.copyWith(fontWeight: FontWeight.w400, height: 2),
+        ),
+      ],
+    );
+  }
+
+  Widget get _reSentCode {
+    return BlocConsumer<InputNumberCubit, InputNumberState>(
+      listener: (context, state) {
+        if (state.loadStatus == LoadStatus.loading) {
+          _customProgressHUD.progress.show();
+        } else {
+          _customProgressHUD.progress.dismiss();
+          if (state.loadStatus == LoadStatus.success) {
+            DxFlushBar.showFlushBar(
+              context,
+              type: FlushBarType.SUCCESS,
+              message: "Nhap ma OTP nhan duoc!",
+            );
+          } else if (state.loadStatus == LoadStatus.failure) {
+            DxFlushBar.showFlushBar(
+              context,
+              type: FlushBarType.ERROR,
+              message: state.error,
+            );
+          }
+        }
+      },
+      listenWhen: (pre, cur) => pre.loadStatus != cur.loadStatus,
+      bloc: _cubitInput,
+      builder: (context, state) {
+        return GestureDetector(
+          onTap: () {
+            _cubitInput.verifyNumber(widget.phoneNumber ?? "");
+          },
+          child: Text(
+            'Resent code',
+            style: AppTextStyle.whiteS16.copyWith(color: AppColors.btnColor),
+          ),
+        );
+      },
     );
   }
 
@@ -137,7 +151,10 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
             _cubitApp.saveIdUser(state.idUser);
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (context) => ProfileUserPage(phoneNumber: widget.phoneNumber,),
+                builder: (context) =>
+                    ProfileUserPage(
+                      phoneNumber: widget.phoneNumber,
+                    ),
               ),
             );
           }

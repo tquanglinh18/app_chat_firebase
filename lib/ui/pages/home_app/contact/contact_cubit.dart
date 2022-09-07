@@ -19,12 +19,12 @@ class ContactCubit extends Cubit<ContactState> {
 
   initData() async {
     try {
-      emit(state.copyWith(loadStatus: LoadStatus.loading));
+      emit(state.copyWith(loadStatusSearch: LoadStatus.loading));
       FirebaseApi.getConversion().then(
         (value) {
           emit(
             state.copyWith(
-              loadStatus: LoadStatus.success,
+              loadStatusSearch: LoadStatus.success,
               listConversion: value,
             ),
           );
@@ -32,13 +32,13 @@ class ContactCubit extends Cubit<ContactState> {
       );
     } catch (e) {
       logger.e(e);
-      emit(state.copyWith(loadStatus: LoadStatus.failure));
+      emit(state.copyWith(loadStatusSearch: LoadStatus.failure));
     }
   }
 
   listSearch(String? searchText) {
     if ((searchText ?? "").isEmpty) return;
-    emit(state.copyWith(loadStatus: LoadStatus.loading));
+    emit(state.copyWith(loadStatusSearch: LoadStatus.loading));
     try {
       FirebaseApi.getConversion().then(
         (value) {
@@ -47,7 +47,7 @@ class ContactCubit extends Cubit<ContactState> {
               : [];
           emit(
             state.copyWith(
-              loadStatus: LoadStatus.success,
+              loadStatusSearch: LoadStatus.success,
               listConversion: listSearch,
             ),
           );
@@ -56,8 +56,7 @@ class ContactCubit extends Cubit<ContactState> {
     } catch (e) {
       emit(
         state.copyWith(
-          loadStatus: LoadStatus.failure,
-
+          loadStatusSearch: LoadStatus.failure,
         ),
       );
     }

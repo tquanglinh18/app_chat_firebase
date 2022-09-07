@@ -4,27 +4,24 @@ part of 'contact_cubit.dart';
 class ContactState extends Equatable {
   final String? searchText;
   List<ConversionEntity> listConversion;
-  LoadStatus? loadStatus;
-  List<ConversionEntity> listSearch;
+  LoadStatus? loadStatusSearch;
 
   ContactState({
     this.searchText = '',
     this.listConversion = const [],
-    this.loadStatus,
-    this.listSearch = const [],
+    this.loadStatusSearch,
   });
 
   ContactState copyWith({
     String? searchText,
     List<ConversionEntity>? listConversion,
-    LoadStatus? loadStatus,
+    LoadStatus? loadStatusSearch,
     List<ConversionEntity>? listSearch,
   }) {
     return ContactState(
       searchText: searchText ?? this.searchText,
       listConversion: listConversion ?? this.listConversion,
-      loadStatus: loadStatus ?? this.loadStatus,
-      listSearch: listSearch ?? this.listSearch,
+      loadStatusSearch: loadStatusSearch ?? this.loadStatusSearch,
     );
   }
 
@@ -33,7 +30,6 @@ class ContactState extends Equatable {
   List<Object?> get props => [
         searchText,
         listConversion,
-        loadStatus,
-        listSearch,
+        loadStatusSearch,
       ];
 }

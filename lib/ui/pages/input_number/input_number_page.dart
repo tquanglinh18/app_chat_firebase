@@ -60,62 +60,9 @@ class _InputNumberPageState extends State<InputNumberPage> {
                         style: AppTextStyle.blackS14.copyWith(fontWeight: FontWeight.w400, height: 1.4),
                       ),
                       const SizedBox(height: 48),
-                      InternationalPhoneNumberInput(
-                        autoFocus: true,
-                        onInputChanged: (PhoneNumber number) {
-                          heardPhone = number.dialCode ?? "";
-                          phoneNumber = (number.phoneNumber ?? "").split(heardPhone)[1];
-                          _cubit.phoneNumberChanged(phoneNumber);
-                        },
-                        onInputValidated: (bool value) {},
-                        selectorConfig: const SelectorConfig(
-                          selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                        ),
-                        ignoreBlank: false,
-                        autoValidateMode: AutovalidateMode.disabled,
-                        selectorTextStyle: const TextStyle(color: Colors.black),
-                        initialValue: PhoneNumber(isoCode: 'VN'),
-                        formatInput: false,
-                        keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
-                        inputBorder: const OutlineInputBorder(),
-                        onSaved: (PhoneNumber number) {},
-                      ),
+                      _inputPhoneNumberField,
                       const SizedBox(height: 81),
-                      BlocConsumer<InputNumberCubit, InputNumberState>(
-                        bloc: _cubit,
-                        listenWhen: (pre, cur) => pre.loadStatus != cur.loadStatus,
-                        listener: (context, state) {
-                          if (state.loadStatus == LoadStatus.success) {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => VerifyNumberPage(
-                                  phoneNumber: "$heardPhone $phoneNumber",
-                                  verificationIDReceived: state.verificationIDReceived,
-                                ),
-                              ),
-                            );
-                          } else {
-                            if (state.loadStatus == LoadStatus.failure) {
-                              DxFlushBar.showFlushBar(
-                                context,
-                                type: FlushBarType.ERROR,
-                                message: state.error,
-                              );
-                            }
-                          }
-                        },
-                        buildWhen: (pre, cur) => pre.phoneNumber != cur.phoneNumber || pre.loadStatus != cur.loadStatus,
-                        builder: (context, state) {
-                          return AppButtons(
-                            buttonType: state.phoneNumber != '' ? ButtonType.ACTIVE : ButtonType.IN_ACTIVE,
-                            title: "Continue",
-                            isLoading: state.loadStatus == LoadStatus.loading,
-                            onTap: () {
-                              _cubit.verifyNumber("$heardPhone $phoneNumber");
-                            },
-                          );
-                        },
-                      ),
+                      _continueBtn,
                     ],
                   ),
                 ),
@@ -124,6 +71,67 @@ class _InputNumberPageState extends State<InputNumberPage> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget get _continueBtn{
+    return BlocConsumer<InputNumberCubit, InputNumberState>(
+      bloc: _cubit,
+      listenWhen: (pre, cur) => pre.loadStatus != cur.loadStatus,
+      listener: (context, state) {
+        if (state.loadStatus == LoadStatus.success) {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => VerifyNumberPage(
+                phoneNumber: "$heardPhone $phoneNumber",
+                verificationIDReceived: state.verificationIDReceived,
+              ),
+            ),
+          );
+        } else {
+          if (state.loadStatus == LoadStatus.failure) {
+            DxFlushBar.showFlushBar(
+              context,
+              type: FlushBarType.ERROR,
+              message: state.error,
+            );
+          }
+        }
+      },
+      buildWhen: (pre, cur) => pre.phoneNumber != cur.phoneNumber || pre.loadStatus != cur.loadStatus,
+      builder: (context, state) {
+        return AppButtons(
+          buttonType: state.phoneNumber != '' ? ButtonType.ACTIVE : ButtonType.IN_ACTIVE,
+          title: "Continue",
+          isLoading: state.loadStatus == LoadStatus.loading,
+          onTap: () {
+            _cubit.verifyNumber("$heardPhone $phoneNumber");
+          },
+        );
+      },
+    );
+  }
+
+  Widget get _inputPhoneNumberField{
+    return InternationalPhoneNumberInput(
+      autoFocus: true,
+      onInputChanged: (PhoneNumber number) {
+        heardPhone = number.dialCode ?? "";
+        phoneNumber = (number.phoneNumber ?? "").split(heardPhone)[1];
+        _cubit.phoneNumberChanged(phoneNumber);
+      },
+      onInputValidated: (bool value) {},
+      selectorConfig: const SelectorConfig(
+        selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+      ),
+      ignoreBlank: false,
+      autoValidateMode: AutovalidateMode.disabled,
+      selectorTextStyle: const TextStyle(color: Colors.black),
+      initialValue: PhoneNumber(isoCode: 'VN'),
+      formatInput: false,
+      keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
+      inputBorder: const OutlineInputBorder(),
+      onSaved: (PhoneNumber number) {},
     );
   }
 }

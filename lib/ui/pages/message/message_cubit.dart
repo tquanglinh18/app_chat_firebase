@@ -143,7 +143,7 @@ class MessageCubit extends Cubit<MessageState> {
     emit(state.copyWith(isSelected: !state.isSelected));
   }
 
-  addDocument(String type, String path, String pathThumbnail, String name) {
+  addDocument(String type, String path, String pathThumbnail) {
     try {
       List<Document> listDocument = List.from(state.listDocument);
       listDocument.add(
@@ -151,7 +151,6 @@ class MessageCubit extends Cubit<MessageState> {
           type: type,
           path: path,
           pathThumbnail: pathThumbnail,
-          name: name,
         ),
       );
 

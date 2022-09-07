@@ -31,7 +31,6 @@ class _HomeAppPageState extends State<HomeAppPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _cubit = HomeAppCubit();
   }
@@ -49,7 +48,7 @@ class _HomeAppPageState extends State<HomeAppPage> {
                   case 0:
                     return const ContactPage();
                   case 1:
-                    return ChatsPage();
+                    return const ChatsPage();
                   case 2:
                     return const MorePage();
                   default:

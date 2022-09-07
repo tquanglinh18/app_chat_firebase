@@ -11,41 +11,64 @@ class IntroAppPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 135,
-              ),
-              Image.asset(AppImages.icIntroApp),
-              const SizedBox(height: 50),
-              Text(
-                'Connect easily with your family and friends over countries',
-                textAlign: TextAlign.center,
-                style: AppTextStyle.blackS18.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 135,
+                    ),
+                    Image.asset(AppImages.icIntroApp),
+                    const SizedBox(height: 50),
+                    Text(
+                      'Connect easily with your family and friends over countries',
+                      textAlign: TextAlign.center,
+                      style: AppTextStyle.blackS18.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                      ),
+                    ),
+                    const SizedBox(height: 140),
+                    Text(
+                      'Terms & Privacy Policy',
+                      style: AppTextStyle.blackS14.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 140),
-              Text(
-                'Terms & Privacy Policy',
-                style: AppTextStyle.blackS14.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 18),
-              AppButtons(
-                buttonType: ButtonType.ACTIVE,
-                onTap: () =>
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const InputNumberPage())),
-                title: "Start Messaging",
-              ),
-            ],
+            ),
           ),
-        ),
+          _btnStart(
+            () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const InputNumberPage(),
+              ),
+            ),
+            MediaQuery.of(context).size.width - 40,
+            MediaQuery.of(context).size.height,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _btnStart(Function() onTap, double width, double height) {
+    return Positioned(
+      top: height - 100,
+      left: 20,
+      child: AppButtons(
+        buttonType: ButtonType.ACTIVE,
+        onTap: onTap,
+        title: "Start Messaging",
+        width: width,
       ),
     );
   }

@@ -55,101 +55,107 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                     colorIcon: widget.colorIcon,
                   ),
                   const SizedBox(height: 46),
-                  avatar(context),
+                  avtUserLogin(context),
                   const SizedBox(height: 31),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 24),
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                    height: 36,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: AppColors.greyBG),
-                    child: TextField(
-                      onChanged: (value) {
-                        _cubit.firstNameChanged(value);
-                      },
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "First Name (Required)",
-                        hintStyle: AppTextStyle.greyS14.copyWith(
-                          color: AppColors.hintTextColor,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
+                  _firstNameField,
                   const SizedBox(height: 12),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 24),
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                    height: 36,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: AppColors.greyBG),
-                    child: TextField(
-                      onChanged: (value) {
-                        _cubit.lastNameChanged(value);
-                      },
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Last Name (Optional)",
-                        hintStyle: AppTextStyle.greyS14.copyWith(
-                          color: AppColors.hintTextColor,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
+                  _lastNameField,
                   const SizedBox(height: 70),
-                  BlocConsumer<ProfileUserCubit, ProfileUserState>(
-                    bloc: _cubit,
-                    buildWhen: (pre, cur) =>
-                        pre.firstName != cur.firstName ||
-                        pre.loadStatus != cur.loadStatus ||
-                        pre.lastName != cur.lastName,
-                    listenWhen: (pre, cur) =>
-                        pre.firstName != cur.firstName ||
-                        pre.loadStatus != cur.loadStatus ||
-                        pre.loadStatus != cur.loadStatus,
-                    listener: (context, state) {
-                      // TODO: implement listener
-                      if (state.loadStatus == LoadStatus.success) {
-                        Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                            builder: (_) => HomeAppPage(),
-                            settings: const RouteSettings(name: "home"),
-                          ),
-                          (route) => false,
-                        );
-                      } else if (state.loadStatus == LoadStatus.failure) {
-                        DxFlushBar.showFlushBar(
-                          context,
-                          type: FlushBarType.ERROR,
-                          title: "Không thể lưu",
-                        );
-                      }
-                    },
-                    builder: (context, state) {
-                      return Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 24),
-                        child: AppButtons(
-                          isLoading: state.loadStatus == LoadStatus.loading,
-                          buttonType: state.firstName != '' ? ButtonType.ACTIVE : ButtonType.IN_ACTIVE,
-                          onTap: () {
-                            _cubit.uploadUser('${state.firstName} ${state.lastName}', widget.phoneNumber);
-                          },
-                          title: "Save",
-                        ),
-                      );
-                    },
-                  ),
+                  _saveBtn,
                 ],
               ),
             ),
-            _choseOptionImage(),
+            _choseOptionImage,
           ],
         ),
       ),
     );
   }
 
-  Widget avatar(BuildContext contextKey) {
+  Widget get _saveBtn {
+    return BlocConsumer<ProfileUserCubit, ProfileUserState>(
+      bloc: _cubit,
+      buildWhen: (pre, cur) =>
+          pre.firstName != cur.firstName || pre.lastName != cur.lastName || pre.loadStatus != cur.loadStatus,
+      listenWhen: (pre, cur) => pre.firstName != cur.firstName || pre.loadStatus != cur.loadStatus,
+      listener: (context, state) {
+        if (state.loadStatus == LoadStatus.success) {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (_) => HomeAppPage(),
+              settings: const RouteSettings(name: "home"),
+            ),
+            (route) => false,
+          );
+        } else if (state.loadStatus == LoadStatus.failure) {
+          DxFlushBar.showFlushBar(
+            context,
+            type: FlushBarType.ERROR,
+            title: "Không thể lưu",
+          );
+        }
+      },
+      builder: (context, state) {
+        return Container(
+          margin: const EdgeInsets.symmetric(horizontal: 24),
+          child: AppButtons(
+            isLoading: state.loadStatus == LoadStatus.loading,
+            buttonType: state.firstName != '' ? ButtonType.ACTIVE : ButtonType.IN_ACTIVE,
+            onTap: () {
+              _cubit.uploadUser('${state.firstName} ${state.lastName}', widget.phoneNumber);
+            },
+            title: "Save",
+          ),
+        );
+      },
+    );
+  }
+
+  Widget get _firstNameField {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      height: 36,
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: AppColors.greyBG),
+      child: TextField(
+        onChanged: (value) {
+          _cubit.firstNameChanged(value);
+        },
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: "First Name (Required)",
+          hintStyle: AppTextStyle.greyS14.copyWith(
+            color: AppColors.hintTextColor,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget get _lastNameField {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      height: 36,
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: AppColors.greyBG),
+      child: TextField(
+        onChanged: (value) {
+          _cubit.lastNameChanged(value);
+        },
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: "Last Name (Optional)",
+          hintStyle: AppTextStyle.greyS14.copyWith(
+            color: AppColors.hintTextColor,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget avtUserLogin(BuildContext contextKey) {
     return BlocBuilder<ProfileUserCubit, ProfileUserState>(
       bloc: _cubit,
       buildWhen: (pre, cur) => pre.image != cur.image,
@@ -198,7 +204,7 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
     );
   }
 
-  Widget _choseOptionImage() {
+  Widget get _choseOptionImage {
     return BlocBuilder<ProfileUserCubit, ProfileUserState>(
       bloc: _cubit,
       buildWhen: (pre, cur) => pre.isHide != cur.isHide,
@@ -214,55 +220,63 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                InkWell(
-                  onTap: () {
-                    _getFromCamera();
-                  },
-                  child: SizedBox(
-                    height: 60,
-                    width: MediaQuery.of(context).size.width - 100,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(
-                          Icons.camera_alt_outlined,
-                          color: AppColors.textBlack,
-                        ),
-                        SizedBox(width: 15),
-                        Text('Pick Image from Camera'),
-                      ],
-                    ),
-                  ),
-                ),
+                _optionCamera,
                 Container(
                   height: 1,
                   color: AppColors.backgroundLight,
                 ),
-                InkWell(
-                  onTap: () {
-                    _getFromGallery();
-                  },
-                  child: SizedBox(
-                    height: 60,
-                    width: MediaQuery.of(context).size.width - 100,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(
-                          Icons.camera,
-                          color: AppColors.textBlack,
-                        ),
-                        SizedBox(width: 15),
-                        Text('Pick image from gallery'),
-                      ],
-                    ),
-                  ),
-                ),
+                _optionGallery,
               ],
             ),
           ),
         );
       },
+    );
+  }
+
+  Widget get _optionCamera {
+    return InkWell(
+      onTap: () {
+        _getFromCamera();
+      },
+      child: SizedBox(
+        height: 60,
+        width: MediaQuery.of(context).size.width - 100,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Icon(
+              Icons.camera_alt_outlined,
+              color: AppColors.textBlack,
+            ),
+            SizedBox(width: 15),
+            Text('Pick Image from Camera'),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget get _optionGallery {
+    return InkWell(
+      onTap: () {
+        _getFromGallery();
+      },
+      child: SizedBox(
+        height: 60,
+        width: MediaQuery.of(context).size.width - 100,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Icon(
+              Icons.camera,
+              color: AppColors.textBlack,
+            ),
+            SizedBox(width: 15),
+            Text('Pick image from gallery'),
+          ],
+        ),
+      ),
     );
   }
 

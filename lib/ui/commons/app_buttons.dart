@@ -25,6 +25,7 @@ class AppButtons extends StatelessWidget {
   final VoidCallback? onTap;
   final ButtonType buttonType;
   final bool isLoading;
+  final double? width;
 
   const AppButtons({
     Key? key,
@@ -32,6 +33,7 @@ class AppButtons extends StatelessWidget {
     this.onTap,
     this.buttonType = ButtonType.IN_ACTIVE,
     this.isLoading = false,
+    this.width,
   }) : super(key: key);
 
   @override
@@ -41,6 +43,7 @@ class AppButtons extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 48),
         height: 52,
+        width: width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
           color: buttonType.colorBackgroundStatus,

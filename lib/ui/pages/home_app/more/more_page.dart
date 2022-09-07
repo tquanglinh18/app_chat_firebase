@@ -1,15 +1,12 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_base/ui/pages/home_app/more/more_cubit.dart';
 import 'package:flutter_base/ui/pages/home_app/more/type_setting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import '../../../../common/app_colors.dart';
 import '../../../../common/app_images.dart';
 import '../../../../common/app_text_styles.dart';
+import '../../../commons/avatar.dart';
 import '../../../commons/custom_app_bar.dart';
-import '../../setting/setting_page.dart';
 
 List<SettingType> listType = [
   SettingType.ACCOUNT,
@@ -56,7 +53,7 @@ class _MorePageState extends State<MorePage> {
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                  child: _itemMore(),
+                  child: _itemMore,
                 ),
               ),
             ],
@@ -77,29 +74,7 @@ class _MorePageState extends State<MorePage> {
               height: 50,
               width: 50,
               child: (urlImage ?? "").isNotEmpty
-                  ? Image.file(
-                      File(urlImage!),
-                      errorBuilder: (
-                        context,
-                        error,
-                        stackTrace,
-                      ) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(
-                              width: 1,
-                              color: AppColors.greyBG,
-                            ),
-                          ),
-                          child: const Icon(
-                            Icons.info_outline,
-                            color: AppColors.border,
-                          ),
-                        );
-                      },
-                fit: BoxFit.cover,
-                    )
+                  ? Avatar(urlAvatar: urlImage!)
                   : const CircleAvatar(
                       backgroundImage: AssetImage(AppImages.icAvatarDefault),
                     ),
@@ -111,22 +86,8 @@ class _MorePageState extends State<MorePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  name ?? "",
-                  style: AppTextStyle.blackS14.copyWith(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                  ),
-                ),
-                Text(
-                  phoneNumber ?? "",
-                  style: AppTextStyle.greyS12.copyWith(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.hintTextColor,
-                    height: 2,
-                  ),
-                ),
+                _nameUserLogin(name!),
+                _phoneNumberUserLogin(phoneNumber!),
               ],
             ),
           ),
@@ -136,43 +97,60 @@ class _MorePageState extends State<MorePage> {
     );
   }
 
-  Widget _itemMore({VoidCallback? onTap}) {
+  Widget _nameUserLogin(String name) {
+    return Text(
+      name,
+      style: AppTextStyle.blackS14.copyWith(
+        fontWeight: FontWeight.w600,
+        fontSize: 14,
+      ),
+    );
+  }
+
+  Widget _phoneNumberUserLogin(String phoneNumber) {
+    return Text(
+      phoneNumber,
+      style: AppTextStyle.greyS12.copyWith(
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+        color: AppColors.hintTextColor,
+        height: 2,
+      ),
+    );
+  }
+
+  Widget get _itemMore {
     return ListView.separated(
       padding: EdgeInsets.zero,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
-        return InkWell(
-          onTap: () {
-            Get.to(() => const SettingPage());
-          },
-          child: SizedBox(
-            height: 40,
-            child: Row(
-              children: [
-                SizedBox(
-                  height: 24,
-                  width: 24,
-                  child: Image.asset(
-                    listType[index].pathIcon,
-                    fit: BoxFit.contain,
-                    height: 3,
+        return SizedBox(
+          height: 40,
+          child: Row(
+            children: [
+              SizedBox(
+                height: 24,
+                width: 24,
+                child: Image.asset(
+                  listType[index].pathIcon,
+                  fit: BoxFit.contain,
+                  height: 3,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  listType[index].title,
+                  style: AppTextStyle.blackS14.copyWith(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
                   ),
                 ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    listType[index].title,
-                    style: AppTextStyle.blackS14.copyWith(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
-                Image.asset(
-                  AppImages.icNext,
-                ),
-              ],
-            ),
+              ),
+              Image.asset(
+                AppImages.icNext,
+              ),
+            ],
           ),
         );
       },

@@ -1,14 +1,12 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_base/common/app_images.dart';
 
 import 'package:flutter_base/models/entities/message_entity.dart';
 import 'package:flutter_base/models/enums/load_status.dart';
 import 'package:flutter_base/ui/commons/custom_progress_hud.dart';
 import 'package:flutter_base/ui/commons/datetime_formatter.dart';
+import 'package:flutter_base/ui/commons/img_file.dart';
 import 'package:flutter_base/ui/commons/my_dialog.dart';
 import 'package:flutter_base/ui/pages/message/common/build_item_option_message.dart';
 import 'package:flutter_base/ui/pages/message/common/reply_msg.dart';
@@ -72,33 +70,7 @@ class _MessagePageState extends State<MessagePage> {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              AppBarWidget(
-                title: widget.nameConversion,
-                onBackPressed: Navigator.of(context).pop,
-                showBackButton: true,
-                rightActions: [
-                  InkWell(
-                    onTap: () {
-                      DxFlushBar.showFlushBar(
-                        context,
-                        type: FlushBarType.WARNING,
-                        title: "Tính năng đang được cập nhật !",
-                      );
-                    },
-                    child: Image.asset(AppImages.icSearchMessage),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      DxFlushBar.showFlushBar(
-                        context,
-                        type: FlushBarType.WARNING,
-                        title: "Tính năng đang được cập nhật !",
-                      );
-                    },
-                    child: Image.asset(AppImages.icOption),
-                  ),
-                ],
-              ),
+              _buildAppBar,
               Expanded(
                 child: BlocConsumer<MessageCubit, MessageState>(
                   bloc: _cubit,
@@ -118,12 +90,42 @@ class _MessagePageState extends State<MessagePage> {
                   },
                 ),
               ),
-              _inputMessageField(),
+              _inputMessage(),
             ],
           ),
           _customProgressHUD,
         ],
       ),
+    );
+  }
+
+  Widget get _buildAppBar {
+    return AppBarWidget(
+      title: widget.nameConversion,
+      onBackPressed: Navigator.of(context).pop,
+      showBackButton: true,
+      rightActions: [
+        InkWell(
+          onTap: () {
+            DxFlushBar.showFlushBar(
+              context,
+              type: FlushBarType.WARNING,
+              title: "Tính năng đang được cập nhật !",
+            );
+          },
+          child: Image.asset(AppImages.icSearchMessage),
+        ),
+        InkWell(
+          onTap: () {
+            DxFlushBar.showFlushBar(
+              context,
+              type: FlushBarType.WARNING,
+              title: "Tính năng đang được cập nhật !",
+            );
+          },
+          child: Image.asset(AppImages.icOption),
+        ),
+      ],
     );
   }
 
@@ -193,7 +195,29 @@ class _MessagePageState extends State<MessagePage> {
     );
   }
 
-  Widget _inputMessageField() {
+  Widget _msgField() {
+    return Container(
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        color: AppColors.titleColor,
+      ),
+      child: TextField(
+        controller: controllerMsg,
+        focusNode: _focusNode,
+        style: AppTextStyle.blackS14.copyWith(),
+        minLines: 1,
+        maxLines: 3,
+        decoration: const InputDecoration(
+          contentPadding: EdgeInsets.symmetric(horizontal: 10),
+          border: InputBorder.none,
+          hintText: "Typing the message...",
+        ),
+      ),
+    );
+  }
+
+  Widget _inputMessage() {
     return BlocConsumer<MessageCubit, MessageState>(
       bloc: _cubit,
       listenWhen: (pre, cur) =>
@@ -236,189 +260,190 @@ class _MessagePageState extends State<MessagePage> {
               ),
               child: Column(
                 children: [
-                  state.isReplyMsg
-                      ? Column(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                              alignment: Alignment.centerLeft,
-                              decoration: const BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(15),
-                                  topRight: Radius.circular(15),
-                                ),
-                              ),
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.reply,
-                                    color: AppColors.btnColor,
-                                  ),
-                                  const SizedBox(width: 15),
-                                  Expanded(
-                                    child: Text(
-                                      (state.listMessage[state.indexMsg!].message)!,
-                                    ),
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      _cubit.showReplyMsg();
-                                    },
-                                    child: const Icon(Icons.close),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(top: 5, bottom: 15),
-                              height: 1,
-                              color: AppColors.hintTextColor,
-                            ),
-                          ],
-                        )
-                      : const SizedBox(),
-                  state.listDocument.isNotEmpty
-                      ? Column(
-                          children: [
-                            BlocBuilder<MessageCubit, MessageState>(
-                              bloc: _cubit,
-                              builder: (context, state) {
-                                return SizedBox(
-                                  height: 70,
-                                  width: 100,
-                                  child: Stack(
-                                    alignment: Alignment.topRight,
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.only(top: 5, right: 5),
-                                        child: Column(
-                                          children: [
-                                            state.listDocument.first.type == TypeDocument.FILE.name
-                                                ? const Icon(
-                                                    Icons.file_present_outlined,
-                                                    size: 45,
-                                                  )
-                                                : Image.file(
-                                                    File(
-                                                      state.listDocument.first.type == TypeDocument.VIDEO.toTypeDocument
-                                                          ? state.listDocument.first.pathThumbnail!
-                                                          : state.listDocument.first.path!,
-                                                    ),
-                                                  ),
-                                          ],
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          _cubit.removeImgSelected();
-                                        },
-                                        child: Container(
-                                          decoration: const BoxDecoration(
-                                              shape: BoxShape.circle, color: AppColors.backgroundLight),
-                                          child: const Icon(
-                                            Icons.close,
-                                            size: 15,
-                                            color: AppColors.textBlack,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(top: 5, bottom: 15),
-                              height: 1,
-                              color: AppColors.hintTextColor,
-                            ),
-                          ],
-                        )
-                      : const SizedBox(),
+                  state.isReplyMsg ? _isReplyMsg((state.listMessage[state.indexMsg!].message)!) : const SizedBox(),
+                  state.listDocument.isNotEmpty ? _isNotEmptyDocument : const SizedBox(),
                   Row(
                     children: [
-                      InkWell(
-                        onTap: () {
-                          _cubit.isSelected();
-                        },
-                        child: Image.asset(
-                          AppImages.icAddContact,
-                          color: AppColors.hintTextColor,
-                        ),
-                      ),
+                      _moreOptionMsg,
                       const SizedBox(width: 17),
                       Expanded(
-                        child: Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                            color: AppColors.titleColor,
-                          ),
-                          child: TextField(
-                            controller: controllerMsg,
-                            focusNode: _focusNode,
-                            style: AppTextStyle.blackS14.copyWith(),
-                            minLines: 1,
-                            maxLines: 3,
-                            decoration: const InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                              border: InputBorder.none,
-                              hintText: "Typing the message...",
-                            ),
-                          ),
-                        ),
+                        child: _msgField(),
                       ),
                       const SizedBox(width: 17),
-                      InkWell(
-                        onTap: () {
-                          state.isReplyMsg == true
-                              ? _cubit.replyMsg(
-                                  widget.idConversion,
-                                  controllerMsg.text,
-                                )
-                              : _cubit.sendMsg(
-                                  controllerMsg.text,
-                                  widget.idConversion,
-                                );
-                        },
-                        child: Image.asset(
-                          AppImages.icSentMessage,
-                          color: state.sendMsgLoadStatus != LoadStatus.loading ? Colors.blueAccent : Colors.grey,
-                        ),
-                      ),
+                      _sendBtn(state.isReplyMsg, state.sendMsgLoadStatus != LoadStatus.loading)
                     ],
                   ),
-                  OptionChat(
-                    isSelected: state.isSelected,
-                    onChooseImage: (file) {
-                      _cubit.addDocument(
-                        TypeDocument.IMAGE.toTypeDocument,
-                        file.first.path,
-                        '',
-                        '',
-                      );
-                    },
-                    onChooseVideo: (listFile, file) {
-                      _cubit.addDocument(
-                        TypeDocument.VIDEO.toTypeDocument,
-                        listFile.first.path,
-                        file.path,
-                        '',
-                      );
-                    },
-                    onChooseDocument: (file) {
-                      _cubit.addDocument(
-                        TypeDocument.FILE.toTypeDocument,
-                        file.first.path,
-                        '',
-                        file.first.path.split('/').last,
-                      );
-                    },
-                  ),
+                  _inputDocumnet(state.isSelected),
                 ],
               ),
             ),
           ],
+        );
+      },
+    );
+  }
+
+  Widget get _moreOptionMsg {
+    return InkWell(
+      onTap: () {
+        _cubit.isSelected();
+      },
+      child: Image.asset(
+        AppImages.icAddContact,
+        color: AppColors.hintTextColor,
+      ),
+    );
+  }
+
+  Widget get _isNotEmptyDocument {
+    return Column(
+      children: [
+        BlocBuilder<MessageCubit, MessageState>(
+          bloc: _cubit,
+          builder: (context, state) {
+            return SizedBox(
+              height: 70,
+              width: 100,
+              child: Stack(
+                alignment: Alignment.topRight,
+                children: [
+                  _buildDocumentSelected(
+                    state.listDocument.first.type ?? '',
+                    state.listDocument.first.type == TypeDocument.VIDEO.toTypeDocument
+                        ? state.listDocument.first.pathThumbnail!
+                        : state.listDocument.first.path!,
+                  ),
+                  _buildBtnRemoveDocument,
+                ],
+              ),
+            );
+          },
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 5, bottom: 15),
+          height: 1,
+          color: AppColors.hintTextColor,
+        ),
+      ],
+    );
+  }
+
+  Widget get _buildBtnRemoveDocument {
+    return InkWell(
+      onTap: () {
+        _cubit.removeImgSelected();
+      },
+      child: Container(
+        decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.backgroundLight),
+        child: const Icon(
+          Icons.close,
+          size: 15,
+          color: AppColors.textBlack,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDocumentSelected(String typeDocument, String urlFile) {
+    return Container(
+      padding: const EdgeInsets.only(top: 5, right: 5),
+      child: Column(
+        children: [
+          typeDocument == TypeDocument.FILE.name
+              ? const Icon(
+                  Icons.file_present_outlined,
+                  size: 45,
+                )
+              : ImgFile(urlFile: urlFile),
+        ],
+      ),
+    );
+  }
+
+  Widget _isReplyMsg(String textMsgInput) {
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          alignment: Alignment.centerLeft,
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(15),
+              topRight: Radius.circular(15),
+            ),
+          ),
+          child: Row(
+            children: [
+              const Icon(
+                Icons.reply,
+                color: AppColors.btnColor,
+              ),
+              const SizedBox(width: 15),
+              Expanded(
+                child: Text(
+                  textMsgInput,
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  _cubit.showReplyMsg();
+                },
+                child: const Icon(Icons.close),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 5, bottom: 15),
+          height: 1,
+          color: AppColors.hintTextColor,
+        ),
+      ],
+    );
+  }
+
+  Widget _sendBtn(bool isReplyMsg, bool sendMsgLoadStatus) {
+    return InkWell(
+      onTap: () {
+        isReplyMsg == true
+            ? _cubit.replyMsg(
+                widget.idConversion,
+                controllerMsg.text,
+              )
+            : _cubit.sendMsg(
+                controllerMsg.text,
+                widget.idConversion,
+              );
+      },
+      child: Image.asset(
+        AppImages.icSentMessage,
+        color: sendMsgLoadStatus ? Colors.blueAccent : Colors.grey,
+      ),
+    );
+  }
+
+  Widget _inputDocumnet(bool isSelected) {
+    return OptionChat(
+      isSelected: isSelected,
+      onChooseImage: (file) {
+        _cubit.addDocument(
+          TypeDocument.IMAGE.toTypeDocument,
+          file.first.path,
+          '',
+        );
+      },
+      onChooseVideo: (listFile, file) {
+        _cubit.addDocument(
+          TypeDocument.VIDEO.toTypeDocument,
+          listFile.first.path,
+          file.path,
+        );
+      },
+      onChooseDocument: (file) {
+        _cubit.addDocument(
+          TypeDocument.FILE.toTypeDocument,
+          file.first.path,
+          '',
         );
       },
     );
@@ -460,7 +485,7 @@ class _MessagePageState extends State<MessagePage> {
     );
   }
 
-  Widget buildItemOptionMessage(IconData iconItem, String title, VoidCallback onTap) {
+  Widget _buildItemOptionMessage(IconData iconItem, String title, VoidCallback onTap) {
     return InkWell(
       onTap: onTap,
       child: Column(
