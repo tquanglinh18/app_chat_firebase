@@ -5,6 +5,7 @@ import 'package:flutter_base/common/app_images.dart';
 import 'package:flutter_base/common/app_text_styles.dart';
 import 'package:flutter_base/models/enums/load_status.dart';
 import 'package:flutter_base/ui/commons/flus_bar.dart';
+import 'package:flutter_base/ui/commons/img_file.dart';
 import 'package:flutter_base/ui/commons/img_network.dart';
 import 'package:flutter_base/ui/commons/search_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +13,7 @@ import '../../../../utils/logger.dart';
 import '../../../commons/custom_app_bar.dart';
 import '../../../commons/custom_progress_hud.dart';
 import '../../../commons/data_empty.dart';
+import '../../../commons/dialog_create_conversion/dialog_create_conversion.dart';
 import '../../../commons/my_dialog.dart';
 import '../../message/message_page.dart';
 import 'contact_cubit.dart';
@@ -51,7 +53,16 @@ class _ContactPageState extends State<ContactPage> {
     return Scaffold(
       body: Stack(
         children: [
-          BlocBuilder<ContactCubit, ContactState>(
+          BlocConsumer<ContactCubit, ContactState>(
+            listener: (context, state) {
+              if (state.loadStatusAddConversion == LoadStatus.failure) {
+                DxFlushBar.showFlushBar(
+                  context,
+                  type: FlushBarType.ERROR,
+                  title: "Không thể tạo cuộc hội thoại",
+                );
+              }
+            },
             bloc: _cubit,
             buildWhen: (pre, cur) => pre.searchText != cur.searchText,
             builder: (context, state) {
@@ -78,8 +89,19 @@ class _ContactPageState extends State<ContactPage> {
       title: "Contacts",
       icCount: 1,
       image: const [AppImages.icAddContact],
-      onTap: () {
-        DxFlushBar.showFlushBar(context, type: FlushBarType.WARNING, title: "Tính năng đang được cập nhật !");
+      onTap: () async {
+        await showDialog(
+          context: context,
+          useRootNavigator: true,
+          useSafeArea: false,
+          builder: (BuildContext context) => const DialogCreateCobersion(),
+        ).then(
+          (value) {
+            if (value != null) {
+              _cubit.addConversion(value);
+            }
+          },
+        );
       },
     );
   }
@@ -108,6 +130,10 @@ class _ContactPageState extends State<ContactPage> {
       listener: (context, state) {
         if (state.loadStatusSearch == LoadStatus.success) {
           _customProgressHUD.progress.dismiss();
+        } else {
+          if (state.loadStatusSearch == LoadStatus.loading) {
+            _customProgressHUD.progress.show();
+          }
         }
       },
       listenWhen: (pre, cur) => pre.loadStatusSearch != cur.loadStatusSearch,
@@ -133,8 +159,8 @@ class _ContactPageState extends State<ContactPage> {
                       );
                     },
                     child: _buildListContact(
-                      state.listConversion[index].avatarConversion ?? '',
-                      state.listConversion[index].nameConversion ?? '',
+                      urlImageNetwok: state.listConversion[index].avatarConversion ?? '',
+                      nameConversion: state.listConversion[index].nameConversion ?? '',
                     ),
                   );
                 },
@@ -153,7 +179,7 @@ class _ContactPageState extends State<ContactPage> {
     );
   }
 
-  Widget _buildListContact(String urlImageNetwok, String nameConversion) {
+  Widget _buildListContact({required String urlImageNetwok, required String nameConversion}) {
     return Container(
       padding: const EdgeInsets.all(4),
       color: Colors.transparent,
@@ -163,39 +189,51 @@ class _ContactPageState extends State<ContactPage> {
           Stack(
             alignment: Alignment.topRight,
             children: [
-              Container(
-                margin: const EdgeInsets.all(2),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: SizedBox(
-                    height: 48,
-                    width: 48,
-                    child: ImgNetwork(
-                      urlImageNetwork: urlImageNetwok,
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                height: 14,
-                width: 14,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: AppColors.textWhite,
-                    width: 2,
-                  ),
-                  color: AppColors.isOnlineColor,
-                  shape: BoxShape.circle,
-                ),
-              ),
+              _avtUser(urlImageNetwok),
+              _isOnline,
             ],
           ),
           const SizedBox(width: 16),
-          Text(
-            nameConversion,
-            style: AppTextStyle.blackS14.copyWith(fontWeight: FontWeight.w600),
-          ),
+          _nameConvertion(nameConversion),
         ],
+      ),
+    );
+  }
+
+  Widget _nameConvertion(String nameConversion) {
+    return Text(
+      nameConversion,
+      style: AppTextStyle.blackS14.copyWith(fontWeight: FontWeight.w600),
+    );
+  }
+
+  Widget _avtUser(String urlImageNetwok) {
+    return Container(
+      margin: const EdgeInsets.all(2),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: SizedBox(
+          height: 48,
+          width: 48,
+          child: ImgFile(
+            urlFile: urlImageNetwok,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget get _isOnline {
+    return Container(
+      height: 14,
+      width: 14,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: AppColors.textWhite,
+          width: 2,
+        ),
+        color: AppColors.isOnlineColor,
+        shape: BoxShape.circle,
       ),
     );
   }

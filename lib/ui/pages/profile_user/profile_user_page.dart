@@ -5,6 +5,7 @@ import 'package:flutter_base/common/app_text_styles.dart';
 import 'package:flutter_base/models/enums/load_status.dart';
 import 'package:flutter_base/ui/commons/app_buttons.dart';
 import 'package:flutter_base/ui/commons/flus_bar.dart';
+import 'package:flutter_base/ui/commons/img_file.dart';
 import 'package:flutter_base/ui/pages/home_app/home_app_page.dart';
 import 'package:flutter_base/ui/pages/profile_user/profile_user_cubit.dart';
 import 'package:flutter_base/ui/widgets/appbar/app_bar_widget.dart';
@@ -49,13 +50,9 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
               height: MediaQuery.of(context).size.height,
               child: Column(
                 children: [
-                  AppBarWidget(
-                    onBackPressed: Navigator.of(context).pop,
-                    title: "Your Profile",
-                    colorIcon: widget.colorIcon,
-                  ),
+                  _buildAppBar,
                   const SizedBox(height: 46),
-                  avtUserLogin(context),
+                  _avtUserLogin(context),
                   const SizedBox(height: 31),
                   _firstNameField,
                   const SizedBox(height: 12),
@@ -69,6 +66,14 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget get _buildAppBar {
+    return AppBarWidget(
+      onBackPressed: Navigator.of(context).pop,
+      title: "Your Profile",
+      colorIcon: widget.colorIcon,
     );
   }
 
@@ -103,6 +108,7 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
             buttonType: state.firstName != '' ? ButtonType.ACTIVE : ButtonType.IN_ACTIVE,
             onTap: () {
               _cubit.uploadUser('${state.firstName} ${state.lastName}', widget.phoneNumber);
+              FocusScope.of(context).unfocus();
             },
             title: "Save",
           ),
@@ -118,6 +124,7 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
       height: 36,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: AppColors.greyBG),
       child: TextField(
+        autofocus: true,
         onChanged: (value) {
           _cubit.firstNameChanged(value);
         },
@@ -155,9 +162,15 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
     );
   }
 
-  Widget avtUserLogin(BuildContext contextKey) {
-    return BlocBuilder<ProfileUserCubit, ProfileUserState>(
+  Widget _avtUserLogin(BuildContext contextKey) {
+    return BlocConsumer<ProfileUserCubit, ProfileUserState>(
       bloc: _cubit,
+      listenWhen: (pre, cur) => pre.image != cur.image,
+      listener: (context, state) {
+        if (state.image.isNotEmpty) {
+          _cubit.isHide();
+        }
+      },
       buildWhen: (pre, cur) => pre.image != cur.image,
       builder: (context, state) {
         return SizedBox(
@@ -171,9 +184,8 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                       child: SizedBox(
                         height: 100,
                         width: 100,
-                        child: Image.file(
-                          File(state.image),
-                          fit: BoxFit.cover,
+                        child: ImgFile(
+                          urlFile: state.image,
                         ),
                       ),
                     )

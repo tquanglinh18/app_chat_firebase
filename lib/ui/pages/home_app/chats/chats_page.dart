@@ -57,7 +57,7 @@ class _ChatsPageState extends State<ChatsPage> {
           Column(
             children: [
               _buildAppBar,
-              _story(),
+              _story,
               Container(
                 height: 1,
                 width: MediaQuery.of(context).size.width,
@@ -65,7 +65,7 @@ class _ChatsPageState extends State<ChatsPage> {
               ),
               _buildSearchBar,
               Expanded(
-                child: _userChat(),
+                child: _userChat,
               )
             ],
           ),
@@ -114,7 +114,7 @@ class _ChatsPageState extends State<ChatsPage> {
     );
   }
 
-  Widget _story() {
+  Widget get _story {
     return SizedBox(
       height: 113,
       width: MediaQuery.of(context).size.width,
@@ -258,7 +258,7 @@ class _ChatsPageState extends State<ChatsPage> {
     );
   }
 
-  Widget _userChat() {
+  Widget  get _userChat {
     return BlocConsumer<ChatsCubit, ChatsState>(
       bloc: _cubit,
       listenWhen: (pre, cur) => pre.loadStatusGetUser != cur.loadStatusGetUser,
@@ -266,10 +266,15 @@ class _ChatsPageState extends State<ChatsPage> {
         if (state.loadStatusGetUser != LoadStatus.loading) {
           _customProgressHUD.progress.dismiss();
         }
+        else{
+          if (state.loadStatusGetUser == LoadStatus.loading) {
+            _customProgressHUD.progress.show();
+          }
+        }
       },
       buildWhen: (pre, cur) => pre.loadStatusGetUser != cur.loadStatusGetUser,
       builder: (context, state) {
-        if (state.loadStatus == LoadStatus.loading) {
+        if (state.loadStatusGetUser == LoadStatus.loading) {
           return const SizedBox();
         } else {
           return Stack(

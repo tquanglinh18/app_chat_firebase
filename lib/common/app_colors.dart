@@ -25,6 +25,7 @@ class AppColors {
   static const Color textBlack = Color(0xFF000000);
   static const Color textBlue = Color(0xFF0000FF);
   static const Color textDisable = Color(0xFF89a3b1);
+  static const Color whiteFAFAFA = Color(0xFFFAFAFA);
 
   ///TextField
   static const Color textFieldEnabledBorder = Color(0xFF919191);

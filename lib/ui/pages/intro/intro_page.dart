@@ -24,7 +24,10 @@ class IntroAppPage extends StatelessWidget {
                     const SizedBox(
                       height: 135,
                     ),
-                    Image.asset(AppImages.icIntroApp),
+                    Expanded(
+                        child:
+                        Image.asset(AppImages.icIntroApp),
+                    ),
                     const SizedBox(height: 50),
                     Text(
                       'Connect easily with your family and friends over countries',
@@ -34,13 +37,14 @@ class IntroAppPage extends StatelessWidget {
                         fontSize: 24,
                       ),
                     ),
-                    const SizedBox(height: 140),
+                    const SizedBox(height: 80),
                     Text(
                       'Terms & Privacy Policy',
                       style: AppTextStyle.blackS14.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
                     ),
+                    const SizedBox(height: 80),
                   ],
                 ),
               ),
@@ -62,7 +66,7 @@ class IntroAppPage extends StatelessWidget {
 
   Widget _btnStart(Function() onTap, double width, double height) {
     return Positioned(
-      top: height - 100,
+      top: height - 80,
       left: 20,
       child: AppButtons(
         buttonType: ButtonType.ACTIVE,

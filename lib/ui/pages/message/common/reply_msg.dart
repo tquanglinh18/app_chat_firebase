@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_base/models/entities/message_entity.dart';
+import 'package:flutter_base/ui/commons/img_file.dart';
 import 'package:flutter_base/ui/pages/message/type_document.dart';
 
 import '../../../../common/app_colors.dart';
@@ -60,109 +61,112 @@ class ReplyMsg extends StatelessWidget {
               crossAxisAlignment: (isSent != true) ? CrossAxisAlignment.start : CrossAxisAlignment.end,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Row(
-                  children: [
-                    Container(
-                      width: 5,
-                      height: listDocument.isNotEmpty ? 240 : 40,
-                      margin: const EdgeInsets.symmetric(vertical: 10),
-                      decoration: BoxDecoration(
-                        color: isSent == false ? AppColors.btnColor : AppColors.hintTextColor,
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(15),
-                          bottomLeft: Radius.circular(15),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        height: listDocument.isNotEmpty ? 240 : 40,
-                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: isSent == false ? AppColors.greyBG : AppColors.backgroundLight,
-                          borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(5),
-                            bottomRight: Radius.circular(5),
-                          ),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              nameSend,
-                              style: AppTextStyle.greyS12.copyWith(fontSize: 10),
-                            ),
-                            listDocument.isNotEmpty
-                                ? SizedBox(
-                                    height: 200,
-                                    child: Image.file(
-                                      File(listDocument.first.path!),
-                                      errorBuilder: (
-                                        context,
-                                        error,
-                                        stackTrace,
-                                      ) {
-                                        return Center(
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              const Icon(Icons.info_outline),
-                                              Text(
-                                                'Đã xảy ra lỗi \nVui lòng thử lại',
-                                                textAlign: TextAlign.center,
-                                                style: isSent ? AppTextStyle.whiteS14 : AppTextStyle.blackS14,
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  )
-                                : const SizedBox(),
-                            Expanded(
-                              child: Text(
-                                message!,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: AppTextStyle.blackS14.copyWith(),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Text(
-                  textReply!,
-                  style: (isSent != true)
-                      ? AppTextStyle.blackS14.copyWith(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14,
-                        )
-                      : AppTextStyle.whiteS14.copyWith(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14,
-                        ),
-                ),
+                _msgReply,
+                _replyText,
                 const SizedBox(height: 4),
-                Text(
-                  timer!,
-                  style: (isSent != true)
-                      ? AppTextStyle.blackS14.copyWith(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 10,
-                        )
-                      : AppTextStyle.whiteS14.copyWith(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 10,
-                        ),
-                ),
+                _msgTimer,
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget get _replyText {
+    return Text(
+      textReply!,
+      style: (isSent != true)
+          ? AppTextStyle.blackS14.copyWith(
+              fontWeight: FontWeight.w400,
+              fontSize: 14,
+            )
+          : AppTextStyle.whiteS14.copyWith(
+              fontWeight: FontWeight.w400,
+              fontSize: 14,
+            ),
+    );
+  }
+
+  Widget get _msgTimer {
+    return Text(
+      timer!,
+      style: (isSent != true)
+          ? AppTextStyle.blackS14.copyWith(
+              fontWeight: FontWeight.w400,
+              fontSize: 10,
+            )
+          : AppTextStyle.whiteS14.copyWith(
+              fontWeight: FontWeight.w400,
+              fontSize: 10,
+            ),
+    );
+  }
+
+  Widget get _msgReply {
+    return Row(
+      children: [
+        Container(
+          width: 5,
+          height: listDocument.isNotEmpty ? 240 : 40,
+          margin: const EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(
+            color: isSent == false ? AppColors.btnColor : AppColors.hintTextColor,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(15),
+              bottomLeft: Radius.circular(15),
+            ),
+          ),
+        ),
+        Expanded(
+          child: Container(
+            height: listDocument.isNotEmpty ? 240 : 40,
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+            decoration: BoxDecoration(
+              color: isSent == false ? AppColors.greyBG : AppColors.backgroundLight,
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(5),
+                bottomRight: Radius.circular(5),
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _nameSend,
+                listDocument.isNotEmpty
+                    ? SizedBox(
+                        height: 200,
+                        child: ImgFile(
+                          urlFile: listDocument.first.path!,
+                          isSent: isSent,
+                          textMsgError: 'Đã xảy ra lỗi \nVui lòng thử lại',
+                        ),
+                      )
+                    : const SizedBox(),
+                Expanded(
+                  child: _msgIsReply,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget get _nameSend {
+    return Text(
+      nameSend,
+      style: AppTextStyle.greyS12.copyWith(fontSize: 10),
+    );
+  }
+
+  Widget get _msgIsReply {
+    return Text(
+      message!,
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      style: AppTextStyle.blackS14.copyWith(),
     );
   }
 }

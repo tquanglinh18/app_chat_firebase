@@ -56,7 +56,10 @@ class _ViewStoryState extends State<ViewStory> {
     return PageView(
       controller: controller,
       onPageChanged: (index) {
-        _progressViewKey.currentState?.onPageChanged(index, _cubit.state.indexPageView);
+        _progressViewKey.currentState?.onPageChanged(
+          index,
+          _cubit.state.indexPageView,
+        );
       },
       children: widget.urlImagePath
           .asMap()
@@ -111,28 +114,6 @@ class _ViewStoryState extends State<ViewStory> {
         _cubit.changeIndexPage(indexChange);
       },
     );
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            return _buildItemProgressView();
-          },
-          separatorBuilder: (context, index) {
-            return const SizedBox(width: 2);
-          },
-          itemCount: widget.urlImagePath.length),
-    );
-  }
-
-  Widget _buildItemProgressView() {
-    return Container(
-      alignment: Alignment.center,
-      height: 3,
-      width: (MediaQuery.of(context).size.width - 30 - 2 * widget.urlImagePath.length) / widget.urlImagePath.length,
-      color: AppColors.greyBG,
-    );
   }
 
   Widget get _buildAppBar {
@@ -140,14 +121,14 @@ class _ViewStoryState extends State<ViewStory> {
       children: [
         _buildProgressView,
         _buildUserUpStory(
-          widget.name,
-          widget.urlAvatar,
+          name: widget.name,
+          urlAvatar: widget.urlAvatar,
         ),
       ],
     );
   }
 
-  Widget _buildUserUpStory(String name, String urlAvatar) {
+  Widget _buildUserUpStory({required String name, required String urlAvatar}) {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Row(

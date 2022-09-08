@@ -36,7 +36,6 @@ class _InputNumberPageState extends State<InputNumberPage> {
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          AppBarWidget(onBackPressed: Navigator.of(context).pop),
           Expanded(
             child: Stack(
               children: [
@@ -44,21 +43,9 @@ class _InputNumberPageState extends State<InputNumberPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
                     children: [
+                      _buildAppBar,
                       const SizedBox(height: 80),
-                      Text(
-                        'Enter Your Phone Number',
-                        textAlign: TextAlign.center,
-                        style: AppTextStyle.blackS18.copyWith(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 24,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Please confirm your country code and enter your phone number',
-                        textAlign: TextAlign.center,
-                        style: AppTextStyle.blackS14.copyWith(fontWeight: FontWeight.w400, height: 1.4),
-                      ),
+                      _guideInputPhoneNumber,
                       const SizedBox(height: 48),
                       _inputPhoneNumberField,
                       const SizedBox(height: 81),
@@ -74,7 +61,32 @@ class _InputNumberPageState extends State<InputNumberPage> {
     );
   }
 
-  Widget get _continueBtn{
+  Widget get _buildAppBar {
+    return AppBarWidget(onBackPressed: Navigator.of(context).pop);
+  }
+
+  Widget get _guideInputPhoneNumber {
+    return Column(
+      children: [
+        Text(
+          'Enter Your Phone Number',
+          textAlign: TextAlign.center,
+          style: AppTextStyle.blackS18.copyWith(
+            fontWeight: FontWeight.w600,
+            fontSize: 24,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          'Please confirm your country code and enter your phone number',
+          textAlign: TextAlign.center,
+          style: AppTextStyle.blackS14.copyWith(fontWeight: FontWeight.w400, height: 1.4),
+        ),
+      ],
+    );
+  }
+
+  Widget get _continueBtn {
     return BlocConsumer<InputNumberCubit, InputNumberState>(
       bloc: _cubit,
       listenWhen: (pre, cur) => pre.loadStatus != cur.loadStatus,
@@ -106,13 +118,14 @@ class _InputNumberPageState extends State<InputNumberPage> {
           isLoading: state.loadStatus == LoadStatus.loading,
           onTap: () {
             _cubit.verifyNumber("$heardPhone $phoneNumber");
+            FocusScope.of(context).unfocus();
           },
         );
       },
     );
   }
 
-  Widget get _inputPhoneNumberField{
+  Widget get _inputPhoneNumberField {
     return InternationalPhoneNumberInput(
       autoFocus: true,
       onInputChanged: (PhoneNumber number) {

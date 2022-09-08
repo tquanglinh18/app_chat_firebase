@@ -26,6 +26,8 @@ class AppButtons extends StatelessWidget {
   final ButtonType buttonType;
   final bool isLoading;
   final double? width;
+  final double heightButton;
+  final double circularButton;
 
   const AppButtons({
     Key? key,
@@ -34,6 +36,8 @@ class AppButtons extends StatelessWidget {
     this.buttonType = ButtonType.IN_ACTIVE,
     this.isLoading = false,
     this.width,
+    this.heightButton = 52,
+    this.circularButton = 30,
   }) : super(key: key);
 
   @override
@@ -42,20 +46,19 @@ class AppButtons extends StatelessWidget {
       onTap: buttonType == ButtonType.ACTIVE ? onTap : null,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 48),
-        height: 52,
+        height: heightButton,
         width: width,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(circularButton),
           color: buttonType.colorBackgroundStatus,
         ),
         child: Center(
           child: isLoading
               ? const LoadingIndicatorWidget(color: Colors.white)
               : Text(
-            title!,
-            style: AppTextStyle.whiteS16
-                .copyWith(fontWeight: FontWeight.w600),
-          ),
+                  title!,
+                  style: AppTextStyle.whiteS16.copyWith(fontWeight: FontWeight.w600),
+                ),
         ),
       ),
     );

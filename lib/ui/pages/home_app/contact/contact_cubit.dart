@@ -73,4 +73,19 @@ class ContactCubit extends Cubit<ContactState> {
       },
     );
   }
+
+  addConversion(Map<String, dynamic> data) {
+    try {
+      emit(state.copyWith(loadStatusAddConversion: LoadStatus.loading));
+      FirebaseApi.addConversion(data).then((value) {
+        if (value) {
+          emit(state.copyWith(loadStatusAddConversion: LoadStatus.success));
+        } else {
+          emit(state.copyWith(loadStatusAddConversion: LoadStatus.failure));
+        }
+      });
+    } catch (e) {
+      emit(state.copyWith(loadStatusAddConversion: LoadStatus.failure));
+    }
+  }
 }

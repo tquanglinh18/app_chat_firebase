@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_base/common/app_images.dart';
 
 import 'package:flutter_base/models/entities/message_entity.dart';
@@ -15,6 +16,7 @@ import 'package:flutter_base/ui/pages/message/type_document.dart';
 import 'package:flutter_base/ui/widgets/appbar/app_bar_widget.dart';
 import 'package:flutter_base/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../../../common/app_colors.dart';
 import '../../../../common/app_text_styles.dart';
@@ -42,7 +44,7 @@ class _MessagePageState extends State<MessagePage> {
   TextEditingController controllerMsg = TextEditingController(text: "");
   late final CustomProgressHUD _customProgressHUD;
   final FocusNode _focusNode = FocusNode();
-  final ScrollController _controllerList = ScrollController();
+  late AutoScrollController controller;
 
   @override
   void initState() {
@@ -58,7 +60,20 @@ class _MessagePageState extends State<MessagePage> {
       loading: true,
       color: Colors.red,
     );
+    controller = AutoScrollController(
+      viewportBoundaryGetter: () => const Rect.fromLTRB(18, 0, 0, 18),
+      axis: Axis.vertical,
+    );
     super.initState();
+  }
+
+  void getSizeAndPosition(_) async {
+    try {
+      await controller.scrollToIndex(_cubit.state.listMessage.length,
+          preferPosition: AutoScrollPosition.middle, duration: const Duration(seconds: 5));
+    } catch (e) {
+      logger.e('getSizeAndPosition\n$e');
+    }
   }
 
   @override
@@ -90,7 +105,7 @@ class _MessagePageState extends State<MessagePage> {
                   },
                 ),
               ),
-              _inputMessage(),
+              _inputMessage,
             ],
           ),
           _customProgressHUD,
@@ -130,8 +145,9 @@ class _MessagePageState extends State<MessagePage> {
   }
 
   Widget _listMsg(List<MessageEntity> listMessage) {
+    SchedulerBinding.instance.addPostFrameCallback(getSizeAndPosition);
     return ListView.builder(
-      controller: _controllerList,
+      controller: controller,
       padding: const EdgeInsets.all(16),
       itemCount: listMessage.length,
       itemBuilder: (BuildContext context, int index) {
@@ -139,63 +155,69 @@ class _MessagePageState extends State<MessagePage> {
           bloc: _cubit,
           buildWhen: (pre, cur) => pre.hintOptionMsg != cur.hintOptionMsg,
           builder: (context, state) {
-            return listMessage.isEmpty
-                ? Container()
-                : (listMessage[index].replyMsg ?? "").isNotEmpty
-                    ? ReplyMsg(
-                        message: listMessage[index].message ?? "",
-                        isSent: listMessage[index].icConversion == state.uidFireBase,
-                        timer: (listMessage[index].createdAt ?? "").isNotEmpty
-                            ? listMessage[index]
-                                    .createdAt
-                                    ?.formatToDisplay(formatDisplay: DateTimeFormater.eventHour) ??
-                                ''
-                            : "",
-                        textReply: listMessage[index].replyMsg ?? "",
-                        nameSend: listMessage[index].nameSend ?? "",
-                        nameReply: listMessage[index].nameReply ?? '',
-                        listDocument: listMessage[index].document ?? [],
-                      )
-                    : TextMessage(
-                        message: listMessage[index].message ?? "",
-                        isSent: listMessage[index].icConversion == state.uidFireBase,
-                        timer: (listMessage[index].createdAt ?? "").isNotEmpty
-                            ? listMessage[index]
-                                    .createdAt
-                                    ?.formatToDisplay(formatDisplay: DateTimeFormater.eventHour) ??
-                                ''
-                            : "",
-                        listDocumnet: listMessage[index].document ?? [],
-                        nameSend: listMessage[index].nameSend ?? "",
-                        nameConversion: widget.nameConversion,
-                        onLongPress: () {
-                          _focusNode.unfocus();
-                          _cubit.setIndexMsg(index);
-                          _cubit.showOptionMsg();
-                          showModalBottomSheet(
-                            useRootNavigator: true,
-                            context: context,
-                            backgroundColor: Colors.transparent,
-                            barrierColor: Colors.transparent,
-                            builder: (contextBottomSheet) {
-                              return Container(
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white),
-                                child: _optionMessage(
-                                  contextBottomSheet,
-                                  listMessage[index].icConversion == state.uidFireBase,
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      );
+            return AutoScrollTag(
+              key: ValueKey(index),
+              controller: controller,
+              index: index,
+              child: listMessage.isEmpty
+                  ? Container()
+                  : (listMessage[index].replyMsg ?? "").isNotEmpty
+                      ? ReplyMsg(
+                          message: listMessage[index].message ?? "",
+                          isSent: listMessage[index].icConversion == state.uidFireBase,
+                          timer: (listMessage[index].createdAt ?? "").isNotEmpty
+                              ? listMessage[index]
+                                      .createdAt
+                                      ?.formatToDisplay(formatDisplay: DateTimeFormater.eventHour) ??
+                                  ''
+                              : "",
+                          textReply: listMessage[index].replyMsg ?? "",
+                          nameSend: listMessage[index].nameSend ?? "",
+                          nameReply: listMessage[index].nameReply ?? '',
+                          listDocument: listMessage[index].document ?? [],
+                        )
+                      : TextMessage(
+                          message: listMessage[index].message ?? "",
+                          isSent: listMessage[index].icConversion == state.uidFireBase,
+                          timer: (listMessage[index].createdAt ?? "").isNotEmpty
+                              ? listMessage[index]
+                                      .createdAt
+                                      ?.formatToDisplay(formatDisplay: DateTimeFormater.eventHour) ??
+                                  ''
+                              : "",
+                          listDocumnet: listMessage[index].document ?? [],
+                          nameSend: listMessage[index].nameSend ?? "",
+                          nameConversion: widget.nameConversion,
+                          onLongPress: () {
+                            _focusNode.unfocus();
+                            _cubit.setIndexMsg(index);
+                            _cubit.showOptionMsg();
+                            showModalBottomSheet(
+                              useRootNavigator: true,
+                              context: context,
+                              backgroundColor: Colors.transparent,
+                              barrierColor: Colors.transparent,
+                              builder: (contextBottomSheet) {
+                                return Container(
+                                  decoration:
+                                      BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white),
+                                  child: _optionMessage(
+                                    contextBottomSheet,
+                                    listMessage[index].icConversion == state.uidFireBase,
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+            );
           },
         );
       },
     );
   }
 
-  Widget _msgField() {
+  Widget get _msgField {
     return Container(
       alignment: Alignment.center,
       decoration: BoxDecoration(
@@ -203,6 +225,7 @@ class _MessagePageState extends State<MessagePage> {
         color: AppColors.titleColor,
       ),
       child: TextField(
+        autofocus: true,
         controller: controllerMsg,
         focusNode: _focusNode,
         style: AppTextStyle.blackS14.copyWith(),
@@ -217,13 +240,14 @@ class _MessagePageState extends State<MessagePage> {
     );
   }
 
-  Widget _inputMessage() {
+  Widget get _inputMessage {
     return BlocConsumer<MessageCubit, MessageState>(
       bloc: _cubit,
       listenWhen: (pre, cur) =>
           pre.sendMsgLoadStatus != cur.sendMsgLoadStatus ||
           pre.replyLoadStatus != cur.replyLoadStatus ||
-          pre.deletLoadStatus != cur.deletLoadStatus,
+          pre.deletLoadStatus != cur.deletLoadStatus ||
+          pre.listDocument != cur.listDocument,
       listener: (context, state) {
         if (state.sendMsgLoadStatus == LoadStatus.success || state.replyLoadStatus == LoadStatus.success) {
           controllerMsg.text = "";
@@ -237,6 +261,9 @@ class _MessagePageState extends State<MessagePage> {
               title: "Đã xảy ra lỗi",
             );
           }
+        }
+        if (state.listDocument.isNotEmpty) {
+          _cubit.isSelected();
         }
       },
       buildWhen: (pre, cur) =>
@@ -264,10 +291,20 @@ class _MessagePageState extends State<MessagePage> {
                   state.listDocument.isNotEmpty ? _isNotEmptyDocument : const SizedBox(),
                   Row(
                     children: [
-                      _moreOptionMsg,
+                      _moreOptionMsg(
+                        () {
+                          state.listDocument.isNotEmpty
+                              ? DxFlushBar.showFlushBar(
+                                  context,
+                                  type: FlushBarType.WARNING,
+                                  title: "Chỉ được chọn 1 File đính kèm!",
+                                )
+                              : _cubit.isSelected();
+                        },
+                      ),
                       const SizedBox(width: 17),
                       Expanded(
-                        child: _msgField(),
+                        child: _msgField,
                       ),
                       const SizedBox(width: 17),
                       _sendBtn(state.isReplyMsg, state.sendMsgLoadStatus != LoadStatus.loading)
@@ -283,11 +320,9 @@ class _MessagePageState extends State<MessagePage> {
     );
   }
 
-  Widget get _moreOptionMsg {
+  Widget _moreOptionMsg(Function() onTap) {
     return InkWell(
-      onTap: () {
-        _cubit.isSelected();
-      },
+      onTap: onTap,
       child: Image.asset(
         AppImages.icAddContact,
         color: AppColors.hintTextColor,
@@ -302,14 +337,14 @@ class _MessagePageState extends State<MessagePage> {
           bloc: _cubit,
           builder: (context, state) {
             return SizedBox(
-              height: 70,
+              height: 75,
               width: 100,
               child: Stack(
                 alignment: Alignment.topRight,
                 children: [
                   _buildDocumentSelected(
-                    state.listDocument.first.type ?? '',
-                    state.listDocument.first.type == TypeDocument.VIDEO.toTypeDocument
+                    typeDocument: state.listDocument.first.type ?? '',
+                    urlFile: state.listDocument.first.type == TypeDocument.VIDEO.toTypeDocument
                         ? state.listDocument.first.pathThumbnail!
                         : state.listDocument.first.path!,
                   ),
@@ -344,7 +379,7 @@ class _MessagePageState extends State<MessagePage> {
     );
   }
 
-  Widget _buildDocumentSelected(String typeDocument, String urlFile) {
+  Widget _buildDocumentSelected({required String typeDocument, required String urlFile}) {
     return Container(
       padding: const EdgeInsets.only(top: 5, right: 5),
       child: Column(
@@ -354,7 +389,26 @@ class _MessagePageState extends State<MessagePage> {
                   Icons.file_present_outlined,
                   size: 45,
                 )
-              : ImgFile(urlFile: urlFile),
+              : typeDocument == TypeDocument.VIDEO.name
+                  ? SizedBox(
+                      height: 70,
+                      width: 100,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          ImgFile(urlFile: urlFile),
+                          const Icon(
+                            Icons.play_circle_fill_outlined,
+                            color: AppColors.hintTextColor,
+                          ),
+                        ],
+                      ),
+                    )
+                  : SizedBox(
+                      height: 70,
+                      width: 100,
+                      child: ImgFile(urlFile: urlFile),
+                    ),
         ],
       ),
     );
@@ -482,36 +536,6 @@ class _MessagePageState extends State<MessagePage> {
           ),
         );
       },
-    );
-  }
-
-  Widget _buildItemOptionMessage(IconData iconItem, String title, VoidCallback onTap) {
-    return InkWell(
-      onTap: onTap,
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(2),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: AppColors.hintTextColor,
-            ),
-            child: Icon(
-              iconItem,
-              size: 20,
-              color: AppColors.btnColor,
-            ),
-          ),
-          Text(
-            title,
-            style: AppTextStyle.blackS14.copyWith(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              height: 2,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

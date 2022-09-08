@@ -35,27 +35,35 @@ class ItemOptioneMsg extends StatelessWidget {
       onTap: buttonType == ButtonType.ACTIVE ? onTap : null,
       child: Column(
         children: [
-          Container(
-            padding: const EdgeInsets.all(2),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: AppColors.hintTextColor,
-            ),
-            child: Icon(
-              iconItem,
-              size: 20,
-              color: buttonType == ButtonType.ACTIVE ? AppColors.btnColor : AppColors.bgrColorsChatPage,
-            ),
-          ),
-          Text(
-            title!,
-            style: AppTextStyle.blackS14.copyWith(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              height: 2,
-            ),
-          ),
+          _iconOption,
+          _titleOption,
         ],
+      ),
+    );
+  }
+
+  Widget get _titleOption {
+    return Text(
+      title!,
+      style: AppTextStyle.blackS14.copyWith(
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        height: 2,
+      ),
+    );
+  }
+
+  Widget get _iconOption {
+    return Container(
+      padding: const EdgeInsets.all(2),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        color: AppColors.hintTextColor,
+      ),
+      child: Icon(
+        iconItem,
+        size: 20,
+        color: buttonType == ButtonType.ACTIVE ? AppColors.btnColor : AppColors.bgrColorsChatPage,
       ),
     );
   }

@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base/ui/pages/home_app/more/more_cubit.dart';
 import 'package:flutter_base/ui/pages/home_app/more/type_setting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import '../../../../common/app_colors.dart';
 import '../../../../common/app_images.dart';
 import '../../../../common/app_text_styles.dart';
 import '../../../commons/avatar.dart';
 import '../../../commons/custom_app_bar.dart';
+import '../../setting/setting_page.dart';
 
 List<SettingType> listType = [
   SettingType.ACCOUNT,
@@ -51,10 +53,7 @@ class _MorePageState extends State<MorePage> {
               AppBarCustom(title: "More"),
               _infoUser(name: state.name, phoneNumber: state.phoneNumber, urlImage: state.avatar),
               Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                  child: _itemMore,
-                ),
+                child: _itemMore,
               ),
             ],
           );
@@ -120,44 +119,62 @@ class _MorePageState extends State<MorePage> {
   }
 
   Widget get _itemMore {
-    return ListView.separated(
-      padding: EdgeInsets.zero,
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) {
-        return SizedBox(
-          height: 40,
-          child: Row(
-            children: [
-              SizedBox(
-                height: 24,
-                width: 24,
-                child: Image.asset(
-                  listType[index].pathIcon,
-                  fit: BoxFit.contain,
-                  height: 3,
-                ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  listType[index].title,
-                  style: AppTextStyle.blackS14.copyWith(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+      child: ListView.separated(
+        padding: EdgeInsets.zero,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return InkWell(
+            onTap: (){
+              if(index == 2){
+                Get.to(() => const SettingPage());
+              }
+            },
+            child: SizedBox(
+              height: 40,
+              child: Row(
+                children: [
+                  _iconMoreOption(pathIcon: listType[index].pathIcon),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: _titleMoreOption(title: listType[index].title),
                   ),
-                ),
+                  Image.asset(
+                    AppImages.icNext,
+                  ),
+                ],
               ),
-              Image.asset(
-                AppImages.icNext,
-              ),
-            ],
-          ),
-        );
-      },
-      separatorBuilder: (context, index) {
-        return const SizedBox(height: 8);
-      },
-      itemCount: listType.length,
+            ),
+          );
+        },
+        separatorBuilder: (context, index) {
+          return const SizedBox(height: 8);
+        },
+        itemCount: listType.length,
+      ),
+    );
+  }
+
+  Widget _titleMoreOption({required String title}) {
+    return Text(
+      title,
+      style: AppTextStyle.blackS14.copyWith(
+        fontWeight: FontWeight.w600,
+        fontSize: 14,
+      ),
+    );
+  }
+
+  Widget _iconMoreOption({required String pathIcon}) {
+    return SizedBox(
+      height: 24,
+      width: 24,
+      child: Image.asset(
+        pathIcon,
+        fit: BoxFit.contain,
+        height: 3,
+      ),
     );
   }
 }

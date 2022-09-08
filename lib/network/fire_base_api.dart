@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_base/models/entities/chat_user_entity.dart';
 import 'package:flutter_base/models/entities/message_entity.dart';
 import 'package:flutter_base/models/entities/story_entity.dart';
@@ -71,7 +72,7 @@ class FirebaseApi {
   static Future<List<ConversionEntity>> getConversion() async {
     try {
       List<ConversionEntity> listConversion = [];
-      await FirebaseFirestore.instance.collection("user").get().then(
+      await FirebaseFirestore.instance.collection("user").orderBy('createAt', descending: true).get().then(
         (event) {
           if (event.docs.isNotEmpty) {
             for (var doc in event.docs) {
@@ -154,6 +155,18 @@ class FirebaseApi {
     } catch (e) {
       print(e);
       return [];
+    }
+  }
+
+  static Future<bool> addConversion(Map<String, dynamic> value) async {
+    bool isCheck = false;
+    try {
+      await FirebaseFirestore.instance.collection('user').add(value).then((value) {
+        isCheck = true;
+      });
+      return isCheck;
+    } catch (e) {
+      return isCheck;
     }
   }
 }

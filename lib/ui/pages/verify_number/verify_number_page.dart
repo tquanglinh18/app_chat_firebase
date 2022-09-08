@@ -55,11 +55,9 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
         children: [
           Column(
             children: [
-              AppBarWidget(onBackPressed: Navigator
-                  .of(context)
-                  .pop),
+              _buildAppBar,
               const SizedBox(height: 80),
-              _enterCodeInfo,
+              _guideEnterOtpCode,
               const SizedBox(height: 50),
               buildOtp(),
               const SizedBox(height: 50),
@@ -72,7 +70,11 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
     );
   }
 
-  Widget get _enterCodeInfo {
+  Widget get _buildAppBar {
+    return AppBarWidget(onBackPressed: Navigator.of(context).pop);
+  }
+
+  Widget get _guideEnterOtpCode {
     return Column(
       children: [
         Text(
@@ -149,10 +151,9 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
             _cubitApp.saveIdUser(state.idUser);
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (context) =>
-                    ProfileUserPage(
-                      phoneNumber: widget.phoneNumber,
-                    ),
+                builder: (context) => ProfileUserPage(
+                  phoneNumber: widget.phoneNumber,
+                ),
               ),
             );
           }
