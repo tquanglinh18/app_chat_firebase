@@ -44,7 +44,8 @@ class MessageCubit extends Cubit<MessageState> {
     }
   }
 
-  sendMsg(String text, String icConversion) {
+  sendMsg(String text, String icConversion,
+      ) {
     try {
       emit(state.copyWith(sendMsgLoadStatus: LoadStatus.loading));
       final newMessage = MessageEntity(
@@ -58,7 +59,10 @@ class MessageCubit extends Cubit<MessageState> {
       msgList.add(newMessage);
       FirebaseApi.uploadMessage(icConversion, msgList).then((value) {
         if (value) {
-          emit(state.copyWith(sendMsgLoadStatus: LoadStatus.success, listDocument: []));
+          emit(state.copyWith(
+            sendMsgLoadStatus: LoadStatus.success,
+            listDocument: [],
+          ));
         } else {
           emit(state.copyWith(sendMsgLoadStatus: LoadStatus.failure));
         }

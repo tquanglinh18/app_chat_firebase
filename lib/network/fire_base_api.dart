@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_base/models/entities/chat_user_entity.dart';
 import 'package:flutter_base/models/entities/message_entity.dart';
 import 'package:flutter_base/models/entities/story_entity.dart';
@@ -96,7 +95,11 @@ class FirebaseApi {
   static Future<bool> uploadProfile(String uid, List<UserEntity> listUser) async {
     bool isCheck = false;
     final updateData = FirebaseFirestore.instance.collection('profile').doc('uid');
-    await updateData.update({'user': listUser.map((e) => e.toJson()).toList()}).then(
+    await updateData.update(
+      {
+        'user': listUser.map((e) => e.toJson()).toList(),
+      },
+    ).then(
       (value) {
         isCheck = true;
       },
@@ -110,7 +113,11 @@ class FirebaseApi {
   static Future<bool> upStory(List<StoryEntity> story) async {
     bool isCheck = false;
     final updateStory = FirebaseFirestore.instance.collection('story').doc('story');
-    await updateStory.update({'story': story.map((e) => e.toJson()).toList()}).then(
+    await updateStory.update(
+      {
+        'story': story.map((e) => e.toJson()).toList(),
+      },
+    ).then(
       (value) {
         isCheck = true;
       },
@@ -142,18 +149,19 @@ class FirebaseApi {
   static Future<List<UserEntity>> getListUser() async {
     try {
       List<UserEntity> listUser = [];
-      await FirebaseFirestore.instance.collection('profile').get().then((event) {
-        if (event.docs.isNotEmpty) {
-          for (var doc in event.docs) {
-            for (var msg in doc.data()['user']) {
-              listUser.add(UserEntity.fromJson(msg));
+      await FirebaseFirestore.instance.collection('profile').get().then(
+        (event) {
+          if (event.docs.isNotEmpty) {
+            for (var doc in event.docs) {
+              for (var msg in doc.data()['user']) {
+                listUser.add(UserEntity.fromJson(msg));
+              }
             }
           }
-        }
-      });
+        },
+      );
       return listUser;
     } catch (e) {
-      print(e);
       return [];
     }
   }

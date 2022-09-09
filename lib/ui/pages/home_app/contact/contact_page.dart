@@ -110,6 +110,7 @@ class _ContactPageState extends State<ContactPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: SearchBar(
+        hintText: "Tìm kiếm cuộc hội thoại",
         onChanged: (value) => _cubit.onSearchTextChanged(value),
         controller: controller,
         onClose: () {
@@ -154,6 +155,7 @@ class _ContactPageState extends State<ContactPage> {
                           builder: (context) => MessagePage(
                             idConversion: state.listConversion[index].idConversion ?? "",
                             nameConversion: state.listConversion[index].nameConversion ?? '',
+                            imgPath: state.listConversion[index].avatarConversion ?? '',
                           ),
                         ),
                       );

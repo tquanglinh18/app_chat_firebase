@@ -83,6 +83,7 @@ class _ChatsPageState extends State<ChatsPage> {
         buildWhen: (pre, cur) => pre.searchText != cur.searchText,
         builder: (context, state) {
           return SearchBar(
+            hintText: "Tìm kiếm người dùng",
             onChanged: (value) => _cubit.onSearchTextChanged(value),
             controller: controller,
             onClose: () {
@@ -205,7 +206,10 @@ class _ChatsPageState extends State<ChatsPage> {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(16),
-                  child: ImgFile(urlFile: urlFile),
+                  child: ImgFile(
+                    urlFile: urlFile,
+                    isBorderRadius: true,
+                  ),
                 ),
               ),
             ],
@@ -258,15 +262,14 @@ class _ChatsPageState extends State<ChatsPage> {
     );
   }
 
-  Widget  get _userChat {
+  Widget get _userChat {
     return BlocConsumer<ChatsCubit, ChatsState>(
       bloc: _cubit,
       listenWhen: (pre, cur) => pre.loadStatusGetUser != cur.loadStatusGetUser,
       listener: (context, state) {
         if (state.loadStatusGetUser != LoadStatus.loading) {
           _customProgressHUD.progress.dismiss();
-        }
-        else{
+        } else {
           if (state.loadStatusGetUser == LoadStatus.loading) {
             _customProgressHUD.progress.show();
           }

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_base/models/entities/message_entity.dart';
 import 'package:flutter_base/ui/commons/img_file.dart';

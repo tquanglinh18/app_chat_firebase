@@ -5,7 +5,6 @@ import 'package:flutter_base/ui/commons/dialog_create_conversion/dialog_create_c
 import 'package:flutter_base/ui/commons/flus_bar.dart';
 import 'package:flutter_base/ui/commons/img_file.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../common/app_colors.dart';
@@ -36,11 +35,8 @@ class _DialogCreateCobersionState extends State<DialogCreateCobersion> {
         onTap: () => FocusScope.of(context).unfocus(),
         child: Material(
           color: Colors.transparent,
-          child: BlocConsumer<DialogCreateConversionCubit, DialogCreateConversionState>(
+          child: BlocBuilder<DialogCreateConversionCubit, DialogCreateConversionState>(
             bloc: _cubit,
-            listener: (context, state) {
-              // TODO: implement listener
-            },
             buildWhen: (pre, cur) =>
                 pre.nameRoomConversion != cur.nameRoomConversion ||
                 pre.imgRoomConversdionPath != cur.imgRoomConversdionPath,
@@ -49,7 +45,7 @@ class _DialogCreateCobersionState extends State<DialogCreateCobersion> {
                 margin: EdgeInsets.only(
                     left: 16,
                     right: 16,
-                    top: MediaQuery.of(context).viewInsets.bottom > 0 ? 50 + MediaQuery.of(context).viewInsets.top : 0,
+                    top: MediaQuery.of(context).viewInsets.bottom > 0 ? 150 + MediaQuery.of(context).viewInsets.top : 0,
                     bottom: MediaQuery.of(context).viewInsets.bottom > 0
                         ? MediaQuery.of(context).viewInsets.bottom / 2
                         : 0),

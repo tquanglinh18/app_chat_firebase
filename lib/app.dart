@@ -79,6 +79,7 @@ class _MyAppState extends State<MyApp> {
                 _hideKeyboard(context);
               },
               child: GetMaterialApp(
+                debugShowCheckedModeBanner: false,
                 title: AppConfigs.appName,
                 home: const SplashPage(),
                 theme: AppThemes(

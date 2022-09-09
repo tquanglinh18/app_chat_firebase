@@ -61,21 +61,21 @@ class _OptionChatState extends State<OptionChat> {
               onTap: _openDocument,
               child: const Icon(Icons.file_open_rounded),
             ),
-            InkWell(
-              onTap: () async {
-                await _checkPermission().then(
-                  (value) {
-                    if (value ?? false) {
-                      _start(recordingStatus: RecordingStatus.Unset);
-                    }
-                  },
-                );
-              },
-              child: Container(
-                margin: const EdgeInsets.only(left: 5),
-                child: const Icon(Icons.record_voice_over),
-              ),
-            ),
+            // InkWell(
+            //   onTap: () async {
+            //     await _checkPermission().then(
+            //       (value) {
+            //         if (value ?? false) {
+            //           _start(recordingStatus: RecordingStatus.Unset);
+            //         }
+            //       },
+            //     );
+            //   },
+            //   child: Container(
+            //     margin: const EdgeInsets.only(left: 5),
+            //     child: const Icon(Icons.record_voice_over),
+            //   ),
+            // ),
           ],
         ),
       ),

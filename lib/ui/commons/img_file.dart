@@ -10,10 +10,16 @@ class ImgFile extends StatelessWidget {
   bool isSent;
   String textMsgError;
   bool documentIsVideo;
+  bool isBorderRadius;
 
-
-  ImgFile({Key? key, required this.urlFile, this.isSent = false, this.textMsgError = '', this.documentIsVideo = false})
-      : super(key: key);
+  ImgFile({
+    Key? key,
+    required this.urlFile,
+    this.isSent = false,
+    this.textMsgError = '',
+    this.documentIsVideo = false,
+    this.isBorderRadius = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,30 +30,36 @@ class ImgFile extends StatelessWidget {
         error,
         stackTrace,
       ) {
-        return Padding(
-          padding: documentIsVideo ? const EdgeInsets.only(top: 140) : EdgeInsets.zero,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              !documentIsVideo ?
-              Padding(
-                padding: const EdgeInsets.only(bottom: 5),
-                child: Icon(
-                  Icons.info_outline,
-                  color: !isSent ? AppColors.border : AppColors.textWhite,
-                ),
-              ) : const SizedBox(),
-              textMsgError.isNotEmpty
-                  ? Center(
-                      child: Text(
-                        'Đã xảy ra lỗi \nVui lòng thử lại',
-                        textAlign: TextAlign.center,
-                        style: isSent ? AppTextStyle.whiteS14 : AppTextStyle.blackS14,
-
-                      ),
-                    )
-                  : const SizedBox(),
-            ],
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: !isBorderRadius ? BorderRadius.circular(16) : BorderRadius.zero ,
+            border: Border.all(color: AppColors.hintTextColor, width: 1),
+          ),
+          child: Padding(
+            padding: documentIsVideo ? const EdgeInsets.only(top: 140) : EdgeInsets.zero,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                !documentIsVideo
+                    ? Padding(
+                        padding: const EdgeInsets.only(bottom: 5),
+                        child: Icon(
+                          Icons.info_outline,
+                          color: !isSent ? AppColors.border : AppColors.textWhite,
+                        ),
+                      )
+                    : const SizedBox(),
+                textMsgError.isNotEmpty
+                    ? Center(
+                        child: Text(
+                          'Đã xảy ra lỗi \nVui lòng thử lại',
+                          textAlign: TextAlign.center,
+                          style: isSent ? AppTextStyle.whiteS14 : AppTextStyle.blackS14,
+                        ),
+                      )
+                    : const SizedBox(),
+              ],
+            ),
           ),
         );
       },

@@ -11,7 +11,6 @@ class InputNumberCubit extends Cubit<InputNumberState> {
   InputNumberCubit({required this.fireBaseAuth,}) : super(const InputNumberState());
 
   phoneNumberChanged(String? phoneNumber) {
-    print(phoneNumber);
     emit(state.copyWith(phoneNumber: phoneNumber));
   }
 

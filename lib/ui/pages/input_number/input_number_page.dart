@@ -135,7 +135,7 @@ class _InputNumberPageState extends State<InputNumberPage> {
       },
       onInputValidated: (bool value) {},
       selectorConfig: const SelectorConfig(
-        selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+        selectorType: PhoneInputSelectorType.DIALOG,
       ),
       ignoreBlank: false,
       autoValidateMode: AutovalidateMode.disabled,

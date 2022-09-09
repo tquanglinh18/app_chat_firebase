@@ -10,6 +10,7 @@ import 'package:flutter_base/ui/commons/datetime_formatter.dart';
 import 'package:flutter_base/ui/commons/img_file.dart';
 import 'package:flutter_base/ui/commons/my_dialog.dart';
 import 'package:flutter_base/ui/pages/message/common/build_item_option_message.dart';
+import 'package:flutter_base/ui/pages/message/common/dialog/dialog_view_document.dart';
 import 'package:flutter_base/ui/pages/message/common/reply_msg.dart';
 import 'package:flutter_base/ui/pages/message/option/option_chat.dart';
 import 'package:flutter_base/ui/pages/message/type_document.dart';
@@ -28,11 +29,13 @@ import 'message_state.dart';
 class MessagePage extends StatefulWidget {
   final String idConversion;
   final String nameConversion;
+  final String imgPath;
 
   const MessagePage({
     Key? key,
     this.idConversion = '',
     this.nameConversion = '',
+    this.imgPath = '',
   }) : super(key: key);
 
   @override
@@ -132,11 +135,16 @@ class _MessagePageState extends State<MessagePage> {
         ),
         InkWell(
           onTap: () {
-            DxFlushBar.showFlushBar(
-              context,
-              type: FlushBarType.WARNING,
-              title: "Tính năng đang được cập nhật !",
+            showDialog(
+              context: context,
+              useRootNavigator: true,
+              useSafeArea: false,
+              builder: (BuildContext context) => DialogViewDocument(
+                imgPath: widget.imgPath,
+                nameUser: widget.nameConversion,
+              ),
             );
+            FocusScope.of(context).unfocus();
           },
           child: Image.asset(AppImages.icOption),
         ),
@@ -307,7 +315,10 @@ class _MessagePageState extends State<MessagePage> {
                         child: _msgField,
                       ),
                       const SizedBox(width: 17),
-                      _sendBtn(state.isReplyMsg, state.sendMsgLoadStatus != LoadStatus.loading)
+                      _sendBtn(
+                        state.isReplyMsg,
+                        state.sendMsgLoadStatus != LoadStatus.loading,
+                      )
                     ],
                   ),
                   _inputDocumnet(state.isSelected),
@@ -338,7 +349,6 @@ class _MessagePageState extends State<MessagePage> {
           builder: (context, state) {
             return SizedBox(
               height: 75,
-              width: 100,
               child: Stack(
                 alignment: Alignment.topRight,
                 children: [

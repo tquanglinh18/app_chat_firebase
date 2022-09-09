@@ -20,7 +20,7 @@ class AppBarWidget extends AppBar {
                   icon: Icon(
                     Icons.arrow_back_ios_rounded,
                     color: colorIcon,
-                  ))
+                  ),)
               : null,
           actions: rightActions,
         );

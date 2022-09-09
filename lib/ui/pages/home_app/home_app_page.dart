@@ -64,40 +64,43 @@ class _HomeAppPageState extends State<HomeAppPage> {
   }
 
   Widget _bottomNavigator() {
-    return BlocBuilder<HomeAppCubit, HomeAppState>(
-      bloc: _cubit,
-      buildWhen: (pre, cur) => pre.selectedIndex != cur.selectedIndex,
-      builder: (context, state) {
-        return SizedBox(
-          height: 83,
-          width: MediaQuery.of(context).size.width,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            physics: const NeverScrollableScrollPhysics(),
-            padding: EdgeInsets.zero,
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              return InkWell(
-                onTap: () {
-                  _cubit.onItemTapped(index);
-                },
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width / 3,
-                  child: state.selectedIndex == index
-                      ? itemBottomNavigatorIsSelected(
-                          listUrlImage[index],
-                          listTitle[index],
-                        )
-                      : itemBottomNavigatorIsNotSelected(
-                          listUrlImage[index],
-                          listTitle[index],
-                        ),
-                ),
-              );
-            },
-          ),
-        );
-      },
+    return Visibility(
+      visible: MediaQuery.of(context).viewInsets.bottom == 0,
+      child: BlocBuilder<HomeAppCubit, HomeAppState>(
+        bloc: _cubit,
+        buildWhen: (pre, cur) => pre.selectedIndex != cur.selectedIndex,
+        builder: (context, state) {
+          return SizedBox(
+            height: 83,
+            width: MediaQuery.of(context).size.width,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              physics: const NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.zero,
+              itemCount: 3,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    _cubit.onItemTapped(index);
+                  },
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width / 3,
+                    child: state.selectedIndex == index
+                        ? itemBottomNavigatorIsSelected(
+                            listUrlImage[index],
+                            listTitle[index],
+                          )
+                        : itemBottomNavigatorIsNotSelected(
+                            listUrlImage[index],
+                            listTitle[index],
+                          ),
+                  ),
+                );
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 
