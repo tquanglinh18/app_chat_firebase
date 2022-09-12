@@ -1,9 +1,5 @@
-import 'dart:ffi';
-
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_base/models/entities/user_entity.dart';
 import 'package:meta/meta.dart';
 
@@ -26,14 +22,17 @@ class ProfileUserCubit extends Cubit<ProfileUserState> {
 
   getListUser() async {
     try {
-      await FirebaseApi.getListUser().then((value) {
-        emit(state.copyWith(listUser: value));
-      });
-    } catch (e) {}
+      await FirebaseApi.getListUser().then(
+        (value) {
+          emit(state.copyWith(listUser: value));
+        },
+      );
+    } catch (e) {
+      print(e);
+    }
   }
 
   uploadUser(String name, String phoneNumber) async {
-    emit(state.copyWith(loadStatus: LoadStatus.loading));
     try {
       emit(state.copyWith(loadStatus: LoadStatus.loading));
       await SharedPreferencesHelper.getUidFireBaseKey().then(

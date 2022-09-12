@@ -142,6 +142,7 @@ class _MessagePageState extends State<MessagePage> {
               builder: (BuildContext context) => DialogViewDocument(
                 imgPath: widget.imgPath,
                 nameUser: widget.nameConversion,
+                uid: widget.idConversion,
               ),
             );
             FocusScope.of(context).unfocus();
@@ -494,6 +495,7 @@ class _MessagePageState extends State<MessagePage> {
           TypeDocument.IMAGE.toTypeDocument,
           file.first.path,
           '',
+          '',
         );
       },
       onChooseVideo: (listFile, file) {
@@ -501,6 +503,7 @@ class _MessagePageState extends State<MessagePage> {
           TypeDocument.VIDEO.toTypeDocument,
           listFile.first.path,
           file.path,
+          '',
         );
       },
       onChooseDocument: (file) {
@@ -508,6 +511,7 @@ class _MessagePageState extends State<MessagePage> {
           TypeDocument.FILE.toTypeDocument,
           file.first.path,
           '',
+          file.first.path.split('/').last,
         );
       },
     );

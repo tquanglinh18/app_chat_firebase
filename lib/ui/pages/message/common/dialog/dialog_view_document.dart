@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base/common/app_colors.dart';
 import 'package:flutter_base/common/app_text_styles.dart';
 import 'package:flutter_base/ui/commons/img_file.dart';
-import 'package:flutter_base/ui/pages/message/pages/archvies/archives_document.dart';
+import 'package:flutter_base/ui/pages/message/common/dialog/dialog_view_document_cubit.dart';
+import 'package:flutter_base/ui/pages/message/pages/archvies/archives_document_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../type_document.dart';
 
@@ -15,13 +17,13 @@ final List<TypeDocument> listDocument = [
 class DialogViewDocument extends StatefulWidget {
   String imgPath;
   String nameUser;
-  List<String> listDocument;
+  String uid;
 
   DialogViewDocument({
     Key? key,
     required this.imgPath,
     required this.nameUser,
-    this.listDocument = const [],
+    required this.uid,
   }) : super(key: key);
 
   @override
@@ -29,6 +31,16 @@ class DialogViewDocument extends StatefulWidget {
 }
 
 class _DialogViewDocumentState extends State<DialogViewDocument> {
+  late DialogViewDocumentCubit _cubit;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _cubit = DialogViewDocumentCubit();
+    _cubit.getListDocument(widget.uid);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -123,44 +135,48 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
   }
 
   Widget _viewDocument() {
-    return Container(
-      padding: const EdgeInsets.all(15),
-      color: AppColors.backgroundLight,
-      child: Column(
-        children: [
-          Row(
+    return BlocBuilder<DialogViewDocumentCubit, DialogViewDocumentState>(
+      bloc: _cubit,
+      buildWhen: (pre, cur) => pre.listImg != cur.listImg,
+      builder: (context, state) {
+        return Container(
+          padding: const EdgeInsets.all(15),
+          color: AppColors.backgroundLight,
+          child: Column(
             children: [
-              Container(
-                height: 45,
-                width: 45,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.red,
-                ),
-                child: const Icon(
-                  Icons.image,
-                  color: AppColors.backgroundLight,
-                ),
+              Row(
+                children: [
+                  Container(
+                    height: 45,
+                    width: 45,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.red,
+                    ),
+                    child: const Icon(
+                      Icons.image,
+                      color: AppColors.backgroundLight,
+                    ),
+                  ),
+                  const SizedBox(width: 15),
+                  Text(
+                    "Kho lưu trữ",
+                    style: AppTextStyle.blackS14.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.textFieldDisabledBorder,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(width: 15),
-              Text(
-                "Kho lưu trữ",
-                style: AppTextStyle.blackS14.copyWith(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.textFieldDisabledBorder,
-                ),
-              ),
+              _space,
+              _optionDocumentView(),
+              _space,
+              state.listImg.isEmpty ? _previewImageIsEmpty() : _previewImage(),
             ],
           ),
-          _space,
-          _optionDocumentView(),
-          _space,
-          _previewImageIsEmpty(),
-          _space,
-          _previewImage(),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -169,81 +185,113 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
   }
 
   Widget _optionDocumentView() {
-    return SizedBox(
-      height: 30,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          return InkWell(
-            onTap: () {
-              print(index);
-            },
-            child: Center(
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width / 2,
-                child: Text(
-                  listDocument[index].toTypeDocument,
-                  textAlign: TextAlign.center,
+    return BlocBuilder<DialogViewDocumentCubit, DialogViewDocumentState>(
+      bloc: _cubit,
+      buildWhen: (pre, cur) =>
+          pre.listFile != cur.listFile || pre.listVideo != cur.listVideo || pre.listImg != cur.listImg,
+      builder: (context, state) {
+        return SizedBox(
+          height: 30,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return InkWell(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ArchivesDocumentPage(
+                        uid: widget.uid,
+                        listImg: state.listImg,
+                        listVideo: state.listVideo,
+                        listFile: state.listFile,
+                        indexDocument: index,
+                      ),
+                    ),
+                  );
+                },
+                child: Center(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: Text(
+                      listDocument[index].toTypeDocument,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          );
-        },
-        itemCount: 2,
-        separatorBuilder: (BuildContext context, int index) {
-          return Container(
-            height: 60,
-            width: 2,
-            color: AppColors.hintTextColor,
-          );
-        },
-      ),
+              );
+            },
+            itemCount: 2,
+            separatorBuilder: (BuildContext context, int index) {
+              return Container(
+                height: 60,
+                width: 2,
+                color: AppColors.hintTextColor,
+              );
+            },
+          ),
+        );
+      },
     );
   }
 
   Widget _previewImage() {
-    return SizedBox(
-      height: MediaQuery.of(context).size.width / 4 - 25,
-      child: Row(
-        children: [
-          Expanded(
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return Container(
-                  height: MediaQuery.of(context).size.width / 4 - 25,
-                  width: MediaQuery.of(context).size.width / 4 - 25,
-                  decoration: const BoxDecoration(
-                    color: AppColors.isOnlineColor,
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return const SizedBox(width: 10);
-              },
-              itemCount: 4,
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const ArchivesDocument(),
+    return BlocBuilder<DialogViewDocumentCubit, DialogViewDocumentState>(
+      bloc: _cubit,
+      buildWhen: (pre, cur) => pre.listImg != cur.listImg,
+      builder: (context, state) {
+        return SizedBox(
+          height: MediaQuery.of(context).size.width / 4 - 25,
+          child: Row(
+            children: [
+              Expanded(
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.width / 4 - 25,
+                      width: MediaQuery.of(context).size.width / 4 - 25,
+                      child: ImgFile(urlFile: (state.listImg[index].document ?? []).first.path ?? ""),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(width: 10);
+                  },
+                  itemCount: state.listImg.length > 4 ? 4 : state.listImg.length,
                 ),
-              );
-            },
-            child: Container(
-              height: 30,
-              width: 30,
-              decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.hintTextColor),
-              child: const Icon(
-                Icons.navigate_next_rounded,
-                color: AppColors.backgroundLight,
               ),
-            ),
+              state.listImg.length > 4
+                  ? InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => ArchivesDocumentPage(
+                              uid: widget.uid,
+                              listImg: state.listImg,
+                              listFile: state.listFile,
+                              listVideo: state.listVideo,
+                              indexDocument: 0,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        height: 30,
+                        width: 30,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColors.hintTextColor,
+                        ),
+                        child: const Icon(
+                          Icons.navigate_next_rounded,
+                          color: AppColors.backgroundLight,
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 

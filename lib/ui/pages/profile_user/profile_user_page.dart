@@ -82,7 +82,7 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
       bloc: _cubit,
       buildWhen: (pre, cur) =>
           pre.firstName != cur.firstName || pre.lastName != cur.lastName || pre.loadStatus != cur.loadStatus,
-      listenWhen: (pre, cur) => pre.firstName != cur.firstName || pre.loadStatus != cur.loadStatus,
+      listenWhen: (pre, cur) => pre.loadStatus != cur.loadStatus,
       listener: (context, state) {
         if (state.loadStatus == LoadStatus.success) {
           Navigator.of(context).pushAndRemoveUntil(
