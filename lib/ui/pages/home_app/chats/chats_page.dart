@@ -38,7 +38,7 @@ class _ChatsPageState extends State<ChatsPage> {
     _cubit.getStory();
     _cubit.getListUser();
     FirebaseFirestore.instance.collection('story').snapshots().listen(
-      (event) {
+          (event) {
         _cubit.realTimeFireBase();
       },
       onError: (error) => logger.d("Realtime $error"),
@@ -60,7 +60,10 @@ class _ChatsPageState extends State<ChatsPage> {
               _story,
               Container(
                 height: 1,
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width,
                 decoration: const BoxDecoration(color: AppColors.greyBG),
               ),
               _buildSearchBar,
@@ -118,7 +121,10 @@ class _ChatsPageState extends State<ChatsPage> {
   Widget get _story {
     return SizedBox(
       height: 113,
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery
+          .of(context)
+          .size
+          .width,
       child: Row(
         children: [
           _buildAddStory,
@@ -143,18 +149,19 @@ class _ChatsPageState extends State<ChatsPage> {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => ViewStory(
-                      urlImagePath: state.listStory[index].listImagePath ?? [],
-                      urlAvatar: state.listUser.isNotEmpty
-                          ? state.listUser
-                                  .where((element) => element.uid == state.listStory[index].uid)
-                                  .toList()
-                                  .first
-                                  .avatar ??
+                    builder: (context) =>
+                        ViewStory(
+                          urlImagePath: state.listStory[index].listImagePath ?? [],
+                          urlAvatar: state.listUser.isNotEmpty
+                              ? state.listUser
+                              .where((element) => element.uid == state.listStory[index].uid)
+                              .toList()
+                              .first
+                              .avatar ??
                               ""
-                          : "",
-                      name: state.listStory[index].name ?? '',
-                    ),
+                              : "",
+                          name: state.listStory[index].name ?? '',
+                        ),
                   ),
                 );
               },
@@ -207,8 +214,9 @@ class _ChatsPageState extends State<ChatsPage> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(16),
                   child: ImgFile(
-                    urlFile: urlFile,
-                    isBorderRadius: true,
+                      urlFile: urlFile,
+                      isBorderRadius: true,
+                      isBorderSide: true,
                   ),
                 ),
               ),
@@ -288,7 +296,10 @@ class _ChatsPageState extends State<ChatsPage> {
                   return Container(
                     padding: const EdgeInsets.all(4),
                     height: 56,
-                    width: MediaQuery.of(context).size.width - 24 * 2,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width - 24 * 2,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [

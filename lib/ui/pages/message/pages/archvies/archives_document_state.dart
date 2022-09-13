@@ -5,26 +5,29 @@ class ArchivesDocumentState extends Equatable {
   final int indexTypeDocument;
   final LoadStatus? loadStatus;
   final List<MessageEntity> listMsg;
-  final List<Document> listImg;
-  final List<Document> listVideo;
-  final List<Document> listFile;
+  final List<DocumentEntity> listImg;
+  final List<DocumentEntity> listVideo;
+  final List<DocumentEntity> listDocumentVideo;
+  final List<DocumentEntity> listDocumentFile;
 
-  ArchivesDocumentState({
+  const ArchivesDocumentState({
     this.indexTypeDocument = 0,
     this.loadStatus,
     this.listMsg = const [],
     this.listImg = const [],
     this.listVideo = const [],
-    this.listFile = const [],
+    this.listDocumentVideo = const [],
+    this.listDocumentFile = const [],
   });
 
   ArchivesDocumentState copyWith({
     int? indexTypeDocument,
     LoadStatus? loadStatus,
     List<MessageEntity>? listMsg,
-    List<Document>? listImg,
-    List<Document>? listVideo,
-    List<Document>? listFile,
+    List<DocumentEntity>? listImg,
+    List<DocumentEntity>? listVideo,
+    List<DocumentEntity>? listDocumentVideo,
+    List<DocumentEntity>? listDocumentFile,
   }) {
     return ArchivesDocumentState(
       indexTypeDocument: indexTypeDocument ?? this.indexTypeDocument,
@@ -32,7 +35,8 @@ class ArchivesDocumentState extends Equatable {
       listMsg: listMsg ?? this.listMsg,
       listImg: listImg ?? this.listImg,
       listVideo: listVideo ?? this.listVideo,
-      listFile: listFile ?? this.listFile,
+      listDocumentVideo: listDocumentVideo ?? this.listDocumentVideo,
+      listDocumentFile: listDocumentFile ?? this.listDocumentFile,
     );
   }
 
@@ -44,6 +48,7 @@ class ArchivesDocumentState extends Equatable {
         listMsg,
         listImg,
         listVideo,
-        listFile,
+        listDocumentVideo,
+        listDocumentFile,
       ];
 }

@@ -15,11 +15,11 @@ final List<TypeDocument> listDocument = [
 ];
 
 class DialogViewDocument extends StatefulWidget {
-  String imgPath;
-  String nameUser;
-  String uid;
+  final String imgPath;
+  final String nameUser;
+  final String uid;
 
-  DialogViewDocument({
+  const DialogViewDocument({
     Key? key,
     required this.imgPath,
     required this.nameUser,
@@ -205,6 +205,9 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
                         listVideo: state.listVideo,
                         listFile: state.listFile,
                         indexDocument: index,
+                        // listImg: state.listImg,
+                        // listVideo: state.listVideo,
+                        // listFile: state.listFile,
                       ),
                     ),
                   );
@@ -250,7 +253,12 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
                     return SizedBox(
                       height: MediaQuery.of(context).size.width / 4 - 25,
                       width: MediaQuery.of(context).size.width / 4 - 25,
-                      child: ImgFile(urlFile: (state.listImg[index].document ?? []).first.path ?? ""),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: ImgFile(
+                          urlFile: state.listImg[index].path ?? "",
+                        ),
+                      ),
                     );
                   },
                   separatorBuilder: (context, index) {
@@ -267,8 +275,8 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
                             builder: (context) => ArchivesDocumentPage(
                               uid: widget.uid,
                               listImg: state.listImg,
-                              listFile: state.listFile,
                               listVideo: state.listVideo,
+                              listFile: state.listFile,
                               indexDocument: 0,
                             ),
                           ),

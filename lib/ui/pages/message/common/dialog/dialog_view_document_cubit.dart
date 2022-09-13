@@ -1,6 +1,6 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_base/ui/pages/message/type_document.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../models/entities/message_entity.dart';
 import '../../../../../models/enums/load_status.dart';
@@ -15,15 +15,32 @@ class DialogViewDocumentCubit extends Cubit<DialogViewDocumentState> {
     emit(state.copyWith(loadStatus: LoadStatus.loading));
     try {
       List<MessageEntity> listMsg = [];
+      List<DocumentEntity> listImg = [];
+      List<DocumentEntity> listVideo = [];
+      List<DocumentEntity> listFile = [];
       FirebaseApi.getMessages(uid).then((value) => {
             if (value.isNotEmpty)
               {
+                value.sort((a, b) => b.createdAt!.compareTo(a.createdAt!)),
                 listMsg = value.where((element) => (element.document ?? []).isNotEmpty).toList(),
+                listMsg.forEach((element) {
+                  switch ((element.document ?? []).first.type) {
+                    case "IMAGE":
+                      listImg.add((element.document ?? []).first);
+                      return;
+                    case "VIDEO":
+                      listVideo.add((element.document ?? []).first);
+                      return;
+                    case "FILE":
+                      listFile.add((element.document ?? []).first);
+                      return;
+                  }
+                }),
                 emit(state.copyWith(
                   loadStatus: LoadStatus.success,
-                  listImg: listMsg.where((element) => (element.document ?? []).first.type == "IMAGE").toList(),
-                  listVideo: listMsg.where((element) => (element.document ?? []).first.type == "VIDEO").toList(),
-                  listFile: listMsg.where((element) => (element.document ?? []).first.type == "FILE").toList(),
+                  listImg: listImg,
+                  listVideo: listVideo,
+                  listFile: listFile,
                 ))
               }
             else

@@ -50,8 +50,11 @@ class ItemProgressViewState extends State<ItemProgressView> {
 
   resetTimer() {
     _timer?.cancel();
-    _start = 0;
-    _milliseconds = 800;
+    setState(() {
+      _start = 0;
+      _milliseconds = 800;
+    });
+
     startTimer();
   }
 

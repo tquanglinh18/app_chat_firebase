@@ -1,13 +1,11 @@
 part of 'dialog_view_document_cubit.dart';
 
-@immutable
- class DialogViewDocumentState extends Equatable {
-
+class DialogViewDocumentState extends Equatable {
   final int indexTypeDocument;
   final LoadStatus? loadStatus;
-  final List<MessageEntity> listImg;
-  final List<MessageEntity> listVideo;
-  final List<MessageEntity> listFile;
+  final List<DocumentEntity> listImg;
+  final List<DocumentEntity> listVideo;
+  final List<DocumentEntity> listFile;
 
   const DialogViewDocumentState({
     this.indexTypeDocument = 0,
@@ -20,9 +18,9 @@ part of 'dialog_view_document_cubit.dart';
   DialogViewDocumentState copyWith({
     int? indexTypeDocument,
     LoadStatus? loadStatus,
-    List<MessageEntity>? listImg,
-    List<MessageEntity>? listVideo,
-    List<MessageEntity>? listFile,
+    List<DocumentEntity>? listImg,
+    List<DocumentEntity>? listVideo,
+    List<DocumentEntity>? listFile,
   }) {
     return DialogViewDocumentState(
       indexTypeDocument: indexTypeDocument ?? this.indexTypeDocument,
@@ -36,10 +34,10 @@ part of 'dialog_view_document_cubit.dart';
   @override
 // TODO: implement props
   List<Object?> get props => [
-    indexTypeDocument,
-    loadStatus,
-    listImg,
-    listVideo,
-    listFile,
-  ];
+        indexTypeDocument,
+        loadStatus,
+        listImg,
+        listVideo,
+        listFile,
+      ];
 }

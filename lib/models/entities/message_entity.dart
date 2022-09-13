@@ -15,7 +15,7 @@ class MessageEntity {
   @JsonKey()
   String? type;
   @JsonKey()
-  List<Document>? document;
+  List<DocumentEntity>? document;
   @JsonKey()
   String? nameSend;
   @JsonKey()
@@ -44,7 +44,7 @@ class MessageEntity {
     String? type,
     String? nameSend,
     String? nameReply,
-    List<Document>? document,
+    List<DocumentEntity>? document,
   }) {
     return MessageEntity(
       createdAt: createdAt ?? this.createdAt,
@@ -60,7 +60,7 @@ class MessageEntity {
 }
 
 @JsonSerializable()
-class Document {
+class DocumentEntity {
   @JsonKey()
   String? path;
   @JsonKey()
@@ -69,15 +69,37 @@ class Document {
   String? pathThumbnail;
   @JsonKey()
   String? name;
+  @JsonKey()
+  bool isHeader;
+  @JsonKey()
+  String? nameSend;
+  @JsonKey()
+  String? createAt;
 
-  Document({
-    this.path,
-    this.type,
-    this.pathThumbnail,
-    this.name,
-  });
+  DocumentEntity(
+      {this.path, this.type, this.pathThumbnail, this.name, this.isHeader = false, this.nameSend, this.createAt});
 
-  factory Document.fromJson(Map<String, dynamic> json) => _$DocumentFromJson(json);
+  factory DocumentEntity.fromJson(Map<String, dynamic> json) => _$DocumentEntityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DocumentToJson(this);
+  Map<String, dynamic> toJson() => _$DocumentEntityToJson(this);
+
+  DocumentEntity copyWith({
+    String? path,
+    String? type,
+    String? pathThumbnail,
+    String? name,
+    bool? isHeader,
+    String? nameSend,
+    String? createAt,
+  }) {
+    return DocumentEntity(
+      path: path ?? this.path,
+      type: type ?? this.type,
+      pathThumbnail: pathThumbnail ?? this.pathThumbnail,
+      name: name ?? this.name,
+      isHeader: isHeader ?? this.isHeader,
+      nameSend: nameSend ?? this.nameSend,
+      createAt: createAt ?? this.createAt,
+    );
+  }
 }

@@ -495,7 +495,7 @@ class _MessagePageState extends State<MessagePage> {
           TypeDocument.IMAGE.toTypeDocument,
           file.first.path,
           '',
-          '',
+          file.first.path.split("/").last,
         );
       },
       onChooseVideo: (listFile, file) {
@@ -503,7 +503,7 @@ class _MessagePageState extends State<MessagePage> {
           TypeDocument.VIDEO.toTypeDocument,
           listFile.first.path,
           file.path,
-          '',
+          listFile.first.path.split("/").last,
         );
       },
       onChooseDocument: (file) {

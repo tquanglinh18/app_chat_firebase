@@ -14,7 +14,7 @@ extension TypeDocumentExtension on TypeDocument {
       case "FILE":
         return TypeDocument.FILE;
     }
-    return null;
+    return TypeDocument.IMAGE;
   }
 
   String get toTypeDocument {
@@ -25,6 +25,8 @@ extension TypeDocumentExtension on TypeDocument {
         return "VIDEO";
       case TypeDocument.FILE:
         return "FILE";
+      default:
+        return "IMAGE";
     }
   }
 }

@@ -16,7 +16,7 @@ class ReplyMsg extends StatelessWidget {
   String? timer;
   String nameSend;
   String nameReply;
-  List<Document> listDocument;
+  List<DocumentEntity> listDocument;
 
   ReplyMsg({
     Key? key,

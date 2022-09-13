@@ -44,8 +44,10 @@ class MessageCubit extends Cubit<MessageState> {
     }
   }
 
-  sendMsg(String text, String icConversion,
-      ) {
+  sendMsg(
+    String text,
+    String icConversion,
+  ) {
     try {
       emit(state.copyWith(sendMsgLoadStatus: LoadStatus.loading));
       final newMessage = MessageEntity(
@@ -149,13 +151,15 @@ class MessageCubit extends Cubit<MessageState> {
 
   addDocument(String type, String path, String pathThumbnail, String name) {
     try {
-      List<Document> listDocument = List.from(state.listDocument);
+      List<DocumentEntity> listDocument = List.from(state.listDocument);
       listDocument.add(
-        Document(
+        DocumentEntity(
           type: type,
           path: path,
           pathThumbnail: pathThumbnail,
           name: name,
+          nameSend: state.nameSend,
+          createAt: DateTime.now().toUtc().toString(),
         ),
       );
 

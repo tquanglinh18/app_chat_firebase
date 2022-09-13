@@ -1,41 +1,112 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../../models/entities/message_entity.dart';
 import '../../../../../models/enums/load_status.dart';
-import '../../../../../network/fire_base_api.dart';
 
 part 'archives_document_state.dart';
 
 class ArchivesDocumentCubit extends Cubit<ArchivesDocumentState> {
-  ArchivesDocumentCubit() : super(ArchivesDocumentState());
+  ArchivesDocumentCubit() : super(const ArchivesDocumentState());
 
-  isSelectedType(int isSelectedType) {
+  isSelectedType(
+    int isSelectedType,
+    List<DocumentEntity> listMsgFile,
+    List<DocumentEntity> listMsgVideo,
+  ) {
     emit(state.copyWith(indexTypeDocument: isSelectedType));
+    switch (isSelectedType) {
+      case 1:
+        return listDocumentFile(listMsgFile);
+      case 2:
+        return listDocumentVideo(listMsgVideo);
+      default:
+        return;
+    }
   }
 
-  getListDocument(String uid) {
-    emit(state.copyWith(loadStatus: LoadStatus.loading));
+  listDocumentFile(List<DocumentEntity> listMsgFile) async {
     try {
-      List<MessageEntity> listMsg = [];
-      FirebaseApi.getMessages(uid).then((value) => {
-            if (value.isNotEmpty)
-              {
-                listMsg = value.where((element) => (element.document ?? []).isNotEmpty).toList(),
-                emit(state.copyWith(
-                  loadStatus: LoadStatus.success,
-                  listImg: listMsg.where((element) => element.type == "IMAGE").first.document,
-                  listVideo: listMsg.where((element) => element.type == "VIDEO").first.document,
-                  listFile: listMsg.where((element) => element.type == "FILE").first.document,
-                ))
-              }
-            else
-              {
-                emit(state.copyWith(loadStatus: LoadStatus.failure)),
-              }
-          });
+      emit(state.copyWith(loadStatus: LoadStatus.loading));
+      List<DocumentEntity> listDocumentFile = [];
+      if (listMsgFile.isEmpty) return;
+      DocumentEntity modelFirst = DocumentEntity(
+        path: listMsgFile[0].path,
+        pathThumbnail: listMsgFile[0].pathThumbnail,
+        name: listMsgFile[0].name,
+        nameSend: listMsgFile[0].nameSend,
+        createAt: listMsgFile[0].createAt,
+        isHeader: true,
+      );
+      listDocumentFile.add(modelFirst);
+
+      for (int i = 0; i < listMsgFile.length; i++) {
+        if (i + 1 < listMsgFile.length) {
+          if ((listMsgFile[i].createAt ?? " ").split(' ').first !=
+              (listMsgFile[i + 1].createAt ?? '').split(' ').first) {
+            DocumentEntity msg = DocumentEntity(
+              path: listMsgFile[i + 1].path,
+              pathThumbnail: listMsgFile[i + 1].pathThumbnail,
+              name: listMsgFile[i + 1].name,
+              nameSend: listMsgFile[i + 1].nameSend,
+              createAt: listMsgFile[i + 1].createAt,
+              isHeader: true,
+            );
+
+            listDocumentFile.add(listMsgFile[i]);
+            listDocumentFile.add(msg);
+          } else {
+            listDocumentFile.add(listMsgFile[i]);
+          }
+        } else {
+          listDocumentFile.add(listMsgFile[i]);
+        }
+      }
+      emit(state.copyWith(listDocumentFile: listDocumentFile, loadStatus: LoadStatus.success));
+    } catch (e) {
+      emit(state.copyWith(loadStatus: LoadStatus.failure));
+    }
+  }
+
+  listDocumentVideo(List<DocumentEntity> listMsgVideo) {
+    try {
+      emit(state.copyWith(loadStatus: LoadStatus.loading));
+      List<DocumentEntity> listDocumentVideo = [];
+      if (listMsgVideo.isEmpty) return;
+      DocumentEntity modelFirst = DocumentEntity(
+        path: listMsgVideo[0].path,
+        pathThumbnail: listMsgVideo[0].pathThumbnail,
+        name: listMsgVideo[0].name,
+        nameSend: listMsgVideo[0].nameSend,
+        createAt: listMsgVideo[0].createAt,
+        isHeader: true,
+      );
+      listDocumentVideo.add(modelFirst);
+
+      for (int i = 0; i < listMsgVideo.length; i++) {
+        if (i + 1 < listMsgVideo.length) {
+          if ((listMsgVideo[i].createAt ?? " ").split(' ').first !=
+              (listMsgVideo[i + 1].createAt ?? '').split(' ').first) {
+            DocumentEntity msg = DocumentEntity(
+              path: listMsgVideo[i + 1].path,
+              pathThumbnail: listMsgVideo[i + 1].pathThumbnail,
+              name: listMsgVideo[i + 1].name,
+              nameSend: listMsgVideo[i + 1].nameSend,
+              createAt: listMsgVideo[i + 1].createAt,
+              isHeader: true,
+            );
+
+            listDocumentVideo.add(listMsgVideo[i]);
+            listDocumentVideo.add(msg);
+          } else {
+            listDocumentVideo.add(listMsgVideo[i]);
+          }
+        } else {
+          listDocumentVideo.add(listMsgVideo[i]);
+        }
+      }
+      emit(state.copyWith(listDocumentVideo: listDocumentVideo, loadStatus: LoadStatus.success));
     } catch (e) {
       emit(state.copyWith(loadStatus: LoadStatus.failure));
     }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base/models/entities/message_entity.dart';
 import 'package:flutter_base/ui/commons/img_file.dart';
-import 'package:flutter_base/ui/pages/message/pages/play_video.dart';
 import 'package:flutter_base/ui/pages/message/type_document.dart';
 import 'package:open_file/open_file.dart';
 
@@ -13,7 +12,7 @@ class TextMessage extends StatelessWidget {
   bool isSent;
   String? timer;
   Function()? onLongPress;
-  List<Document> listDocumnet;
+  List<DocumentEntity> listDocumnet;
   String nameSend;
   String nameConversion;
 
@@ -65,13 +64,8 @@ class TextMessage extends StatelessWidget {
                           : (listDocumnet.first.type == TypeDocument.VIDEO.toTypeDocument)
                               ? _typeVideoMsg(
                                   () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => PlayVideo(
-                                          nameConversion: nameConversion,
-                                          path: listDocumnet.first.path!,
-                                        ),
-                                      ),
+                                    OpenFile.open(
+                                      listDocumnet.first.path!,
                                     );
                                   },
                                 )
@@ -134,9 +128,10 @@ class TextMessage extends StatelessWidget {
       onTap: () {
         OpenFile.open(listDocumnet.first.path);
       },
-      child: const Icon(
+      child: Icon(
         Icons.file_present_outlined,
         size: 100,
+        color: isSent ? AppColors.backgroundLight : AppColors.btnColor,
       ),
     );
   }
@@ -155,11 +150,13 @@ class TextMessage extends StatelessWidget {
               isSent: isSent,
               textMsgError: 'Đã xảy ra lỗi \nVui lòng thử lại',
               documentIsVideo: true,
+              isBorderSide: true,
             ),
           ),
-          const Icon(
+          Icon(
             Icons.play_circle_fill_outlined,
             size: 50,
+            color: isSent ? AppColors.backgroundLight : AppColors.btnColor,
           ),
         ],
       ),
@@ -171,6 +168,7 @@ class TextMessage extends StatelessWidget {
       urlFile: listDocumnet.first.path!,
       textMsgError: 'Đã xảy ra lỗi \nVui lòng thử lại',
       isSent: isSent,
+      isBorderSide: true,
     );
   }
 }

@@ -36,4 +36,9 @@ class AppImages {
   static const icSearchMessage = "assets/images/ic_search_message.png";
   static const icOption = "assets/images/ic_option.png";
   static const icSentMessage = "assets/images/ic_sent_message.png";
+
+  static const icFilePdf = "assets/images/ic_file_pdf.png";
+  static const icFileVideo = "assets/images/ic_file_video.png";
+  static const icFileDocx = "assets/images/ic_file_docx.png";
+  static const icFileXlxs = "assets/images/ic_file_xlxs.png";
 }

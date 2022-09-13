@@ -11,6 +11,7 @@ class ImgFile extends StatelessWidget {
   String textMsgError;
   bool documentIsVideo;
   bool isBorderRadius;
+  bool isBorderSide;
 
   ImgFile({
     Key? key,
@@ -19,6 +20,7 @@ class ImgFile extends StatelessWidget {
     this.textMsgError = '',
     this.documentIsVideo = false,
     this.isBorderRadius = false,
+    this.isBorderSide = false,
   }) : super(key: key);
 
   @override
@@ -32,8 +34,11 @@ class ImgFile extends StatelessWidget {
       ) {
         return Container(
           decoration: BoxDecoration(
-            borderRadius: !isBorderRadius ? BorderRadius.circular(16) : BorderRadius.zero ,
-            border: Border.all(color: AppColors.hintTextColor, width: 1),
+            borderRadius: !isBorderRadius ? BorderRadius.circular(16) : BorderRadius.zero,
+            border: Border.all(
+              color: isBorderSide ? Colors.transparent : AppColors.hintTextColor,
+              width: 1,
+            ),
           ),
           child: Padding(
             padding: documentIsVideo ? const EdgeInsets.only(top: 140) : EdgeInsets.zero,

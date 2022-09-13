@@ -39,12 +39,14 @@ class FirebaseApi {
     };
   }
 
-  static Map<String, dynamic> convertDocumentToJson(Document instance) {
+  static Map<String, dynamic> convertDocumentToJson(DocumentEntity instance) {
     return {
       'path': instance.path,
       'type': instance.type,
       'pathThumbnail': instance.pathThumbnail,
       'name': instance.name,
+      'createAt': instance.createAt,
+      'isHeader': instance.isHeader,
     };
   }
 

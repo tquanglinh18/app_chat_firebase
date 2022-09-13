@@ -14,7 +14,7 @@ class MessageState extends Equatable {
   int? indexMsg;
   String uidFireBase;
   bool isSelected;
-  List<Document> listDocument;
+  List<DocumentEntity> listDocument;
   String? nameSend;
 
   MessageState({
@@ -43,7 +43,7 @@ class MessageState extends Equatable {
     int? indexMsg,
     String? uidFireBase,
     bool? isSelected,
-    List<Document>? listDocument,
+    List<DocumentEntity>? listDocument,
     String? nameSend,
   }) {
     return MessageState(
