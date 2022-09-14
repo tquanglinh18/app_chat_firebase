@@ -56,14 +56,14 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
         ),
         child: Column(
           children: [
-            _appBar(),
+            _buildappBar,
             _userChat(
               imgPath: widget.imgPath,
               nameUser: widget.nameUser,
             ),
             const SizedBox(height: 10),
             Expanded(
-              child: _viewDocument(),
+              child: _viewDocument,
             ),
           ],
         ),
@@ -71,7 +71,7 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
     );
   }
 
-  Widget _appBar() {
+  Widget get _buildappBar {
     return Container(
       padding: const EdgeInsets.all(15),
       child: Row(
@@ -107,7 +107,10 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
     );
   }
 
-  Widget _userChat({required String imgPath, required String nameUser}) {
+  Widget _userChat({
+    required String imgPath,
+    required String nameUser,
+  }) {
     return Container(
       color: AppColors.backgroundLight,
       padding: const EdgeInsets.all(15),
@@ -134,7 +137,7 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
     );
   }
 
-  Widget _viewDocument() {
+  Widget get _viewDocument {
     return BlocBuilder<DialogViewDocumentCubit, DialogViewDocumentState>(
       bloc: _cubit,
       buildWhen: (pre, cur) => pre.listImg != cur.listImg,
@@ -151,7 +154,7 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
                     width: 45,
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.red,
+                      color: AppColors.btnColor,
                     ),
                     child: const Icon(
                       Icons.image,
@@ -170,9 +173,9 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
                 ],
               ),
               _space,
-              _optionDocumentView(),
+              _optionDocumentView,
               _space,
-              state.listImg.isEmpty ? _previewImageIsEmpty() : _previewImage(),
+              state.listImg.isEmpty ? _previewImageIsEmpty : _previewImage,
             ],
           ),
         );
@@ -184,7 +187,7 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
     return const SizedBox(height: 20);
   }
 
-  Widget _optionDocumentView() {
+  Widget get _optionDocumentView {
     return BlocBuilder<DialogViewDocumentCubit, DialogViewDocumentState>(
       bloc: _cubit,
       buildWhen: (pre, cur) =>
@@ -205,9 +208,6 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
                         listVideo: state.listVideo,
                         listFile: state.listFile,
                         indexDocument: index,
-                        // listImg: state.listImg,
-                        // listVideo: state.listVideo,
-                        // listFile: state.listFile,
                       ),
                     ),
                   );
@@ -237,7 +237,7 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
     );
   }
 
-  Widget _previewImage() {
+  Widget get _previewImage {
     return BlocBuilder<DialogViewDocumentCubit, DialogViewDocumentState>(
       bloc: _cubit,
       buildWhen: (pre, cur) => pre.listImg != cur.listImg,
@@ -303,7 +303,7 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
     );
   }
 
-  Widget _previewImageIsEmpty() {
+  Widget get _previewImageIsEmpty {
     return Container(
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(

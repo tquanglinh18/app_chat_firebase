@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base/common/app_images.dart';
 import 'package:flutter_base/common/app_text_styles.dart';
+import 'package:flutter_base/ui/commons/datetime_formatter.dart';
 import 'package:flutter_base/ui/commons/img_file.dart';
 import 'package:flutter_base/ui/pages/message/pages/archvies/archives_document_cubit.dart';
 import 'package:flutter_base/ui/widgets/appbar/app_bar_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
 
 import '../../../../../common/app_colors.dart';
@@ -107,9 +109,8 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
       bloc: _cubit,
       buildWhen: (pre, cur) => pre.indexTypeDocument != cur.indexTypeDocument,
       builder: (context, state) {
-        return Container(
-          padding: const EdgeInsets.all(5),
-          height: 50,
+        return SizedBox(
+          height: 40,
           child: ListView.separated(
             padding: EdgeInsets.zero,
             scrollDirection: Axis.horizontal,
@@ -181,7 +182,7 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
       builder: (context, state) {
         return state.listDocumentFile.isNotEmpty
             ? ListView.separated(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
+                padding: EdgeInsets.zero,
                 itemCount: state.listDocumentFile.length,
                 itemBuilder: (context, index) {
                   return _itemFilePreview(
@@ -196,7 +197,10 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) {
-                  return Container(height: 5);
+                  return Container(
+                    height: 1,
+                    color: AppColors.greyBgr,
+                  );
                 },
               )
             : const DataEmpty(color: AppColors.btnColor);
@@ -209,32 +213,32 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
       bloc: _cubit,
       buildWhen: (pre, cur) => pre.loadStatus != cur.loadStatus,
       builder: (context, state) {
-        return SizedBox(
-          height: 63,
-          child: state.listDocumentVideo.isNotEmpty
-              ? ListView.separated(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  itemCount: state.listDocumentVideo.length,
-                  itemBuilder: (context, index) {
-                    return _itemFilePreview(
-                      name: (state.listDocumentVideo[index].name ?? ""),
-                      onTap: () {
-                        OpenFile.open(
-                          (state.listDocumentVideo[index].path),
-                        );
-                      },
-                      type: (state.listDocumentVideo[index].name ?? "").split(".").last,
-                      nameSend: state.listDocumentVideo[index].nameSend ?? "",
-                      timeSend: (state.listDocumentVideo[index].createAt ?? "").split(' ').first,
-                      isHeader: state.listDocumentVideo[index].isHeader,
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return Container(height: 5);
-                  },
-                )
-              : const DataEmpty(color: AppColors.btnColor),
-        );
+        return state.listDocumentVideo.isNotEmpty
+            ? ListView.separated(
+                padding: EdgeInsets.zero,
+                itemCount: state.listDocumentVideo.length,
+                itemBuilder: (context, index) {
+                  return _itemFilePreview(
+                    name: (state.listDocumentVideo[index].name ?? ""),
+                    onTap: () {
+                      OpenFile.open(
+                        (state.listDocumentVideo[index].path),
+                      );
+                    },
+                    type: (state.listDocumentVideo[index].name ?? "").split(".").last,
+                    nameSend: state.listDocumentVideo[index].nameSend ?? "",
+                    timeSend: (state.listDocumentVideo[index].createAt ?? "").split(' ').first,
+                    isHeader: state.listDocumentVideo[index].isHeader,
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return Container(
+                    height: 1,
+                    color: AppColors.greyBgr,
+                  );
+                },
+              )
+            : const DataEmpty(color: AppColors.btnColor);
       },
     );
   }
@@ -250,39 +254,54 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
     return isHeader
         ? Container(
             alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             height: 40,
             child: Text(
-              timeSend,
+              "Ngày ${DateFormat('dd-MM-yyyy').format(
+                timeSend.toDateLocal() ?? DateTime.now(),
+              )}",
               style: AppTextStyle.greyS14.copyWith(
                 fontWeight: FontWeight.w400,
                 fontSize: 14,
               ),
             ),
           )
-        : SizedBox(
-            height: 63,
+        : Container(
+            color: AppColors.backgroundLight,
+            padding: const EdgeInsets.all(15),
             child: InkWell(
               onTap: onTap,
               child: Row(
                 children: [
                   Container(
-                    width: 63,
-                    height: 63,
+                    width: 55,
+                    height: 55,
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: AppColors.btnColor,
                         width: 1.0,
                       ),
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(10),
+                      ),
                     ),
                     child: Center(
                       child: type == "pdf"
                           ? Image.asset(AppImages.icFilePdf)
                           : type == "docx" || type == "doc"
-                              ? Image.asset(AppImages.icFileDocx)
+                              ? Image.asset(
+                                  AppImages.icFileDocx,
+                                  height: 25,
+                                )
                               : type == "xlxs"
-                                  ? Image.asset(AppImages.icFileXlxs)
-                                  : Image.asset(AppImages.icFileVideo),
+                                  ? Image.asset(
+                                      AppImages.icFileXlxs,
+                                      height: 25,
+                                    )
+                                  : Image.asset(
+                                      AppImages.icFileVideo,
+                                      height: 25,
+                                    ),
                     ),
                   ),
                   const SizedBox(width: 10),

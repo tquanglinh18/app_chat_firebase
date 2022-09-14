@@ -46,6 +46,7 @@ class FirebaseApi {
       'pathThumbnail': instance.pathThumbnail,
       'name': instance.name,
       'createAt': instance.createAt,
+      'nameSend': instance.nameSend,
       'isHeader': instance.isHeader,
     };
   }

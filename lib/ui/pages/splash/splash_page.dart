@@ -46,27 +46,29 @@ class _SplashChildPageState extends State<SplashChildPage> {
     SharedPreferencesHelper.getUidFireBaseKey().then(
       (value) {
         if (value.isNotEmpty) {
-          SharedPreferencesHelper.getNameUserLoginKey().then((value) {
-            if (value.isNotEmpty) {
-              Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(
-                  builder: (_) => HomeAppPage(),
-                  settings: const RouteSettings(name: "home"),
-                ),
-                (route) => false,
-              );
-            } else {
-              Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(
-                  builder: (_) => const ProfileUserPage(
-                    colorIcon: Colors.transparent,
+          SharedPreferencesHelper.getNameUserLoginKey().then(
+            (value) {
+              if (value.isNotEmpty) {
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (_) => HomeAppPage(),
+                    settings: const RouteSettings(name: "home"),
                   ),
-                  settings: const RouteSettings(name: "profile"),
-                ),
-                (route) => false,
-              );
-            }
-          });
+                  (route) => false,
+                );
+              } else {
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (_) => const ProfileUserPage(
+                      colorIcon: Colors.transparent,
+                    ),
+                    settings: const RouteSettings(name: "profile"),
+                  ),
+                  (route) => false,
+                );
+              }
+            },
+          );
         } else {
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
