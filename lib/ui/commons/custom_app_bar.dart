@@ -7,6 +7,7 @@ class AppBarCustom extends StatelessWidget {
   int? icCount;
   List<String>? image;
   VoidCallback? onTap;
+  Color? color;
 
   AppBarCustom({
     Key? key,
@@ -14,10 +15,12 @@ class AppBarCustom extends StatelessWidget {
     this.icCount,
     this.image,
     this.onTap,
+    this.color,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.only(top: 47, right: 24, left: 25, bottom: 13),
       height: 90,
@@ -26,38 +29,39 @@ class AppBarCustom extends StatelessWidget {
           Expanded(
             child: Text(
               title!,
-              style: AppTextStyle.blackS18.copyWith(fontSize: 18, fontWeight: FontWeight.w600),
+              style: theme.textTheme.bodyText1,
             ),
           ),
           icCount != null
               ? SizedBox(
-            width: MediaQuery.of(context).size.width / 3,
-            child: Directionality(
-              textDirection: TextDirection.rtl,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                padding: EdgeInsets.zero,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: icCount!,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: onTap,
-                    child: SizedBox(
-                      height: 24,
-                      width: 24,
-                      child: Image.asset(
-                        image![index],
-                        fit: BoxFit.contain,
-                      ),
+                  width: MediaQuery.of(context).size.width / 3,
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      padding: EdgeInsets.zero,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: icCount!,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: onTap,
+                          child: SizedBox(
+                            height: 24,
+                            width: 24,
+                            child: Image.asset(
+                              image![index],
+                              fit: BoxFit.contain,
+                              color: color,
+                            ),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return const SizedBox(width: 12);
+                      },
                     ),
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(width: 12);
-                },
-              ),
-            ),
-          )
+                  ),
+                )
               : const SizedBox(),
         ],
       ),

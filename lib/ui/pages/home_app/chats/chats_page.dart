@@ -38,7 +38,7 @@ class _ChatsPageState extends State<ChatsPage> {
     _cubit.getStory();
     _cubit.getListUser();
     FirebaseFirestore.instance.collection('story').snapshots().listen(
-          (event) {
+      (event) {
         _cubit.realTimeFireBase();
       },
       onError: (error) => logger.d("Realtime $error"),
@@ -51,24 +51,22 @@ class _ChatsPageState extends State<ChatsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       body: Stack(
         children: [
           Column(
             children: [
-              _buildAppBar,
+              _buildAppBar(theme.iconTheme.color!),
               _story,
               Container(
                 height: 1,
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width,
+                width: MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(color: AppColors.greyBG),
               ),
               _buildSearchBar,
               Expanded(
-                child: _userChat,
+                child: _userChat(theme.textTheme.bodyText1),
               )
             ],
           ),
@@ -103,11 +101,12 @@ class _ChatsPageState extends State<ChatsPage> {
     );
   }
 
-  Widget get _buildAppBar {
+  Widget _buildAppBar(Color color) {
     return AppBarCustom(
       title: "Chats",
       icCount: 2,
       image: const [AppImages.icNewMessage, AppImages.icMarkAsRead],
+      color: color,
       onTap: () {
         DxFlushBar.showFlushBar(
           context,
@@ -121,10 +120,7 @@ class _ChatsPageState extends State<ChatsPage> {
   Widget get _story {
     return SizedBox(
       height: 113,
-      width: MediaQuery
-          .of(context)
-          .size
-          .width,
+      width: MediaQuery.of(context).size.width,
       child: Row(
         children: [
           _buildAddStory,
@@ -149,19 +145,18 @@ class _ChatsPageState extends State<ChatsPage> {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) =>
-                        ViewStory(
-                          urlImagePath: state.listStory[index].listImagePath ?? [],
-                          urlAvatar: state.listUser.isNotEmpty
-                              ? state.listUser
-                              .where((element) => element.uid == state.listStory[index].uid)
-                              .toList()
-                              .first
-                              .avatar ??
+                    builder: (context) => ViewStory(
+                      urlImagePath: state.listStory[index].listImagePath ?? [],
+                      urlAvatar: state.listUser.isNotEmpty
+                          ? state.listUser
+                                  .where((element) => element.uid == state.listStory[index].uid)
+                                  .toList()
+                                  .first
+                                  .avatar ??
                               ""
-                              : "",
-                          name: state.listStory[index].name ?? '',
-                        ),
+                          : "",
+                      name: state.listStory[index].name ?? '',
+                    ),
                   ),
                 );
               },
@@ -214,9 +209,9 @@ class _ChatsPageState extends State<ChatsPage> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(16),
                   child: ImgFile(
-                      urlFile: urlFile,
-                      isBorderRadius: true,
-                      isBorderSide: true,
+                    urlFile: urlFile,
+                    isBorderRadius: true,
+                    isBorderSide: true,
                   ),
                 ),
               ),
@@ -270,7 +265,7 @@ class _ChatsPageState extends State<ChatsPage> {
     );
   }
 
-  Widget get _userChat {
+  Widget _userChat(TextStyle? style) {
     return BlocConsumer<ChatsCubit, ChatsState>(
       bloc: _cubit,
       listenWhen: (pre, cur) => pre.loadStatusGetUser != cur.loadStatusGetUser,
@@ -296,17 +291,14 @@ class _ChatsPageState extends State<ChatsPage> {
                   return Container(
                     padding: const EdgeInsets.all(4),
                     height: 56,
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width - 24 * 2,
+                    width: MediaQuery.of(context).size.width - 24 * 2,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         _avtUserChat(state.listUser[index].avatar ?? ""),
                         const SizedBox(width: 16),
                         Expanded(
-                          child: _nameUserChat(state.listUser[index].name ?? ""),
+                          child: _nameUserChat(name: state.listUser[index].name ?? "", style: style!),
                         ),
                       ],
                     ),
@@ -339,12 +331,13 @@ class _ChatsPageState extends State<ChatsPage> {
     );
   }
 
-  Widget _nameUserChat(String name) {
+  Widget _nameUserChat({
+    required String name,
+    required TextStyle style,
+  }) {
     return Text(
       name,
-      style: AppTextStyle.blackS14.copyWith(
-        fontWeight: FontWeight.w600,
-      ),
+      style: style,
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
     );

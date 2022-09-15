@@ -4,14 +4,14 @@ import '../../common/app_colors.dart';
 import '../../common/app_text_styles.dart';
 
 class SearchBar extends StatelessWidget {
-  String? hintText;
-  TextEditingController? controller;
-  bool isClose;
-  VoidCallback? onClose;
-  void Function(String)? onChanged;
-  void Function(String)? onSubmit;
+  final String? hintText;
+  final TextEditingController? controller;
+  final bool isClose;
+  final VoidCallback? onClose;
+  final void Function(String)? onChanged;
+  final void Function(String)? onSubmit;
 
-  SearchBar({
+  const SearchBar({
     Key? key,
     this.hintText,
     this.controller,
@@ -50,7 +50,11 @@ class SearchBar extends StatelessWidget {
             color: AppColors.hintTextColor,
           ),
           border: const OutlineInputBorder(
-              borderSide: BorderSide.none, borderRadius: BorderRadius.all(Radius.circular(30))),
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.all(
+              Radius.circular(4),
+            ),
+          ),
           fillColor: Theme.of(context).inputDecorationTheme.fillColor,
           contentPadding: EdgeInsets.zero,
           hintText: hintText ?? "Search",

@@ -43,13 +43,14 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Material(
       color: Colors.transparent,
       child: Container(
         margin: const EdgeInsets.only(top: 100),
-        decoration: const BoxDecoration(
-          color: AppColors.greyBG,
-          borderRadius: BorderRadius.only(
+        decoration: BoxDecoration(
+          color: theme.appBarTheme.backgroundColor!,
+          borderRadius: const BorderRadius.only(
             topRight: Radius.circular(15),
             topLeft: Radius.circular(15),
           ),
@@ -63,7 +64,7 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
             ),
             const SizedBox(height: 10),
             Expanded(
-              child: _viewDocument,
+              child: _viewDocument(),
             ),
           ],
         ),
@@ -72,6 +73,7 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
   }
 
   Widget get _buildappBar {
+    final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.all(15),
       child: Row(
@@ -80,10 +82,11 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
           Expanded(
             child: Text(
               'Thông tin cuộc hội thoại',
-              style: AppTextStyle.blackS18.copyWith(
-                fontSize: 20,
-                fontWeight: FontWeight.w400,
-              ),
+              style: theme.textTheme.bodyText1,
+              // style: AppTextStyle.blackS18.copyWith(
+              //   fontSize: 20,
+              //   fontWeight: FontWeight.w400,
+              // ),
               textAlign: TextAlign.center,
             ),
           ),
@@ -111,8 +114,9 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
     required String imgPath,
     required String nameUser,
   }) {
+    final theme = Theme.of(context);
     return Container(
-      color: AppColors.backgroundLight,
+      color: theme.highlightColor,
       padding: const EdgeInsets.all(15),
       child: Row(
         children: [
@@ -121,30 +125,28 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
             width: 70,
             child: ImgFile(
               urlFile: imgPath,
+               isSent: true,
             ),
           ),
           const SizedBox(width: 15),
           Text(
             nameUser,
-            style: AppTextStyle.blackS18.copyWith(
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-              height: 2,
-            ),
+            style: theme.textTheme.bodyText1,
           ),
         ],
       ),
     );
   }
 
-  Widget get _viewDocument {
+  Widget _viewDocument() {
+    final theme = Theme.of(context);
     return BlocBuilder<DialogViewDocumentCubit, DialogViewDocumentState>(
       bloc: _cubit,
       buildWhen: (pre, cur) => pre.listImg != cur.listImg,
       builder: (context, state) {
         return Container(
           padding: const EdgeInsets.all(15),
-          color: AppColors.backgroundLight,
+          color: theme.highlightColor,
           child: Column(
             children: [
               Row(
@@ -164,16 +166,12 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
                   const SizedBox(width: 15),
                   Text(
                     "Kho lưu trữ",
-                    style: AppTextStyle.blackS14.copyWith(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.textFieldDisabledBorder,
-                    ),
+                    style: theme.textTheme.bodyText1,
                   ),
                 ],
               ),
               _space,
-              _optionDocumentView,
+              _optionDocumentView(theme.textTheme.bodyText2!),
               _space,
               state.listImg.isEmpty ? _previewImageIsEmpty : _previewImage,
             ],
@@ -187,7 +185,7 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
     return const SizedBox(height: 20);
   }
 
-  Widget get _optionDocumentView {
+  Widget _optionDocumentView(TextStyle style) {
     return BlocBuilder<DialogViewDocumentCubit, DialogViewDocumentState>(
       bloc: _cubit,
       buildWhen: (pre, cur) =>
@@ -197,6 +195,7 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
           height: 30,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
+            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
@@ -218,6 +217,7 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
                     child: Text(
                       listDocument[index].toTypeDocument,
                       textAlign: TextAlign.center,
+                      style: style,
                     ),
                   ),
                 ),
@@ -316,6 +316,7 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
           const Icon(
             Icons.image_sharp,
             size: 50,
+            color: AppColors.backgroundDark,
           ),
           const SizedBox(width: 15),
           Expanded(

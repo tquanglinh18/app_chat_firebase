@@ -10,6 +10,7 @@ import 'package:flutter_base/ui/pages/home_app/home_app_page.dart';
 import 'package:flutter_base/ui/pages/profile_user/profile_user_cubit.dart';
 import 'package:flutter_base/ui/widgets/appbar/app_bar_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../common/app_colors.dart';
@@ -70,10 +71,11 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
   }
 
   Widget get _buildAppBar {
+    final theme = Theme.of(context);
     return AppBarWidget(
       onBackPressed: Navigator.of(context).pop,
       title: "Your Profile",
-      colorIcon: widget.colorIcon,
+      colorIcon: theme.iconTheme.color!,
     );
   }
 
@@ -125,6 +127,7 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: AppColors.greyBG),
       child: TextField(
         autofocus: true,
+        style: AppTextStyle.blackS14,
         onChanged: (value) {
           _cubit.firstNameChanged(value);
         },
@@ -147,6 +150,7 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
       height: 36,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: AppColors.greyBG),
       child: TextField(
+        style: AppTextStyle.blackS14,
         onChanged: (value) {
           _cubit.lastNameChanged(value);
         },
@@ -262,7 +266,10 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
               color: AppColors.textBlack,
             ),
             SizedBox(width: 15),
-            Text('Pick Image from Camera'),
+            Text(
+              'Pick Image from Camera',
+              style: AppTextStyle.black,
+            ),
           ],
         ),
       ),
@@ -285,7 +292,10 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
               color: AppColors.textBlack,
             ),
             SizedBox(width: 15),
-            Text('Pick image from gallery'),
+            Text(
+              'Pick image from gallery',
+              style: AppTextStyle.black,
+            ),
           ],
         ),
       ),

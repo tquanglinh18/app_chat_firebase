@@ -56,6 +56,7 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       backgroundColor: AppColors.greyBgr,
       body: BlocBuilder<ArchivesDocumentCubit, ArchivesDocumentState>(
@@ -64,14 +65,11 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
         builder: (context, state) {
           return Column(
             children: [
-              _buildAppBar,
+              _buildAppBar(theme.iconTheme.color!),
               Container(
-                decoration: const BoxDecoration(
-                  color: AppColors.greyBgr,
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(10),
-                    topLeft: Radius.circular(10),
-                  ),
+                decoration:  BoxDecoration(
+                  color: theme.hintColor,
+
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
@@ -95,12 +93,13 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
     );
   }
 
-  Widget get _buildAppBar {
+  Widget _buildAppBar(Color color) {
     return AppBarWidget(
       title: "Kho lưu trữ",
       onBackPressed: () {
         Navigator.of(context).pop();
       },
+      colorIcon: color,
     );
   }
 

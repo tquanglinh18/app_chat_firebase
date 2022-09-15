@@ -39,12 +39,14 @@ class _SettingChildPageState extends State<SettingChildPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBarWidget(
         title: S.of(context).settings_title,
         onBackPressed: () {
           Get.back();
         },
+        colorIcon: theme.iconTheme.color!,
       ),
       body: Container(
         padding: const EdgeInsets.all(AppDimens.paddingNormal),

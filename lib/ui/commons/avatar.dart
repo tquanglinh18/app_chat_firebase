@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 import '../../common/app_colors.dart';
 class Avatar extends StatelessWidget {
-  String urlAvatar;
-  Avatar({Key? key, required this.urlAvatar }) : super(key: key);
+  final String urlAvatar;
+  const Avatar({Key? key, required this.urlAvatar }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

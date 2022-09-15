@@ -6,12 +6,13 @@ import '../../common/app_colors.dart';
 import '../../common/app_text_styles.dart';
 
 class ImgFile extends StatelessWidget {
-  String urlFile;
-  bool isSent;
-  String textMsgError;
-  bool documentIsVideo;
-  bool isBorderRadius;
-  bool isBorderSide;
+  final String urlFile;
+  final bool isSent;
+  final String textMsgError;
+  final bool documentIsVideo;
+  final bool isBorderRadius;
+  final bool isBorderSide;
+  final bool isDarkMode;
 
   ImgFile({
     Key? key,
@@ -21,6 +22,7 @@ class ImgFile extends StatelessWidget {
     this.documentIsVideo = false,
     this.isBorderRadius = false,
     this.isBorderSide = false,
+    this.isDarkMode = false,
   }) : super(key: key);
 
   @override

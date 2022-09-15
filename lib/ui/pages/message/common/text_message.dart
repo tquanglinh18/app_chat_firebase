@@ -8,15 +8,15 @@ import '../../../../common/app_colors.dart';
 import '../../../../common/app_text_styles.dart';
 
 class TextMessage extends StatelessWidget {
-  String? message;
-  bool isSent;
-  String? timer;
-  Function()? onLongPress;
-  List<DocumentEntity> listDocumnet;
-  String nameSend;
-  String nameConversion;
+  final String? message;
+  final bool isSent;
+  final String? timer;
+  final Function()? onLongPress;
+  final List<DocumentEntity> listDocumnet;
+  final String nameSend;
+  final String nameConversion;
 
-  TextMessage({
+  const TextMessage({
     Key? key,
     this.message,
     this.isSent = false,
@@ -64,9 +64,7 @@ class TextMessage extends StatelessWidget {
                           : (listDocumnet.first.type == TypeDocument.VIDEO.toTypeDocument)
                               ? _typeVideoMsg(
                                   () {
-                                    OpenFile.open(
-                                      listDocumnet.first.path!,
-                                    );
+                                    OpenFile.open(listDocumnet.first.path!);
                                   },
                                 )
                               : listDocumnet.first.type == TypeDocument.FILE.toTypeDocument

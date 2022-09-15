@@ -14,6 +14,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
+import '../../../../common/app_colors.dart';
 import '../../../commons/dialog_helper.dart';
 
 class OptionChat extends StatefulWidget {
@@ -51,15 +52,24 @@ class _OptionChatState extends State<OptionChat> {
           children: <Widget>[
             InkWell(
               onTap: loadAssets,
-              child: const Icon(Icons.image),
+              child: const Icon(
+                Icons.image,
+                color: AppColors.btnColor,
+              ),
             ),
             InkWell(
               onTap: _openVideo,
-              child: const Icon(Icons.videocam),
+              child: const Icon(
+                Icons.videocam,
+                color: AppColors.btnColor,
+              ),
             ),
             InkWell(
               onTap: _openDocument,
-              child: const Icon(Icons.file_open_rounded),
+              child: const Icon(
+                Icons.file_open_rounded,
+                color: AppColors.btnColor,
+              ),
             ),
             // InkWell(
             //   onTap: () async {

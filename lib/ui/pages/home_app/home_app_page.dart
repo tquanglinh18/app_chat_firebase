@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base/ui/pages/home_app/contact/contact_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
+import '../../../common/app_colors.dart';
 import '../../../common/app_images.dart';
 import 'chats/chats_page.dart';
 import 'home_app_cubit.dart';
@@ -37,6 +39,7 @@ class _HomeAppPageState extends State<HomeAppPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       body: Column(
         children: [
@@ -57,13 +60,16 @@ class _HomeAppPageState extends State<HomeAppPage> {
               },
             ),
           ),
-          _bottomNavigator(),
+          _bottomNavigator(
+            theme.textTheme.bodyText1!,
+            theme.iconTheme.color,
+          ),
         ],
       ),
     );
   }
 
-  Widget _bottomNavigator() {
+  Widget _bottomNavigator(TextStyle style, Color? color) {
     return Visibility(
       visible: MediaQuery.of(context).viewInsets.bottom == 0,
       child: BlocBuilder<HomeAppCubit, HomeAppState>(
@@ -71,7 +77,7 @@ class _HomeAppPageState extends State<HomeAppPage> {
         buildWhen: (pre, cur) => pre.selectedIndex != cur.selectedIndex,
         builder: (context, state) {
           return SizedBox(
-            height: 83,
+            height: 83 + MediaQuery.of(context).padding.bottom,
             width: MediaQuery.of(context).size.width,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
@@ -87,12 +93,14 @@ class _HomeAppPageState extends State<HomeAppPage> {
                     width: MediaQuery.of(context).size.width / 3,
                     child: state.selectedIndex == index
                         ? itemBottomNavigatorIsSelected(
-                            listUrlImage[index],
-                            listTitle[index],
+                            urlImage: listUrlImage[index],
+                            title: listTitle[index],
+                            style: style,
                           )
                         : itemBottomNavigatorIsNotSelected(
                             listUrlImage[index],
                             listTitle[index],
+                            color!,
                           ),
                   ),
                 );
@@ -104,20 +112,27 @@ class _HomeAppPageState extends State<HomeAppPage> {
     );
   }
 
-  Widget itemBottomNavigatorIsSelected(String urlImage, String title) {
+  Widget itemBottomNavigatorIsSelected({
+    required String urlImage,
+    required String title,
+    required TextStyle style,
+  }) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(title),
+        Text(
+          title,
+          style: style,
+        ),
         const Text(
           "•",
-          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22),
+          style: TextStyle(fontSize: 30),
         ),
       ],
     );
   }
 
-  Widget itemBottomNavigatorIsNotSelected(String urlImage, String title) {
+  Widget itemBottomNavigatorIsNotSelected(String urlImage, String title, Color color) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -127,6 +142,7 @@ class _HomeAppPageState extends State<HomeAppPage> {
           child: Image.asset(
             urlImage,
             fit: BoxFit.contain,
+            color: color,
           ),
         ),
       ],

@@ -19,10 +19,10 @@ import '../../commons/otp/pin_code_text_field.dart';
 import '../input_number/input_number_cubit.dart';
 
 class VerifyNumberPage extends StatefulWidget {
-  String phoneNumber;
-  String verificationIDReceived;
+  final String phoneNumber;
+  final String verificationIDReceived;
 
-  VerifyNumberPage({Key? key, required this.phoneNumber, required this.verificationIDReceived}) : super(key: key);
+  const VerifyNumberPage({Key? key, required this.phoneNumber, required this.verificationIDReceived}) : super(key: key);
 
   @override
   State<VerifyNumberPage> createState() => _VerifyNumberPageState();
@@ -49,17 +49,18 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           Column(
             children: [
-              _buildAppBar,
+              _buildAppBar(theme.iconTheme.color!),
               const SizedBox(height: 80),
-              _guideEnterOtpCode,
+              _guideEnterOtpCode(theme.iconTheme.color!),
               const SizedBox(height: 50),
-              buildOtp(),
+              buildOtp(theme.appBarTheme.backgroundColor!),
               const SizedBox(height: 50),
               _reSentCode,
             ],
@@ -70,11 +71,14 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
     );
   }
 
-  Widget get _buildAppBar {
-    return AppBarWidget(onBackPressed: Navigator.of(context).pop);
+  Widget _buildAppBar(Color color) {
+    return AppBarWidget(
+      onBackPressed: Navigator.of(context).pop,
+      colorIcon: color,
+    );
   }
 
-  Widget get _guideEnterOtpCode {
+  Widget _guideEnterOtpCode(Color color) {
     return Column(
       children: [
         Text(
@@ -82,13 +86,18 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
           style: AppTextStyle.blackS18.copyWith(
             fontWeight: FontWeight.w600,
             fontSize: 24,
+            color: color,
           ),
         ),
         const SizedBox(height: 8),
         Text(
           'We have sent you an SMS with the code to \n ${widget.phoneNumber}',
           textAlign: TextAlign.center,
-          style: AppTextStyle.blackS14.copyWith(fontWeight: FontWeight.w400, height: 2),
+          style: AppTextStyle.blackS14.copyWith(
+            fontWeight: FontWeight.w400,
+            height: 2,
+            color: color,
+          ),
         ),
       ],
     );
@@ -132,7 +141,7 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
     );
   }
 
-  Widget buildOtp() {
+  Widget buildOtp(Color color) {
     return BlocConsumer<VerifyNumberCubit, VerifyNumberState>(
       bloc: _cubitVerify,
       listenWhen: (pre, cur) => pre.loadStatus != cur.loadStatus,
@@ -179,7 +188,7 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
               selectedColor: Colors.grey,
             ),
             cursorColor: Colors.grey,
-            backgroundColor: Colors.white,
+            backgroundColor: color,
             onCompleted: (value) {},
             onChanged: (value) {
               if (_textOTPController.text.length == 6) {

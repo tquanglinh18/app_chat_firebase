@@ -81,14 +81,15 @@ class _MessagePageState extends State<MessagePage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: AppColors.bgrColorsChatPage,
+      backgroundColor: theme.highlightColor,
       body: Stack(
         children: [
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _buildAppBar,
+              _buildAppBar(theme.iconTheme.color!),
               Expanded(
                 child: BlocConsumer<MessageCubit, MessageState>(
                   bloc: _cubit,
@@ -117,11 +118,12 @@ class _MessagePageState extends State<MessagePage> {
     );
   }
 
-  Widget get _buildAppBar {
+  Widget _buildAppBar(Color color) {
     return AppBarWidget(
       title: widget.nameConversion,
       onBackPressed: Navigator.of(context).pop,
       showBackButton: true,
+      colorIcon: color,
       rightActions: [
         InkWell(
           onTap: () {
@@ -131,7 +133,10 @@ class _MessagePageState extends State<MessagePage> {
               title: "Tính năng đang được cập nhật !",
             );
           },
-          child: Image.asset(AppImages.icSearchMessage),
+          child: Image.asset(
+            AppImages.icSearchMessage,
+            color: color,
+          ),
         ),
         InkWell(
           onTap: () {
@@ -147,7 +152,10 @@ class _MessagePageState extends State<MessagePage> {
             );
             FocusScope.of(context).unfocus();
           },
-          child: Image.asset(AppImages.icOption),
+          child: Image.asset(
+            AppImages.icOption,
+            color: color,
+          ),
         ),
       ],
     );
@@ -240,11 +248,13 @@ class _MessagePageState extends State<MessagePage> {
         style: AppTextStyle.blackS14.copyWith(),
         minLines: 1,
         maxLines: 3,
-        decoration: const InputDecoration(
-          contentPadding: EdgeInsets.symmetric(horizontal: 10),
-          border: InputBorder.none,
-          hintText: "Typing the message...",
-        ),
+        decoration: InputDecoration(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+            border: InputBorder.none,
+            hintText: "Typing the message...",
+            hintStyle: AppTextStyle.black.copyWith(
+              color: AppColors.hintTextColor,
+            )),
       ),
     );
   }
@@ -390,7 +400,10 @@ class _MessagePageState extends State<MessagePage> {
     );
   }
 
-  Widget _buildDocumentSelected({required String typeDocument, required String urlFile}) {
+  Widget _buildDocumentSelected({
+    required String typeDocument,
+    required String urlFile,
+  }) {
     return Container(
       padding: const EdgeInsets.only(top: 5, right: 5),
       child: Column(

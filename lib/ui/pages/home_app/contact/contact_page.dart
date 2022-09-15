@@ -2,18 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/common/app_colors.dart';
 import 'package:flutter_base/common/app_images.dart';
-import 'package:flutter_base/common/app_text_styles.dart';
 import 'package:flutter_base/models/enums/load_status.dart';
 import 'package:flutter_base/ui/commons/flus_bar.dart';
 import 'package:flutter_base/ui/commons/img_file.dart';
-import 'package:flutter_base/ui/commons/img_network.dart';
 import 'package:flutter_base/ui/commons/search_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../utils/logger.dart';
 import '../../../commons/custom_app_bar.dart';
 import '../../../commons/custom_progress_hud.dart';
 import '../../../commons/data_empty.dart';
-import '../../../commons/dialog_create_conversion/dialog_create_conversion.dart';
+import '../../../commons/dialog_create_conversion/dialog_create_conversion_page.dart';
 import '../../../commons/my_dialog.dart';
 import '../../message/message_page.dart';
 import 'contact_cubit.dart';
@@ -50,6 +48,7 @@ class _ContactPageState extends State<ContactPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -69,10 +68,12 @@ class _ContactPageState extends State<ContactPage> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  _buildAppBar,
+                  _buildAppBar(theme.iconTheme.color!),
                   _buildSearchBar(state.searchText ?? ''),
                   Expanded(
-                    child: _contacts(),
+                    child: _contacts(
+                      style: theme.textTheme.bodyText1,
+                    ),
                   ),
                 ],
               );
@@ -84,11 +85,12 @@ class _ContactPageState extends State<ContactPage> {
     );
   }
 
-  Widget get _buildAppBar {
+  Widget _buildAppBar(Color color) {
     return AppBarCustom(
       title: "Contacts",
       icCount: 1,
       image: const [AppImages.icAddContact],
+      color: color,
       onTap: () async {
         await showDialog(
           context: context,
@@ -125,7 +127,9 @@ class _ContactPageState extends State<ContactPage> {
     );
   }
 
-  Widget _contacts() {
+  Widget _contacts({
+    TextStyle? style,
+  }) {
     return BlocConsumer<ContactCubit, ContactState>(
       bloc: _cubit,
       listener: (context, state) {
@@ -163,6 +167,7 @@ class _ContactPageState extends State<ContactPage> {
                     child: _buildListContact(
                       urlImageNetwok: state.listConversion[index].avatarConversion ?? '',
                       nameConversion: state.listConversion[index].nameConversion ?? '',
+                      style: style!,
                     ),
                   );
                 },
@@ -181,7 +186,11 @@ class _ContactPageState extends State<ContactPage> {
     );
   }
 
-  Widget _buildListContact({required String urlImageNetwok, required String nameConversion}) {
+  Widget _buildListContact({
+    required String urlImageNetwok,
+    required String nameConversion,
+    required TextStyle style,
+  }) {
     return Container(
       padding: const EdgeInsets.all(4),
       color: Colors.transparent,
@@ -196,16 +205,16 @@ class _ContactPageState extends State<ContactPage> {
             ],
           ),
           const SizedBox(width: 16),
-          _nameConvertion(nameConversion),
+          _nameConvertion(nameConversion: nameConversion, style: style),
         ],
       ),
     );
   }
 
-  Widget _nameConvertion(String nameConversion) {
+  Widget _nameConvertion({required String nameConversion, required TextStyle style}) {
     return Text(
       nameConversion,
-      style: AppTextStyle.blackS14.copyWith(fontWeight: FontWeight.w600),
+      style: style,
     );
   }
 

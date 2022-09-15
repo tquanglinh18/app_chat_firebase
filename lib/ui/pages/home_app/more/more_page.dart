@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base/ui/commons/img_file.dart';
 import 'package:flutter_base/ui/pages/home_app/more/more_cubit.dart';
 import 'package:flutter_base/ui/pages/home_app/more/type_setting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import '../../../../common/app_colors.dart';
 import '../../../../common/app_images.dart';
 import '../../../../common/app_text_styles.dart';
 import '../../../commons/avatar.dart';
@@ -43,6 +43,7 @@ class _MorePageState extends State<MorePage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       body: BlocBuilder<MoreCubit, MoreState>(
         bloc: _cubit,
@@ -51,9 +52,18 @@ class _MorePageState extends State<MorePage> {
           return Column(
             children: [
               AppBarCustom(title: "More"),
-              _infoUser(name: state.name, phoneNumber: state.phoneNumber, urlImage: state.avatar),
+              _infoUser(
+                name: state.name,
+                phoneNumber: state.phoneNumber,
+                urlImage: state.avatar,
+                style: theme.textTheme.bodyText1,
+                color: theme.iconTheme.color,
+              ),
               Expanded(
-                child: _itemMore,
+                child: _itemMore(
+                  color: theme.iconTheme.color!,
+                  style: theme.textTheme.bodyText1,
+                ),
               ),
             ],
           );
@@ -62,22 +72,28 @@ class _MorePageState extends State<MorePage> {
     );
   }
 
-  Widget _infoUser({String? urlImage, String? name, String? phoneNumber}) {
+  Widget _infoUser({
+    String? urlImage,
+    String? name,
+    String? phoneNumber,
+    TextStyle? style,
+    Color? color,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
       child: Row(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(100),
-            child: SizedBox(
-              height: 50,
-              width: 50,
-              child: (urlImage ?? "").isNotEmpty
-                  ? Avatar(urlAvatar: urlImage!)
-                  : const CircleAvatar(
-                      backgroundImage: AssetImage(AppImages.icAvatarDefault),
-                    ),
-            ),
+          SizedBox(
+            height: 50,
+            width: 50,
+            child: (urlImage ?? "").isNotEmpty
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: ImgFile(urlFile: urlImage ?? ''),
+                  )
+                : const CircleAvatar(
+                    backgroundImage: AssetImage(AppImages.icAvatarDefault),
+                  ),
           ),
           const SizedBox(width: 20),
           Expanded(
@@ -85,25 +101,25 @@ class _MorePageState extends State<MorePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _nameUserLogin(name!),
+                _nameUserLogin(
+                  name!,
+                  style!,
+                ),
                 _phoneNumberUserLogin(phoneNumber!),
               ],
             ),
           ),
-          Image.asset(AppImages.icNext),
+          Image.asset(
+            AppImages.icNext,
+            color: color,
+          ),
         ],
       ),
     );
   }
 
-  Widget _nameUserLogin(String name) {
-    return Text(
-      name,
-      style: AppTextStyle.blackS14.copyWith(
-        fontWeight: FontWeight.w600,
-        fontSize: 14,
-      ),
-    );
+  Widget _nameUserLogin(String name, TextStyle style) {
+    return Text(name, style: style);
   }
 
   Widget _phoneNumberUserLogin(String phoneNumber) {
@@ -112,13 +128,12 @@ class _MorePageState extends State<MorePage> {
       style: AppTextStyle.greyS12.copyWith(
         fontSize: 12,
         fontWeight: FontWeight.w400,
-        color: AppColors.hintTextColor,
         height: 2,
       ),
     );
   }
 
-  Widget get _itemMore {
+  Widget _itemMore({required Color color, TextStyle? style}) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
       child: ListView.separated(
@@ -126,8 +141,8 @@ class _MorePageState extends State<MorePage> {
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           return InkWell(
-            onTap: (){
-              if(index == 2){
+            onTap: () {
+              if (index == 2) {
                 Get.to(() => const SettingPage());
               }
             },
@@ -135,13 +150,20 @@ class _MorePageState extends State<MorePage> {
               height: 40,
               child: Row(
                 children: [
-                  _iconMoreOption(pathIcon: listType[index].pathIcon),
-                  const SizedBox(width: 8),
+                  _iconMoreOption(
+                    pathIcon: listType[index].pathIcon,
+                    color: color,
+                  ),
+                  const SizedBox(width: 15),
                   Expanded(
-                    child: _titleMoreOption(title: listType[index].title),
+                    child: _titleMoreOption(
+                      title: listType[index].title,
+                      style: style!,
+                    ),
                   ),
                   Image.asset(
                     AppImages.icNext,
+                    color: color,
                   ),
                 ],
               ),
@@ -156,17 +178,20 @@ class _MorePageState extends State<MorePage> {
     );
   }
 
-  Widget _titleMoreOption({required String title}) {
+  Widget _titleMoreOption({
+    required String title,
+    required TextStyle style,
+  }) {
     return Text(
       title,
-      style: AppTextStyle.blackS14.copyWith(
-        fontWeight: FontWeight.w600,
-        fontSize: 14,
-      ),
+      style: style,
     );
   }
 
-  Widget _iconMoreOption({required String pathIcon}) {
+  Widget _iconMoreOption({
+    required String pathIcon,
+    Color? color,
+  }) {
     return SizedBox(
       height: 24,
       width: 24,
@@ -174,6 +199,7 @@ class _MorePageState extends State<MorePage> {
         pathIcon,
         fit: BoxFit.contain,
         height: 3,
+        color: color,
       ),
     );
   }
