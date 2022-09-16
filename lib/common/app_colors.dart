@@ -52,4 +52,6 @@ class AppColors {
   static const Color isOnlineColor = Color(0xff2CC069);
   static const Color bgrColorsChatPage = Color(0xffE5E5E5);
   static const Color greyBgr = Color(0xffF2F2F2);
+
+  static const Color bgrDarkMode = Color(0xff0F1828);
 }
