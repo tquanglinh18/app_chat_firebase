@@ -228,7 +228,7 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
         return Visibility(
           visible: state.isHide,
           child: Container(
-            height: 150,
+            height: 150 + MediaQuery.of(context).padding.bottom,
             width: MediaQuery.of(context).size.width,
             decoration: const BoxDecoration(
               color: AppColors.buttonBGWhite,

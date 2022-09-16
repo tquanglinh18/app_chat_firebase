@@ -116,7 +116,7 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
   }) {
     final theme = Theme.of(context);
     return Container(
-      color: theme.highlightColor,
+      color: theme.focusColor,
       padding: const EdgeInsets.all(15),
       child: Row(
         children: [
@@ -125,7 +125,6 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
             width: 70,
             child: ImgFile(
               urlFile: imgPath,
-               isSent: true,
             ),
           ),
           const SizedBox(width: 15),
@@ -146,7 +145,7 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
       builder: (context, state) {
         return Container(
           padding: const EdgeInsets.all(15),
-          color: theme.highlightColor,
+          color: theme.focusColor,
           child: Column(
             children: [
               Row(

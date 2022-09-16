@@ -12,9 +12,10 @@ class ImgFile extends StatelessWidget {
   final bool documentIsVideo;
   final bool isBorderRadius;
   final bool isBorderSide;
-  final bool isDarkMode;
+  final Color? darkModeIconColor;
+  final Color? isReplyColor;
 
-  ImgFile({
+  const ImgFile({
     Key? key,
     required this.urlFile,
     this.isSent = false,
@@ -22,7 +23,8 @@ class ImgFile extends StatelessWidget {
     this.documentIsVideo = false,
     this.isBorderRadius = false,
     this.isBorderSide = false,
-    this.isDarkMode = false,
+    this.darkModeIconColor,
+    this.isReplyColor,
   }) : super(key: key);
 
   @override
@@ -43,7 +45,7 @@ class ImgFile extends StatelessWidget {
             ),
           ),
           child: Padding(
-            padding: documentIsVideo ? const EdgeInsets.only(top: 140) : EdgeInsets.zero,
+            padding: documentIsVideo ? const EdgeInsets.only(top: 120) : EdgeInsets.zero,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -52,7 +54,7 @@ class ImgFile extends StatelessWidget {
                         padding: const EdgeInsets.only(bottom: 5),
                         child: Icon(
                           Icons.info_outline,
-                          color: !isSent ? AppColors.border : AppColors.textWhite,
+                          color: !isSent ? darkModeIconColor : isReplyColor,
                         ),
                       )
                     : const SizedBox(),
@@ -61,7 +63,13 @@ class ImgFile extends StatelessWidget {
                         child: Text(
                           'Đã xảy ra lỗi \nVui lòng thử lại',
                           textAlign: TextAlign.center,
-                          style: isSent ? AppTextStyle.whiteS14 : AppTextStyle.blackS14,
+                          style: isSent
+                              ? AppTextStyle.whiteS14.copyWith(
+                            color: isReplyColor,
+                          )
+                              : AppTextStyle.blackS14.copyWith(
+                                  color: darkModeIconColor,
+                                ),
                         ),
                       )
                     : const SizedBox(),

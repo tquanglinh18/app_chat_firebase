@@ -1,10 +1,9 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_base/database/share_preferences_helper.dart';
 import 'package:flutter_base/models/entities/user_entity.dart';
 import 'package:flutter_base/models/enums/load_status.dart';
 import 'package:flutter_base/network/fire_base_api.dart';
-import 'package:meta/meta.dart';
 
 part 'more_state.dart';
 

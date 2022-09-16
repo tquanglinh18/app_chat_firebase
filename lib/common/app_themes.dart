@@ -15,8 +15,7 @@ class AppThemes {
     this.secondaryColor = AppColors.secondary,
   }) : brightness = isDarkMode ? Brightness.dark : Brightness.light;
 
-  Color get backgroundColor =>
-      isDarkMode ? AppColors.backgroundDark : AppColors.backgroundLight;
+  Color get backgroundColor => isDarkMode ? AppColors.backgroundDark : AppColors.backgroundLight;
 
   TextTheme get textTheme {
     final textColor = isDarkMode ? Colors.white : Colors.black;
@@ -26,16 +25,13 @@ class AppThemes {
       displaySmall: TextStyle(fontSize: 48.0, color: textColor),
       headlineMedium: TextStyle(fontSize: 34.0, color: textColor),
       headlineSmall: TextStyle(fontSize: 24.0, color: textColor),
-      titleLarge: TextStyle(
-          fontSize: 20.0, color: textColor, fontWeight: FontWeight.w500),
+      titleLarge: TextStyle(fontSize: 20.0, color: textColor, fontWeight: FontWeight.w500),
       titleMedium: TextStyle(fontSize: 16.0, color: textColor),
-      titleSmall: TextStyle(
-          fontSize: 14.0, color: textColor, fontWeight: FontWeight.w500),
+      titleSmall: TextStyle(fontSize: 14.0, color: textColor, fontWeight: FontWeight.w500),
       bodyLarge: TextStyle(fontSize: 16.0, color: textColor),
       bodyMedium: TextStyle(fontSize: 14.0, color: textColor),
       bodySmall: TextStyle(fontSize: 12.0, color: textColor),
-      labelLarge: TextStyle(
-          fontSize: 14.0, color: textColor, fontWeight: FontWeight.w500),
+      labelLarge: TextStyle(fontSize: 14.0, color: textColor, fontWeight: FontWeight.w500),
       labelSmall: TextStyle(fontSize: 14.0, color: textColor),
     );
   }
@@ -49,13 +45,18 @@ class AppThemes {
       scaffoldBackgroundColor: backgroundColor,
       appBarTheme: AppBarTheme(
         color: backgroundColor,
-        iconTheme:
-            IconThemeData(color: isDarkMode ? Colors.white : Colors.black),
+        iconTheme: IconThemeData(color: isDarkMode ? Colors.white : Colors.black),
         titleTextStyle: isDarkMode
             ? const TextStyle(
-                color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              )
             : const TextStyle(
-                color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+                color: Colors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
       ),
       tabBarTheme: TabBarTheme(
         unselectedLabelColor: isDarkMode ? Colors.white : Colors.black,
@@ -68,6 +69,9 @@ class AppThemes {
       dividerTheme: const DividerThemeData(
         color: Colors.grey,
       ),
+      focusColor: isDarkMode ? AppColors.bgrDarkMode : AppColors.greyBgr,
+      hintColor: isDarkMode ? AppColors.backgroundLight : AppColors.btnColor,
+      splashColor: isDarkMode ? AppColors.backgroundLight.withOpacity(0.2) : AppColors.border.withOpacity(0.2),
     );
   }
 }

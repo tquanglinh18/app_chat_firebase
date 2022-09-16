@@ -1,24 +1,22 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_base/models/entities/message_entity.dart';
 import 'package:flutter_base/ui/commons/img_file.dart';
 import 'package:flutter_base/ui/pages/message/type_document.dart';
-
+import 'package:open_file/open_file.dart';
 import '../../../../common/app_colors.dart';
 import '../../../../common/app_text_styles.dart';
 
 class ReplyMsg extends StatelessWidget {
-  String? message;
-  bool isSent;
+  final String? message;
+  final bool isSent;
 
-  String? textReply;
-  String? timer;
-  String nameSend;
-  String nameReply;
-  List<DocumentEntity> listDocument;
+  final String? textReply;
+  final String? timer;
+  final String nameSend;
+  final String nameReply;
+  final List<DocumentEntity> listDocument;
 
-  ReplyMsg({
+  const ReplyMsg({
     Key? key,
     this.message,
     this.isSent = false,
@@ -31,6 +29,7 @@ class ReplyMsg extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Align(
       alignment: isSent != false ? Alignment.centerRight : Alignment.centerLeft,
       child: Column(
@@ -44,7 +43,7 @@ class ReplyMsg extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             margin: isSent != false ? const EdgeInsets.fromLTRB(93, 6, 6, 6) : const EdgeInsets.fromLTRB(6, 6, 93, 6),
             decoration: BoxDecoration(
-              color: (isSent != true) ? AppColors.backgroundLight : AppColors.btnColor,
+              color: (isSent != true) ? theme.hoverColor : AppColors.btnColor,
               borderRadius: (isSent != true)
                   ? const BorderRadius.only(
                       topLeft: Radius.circular(10),
@@ -61,10 +60,13 @@ class ReplyMsg extends StatelessWidget {
               crossAxisAlignment: (isSent != true) ? CrossAxisAlignment.start : CrossAxisAlignment.end,
               mainAxisSize: MainAxisSize.min,
               children: [
-                _msgReply,
-                _replyText,
+                _msgReply(
+                  theme.focusColor,
+                  theme.iconTheme.color!,
+                ),
+                _replyText(theme.iconTheme.color!),
                 const SizedBox(height: 4),
-                _msgTimer,
+                _msgTimer(theme.iconTheme.color!),
               ],
             ),
           ),
@@ -73,13 +75,16 @@ class ReplyMsg extends StatelessWidget {
     );
   }
 
-  Widget get _replyText {
+  Widget _replyText(
+    Color darkModeTextColor,
+  ) {
     return Text(
       textReply!,
       style: (isSent != true)
           ? AppTextStyle.blackS14.copyWith(
               fontWeight: FontWeight.w400,
               fontSize: 14,
+              color: darkModeTextColor,
             )
           : AppTextStyle.whiteS14.copyWith(
               fontWeight: FontWeight.w400,
@@ -88,13 +93,16 @@ class ReplyMsg extends StatelessWidget {
     );
   }
 
-  Widget get _msgTimer {
+  Widget _msgTimer(
+    Color darkModeTimerColor,
+  ) {
     return Text(
       timer!,
       style: (isSent != true)
           ? AppTextStyle.blackS14.copyWith(
               fontWeight: FontWeight.w400,
               fontSize: 10,
+              color: darkModeTimerColor,
             )
           : AppTextStyle.whiteS14.copyWith(
               fontWeight: FontWeight.w400,
@@ -103,7 +111,7 @@ class ReplyMsg extends StatelessWidget {
     );
   }
 
-  Widget get _msgReply {
+  Widget _msgReply(Color darkModeColorReply, Color darkModeMsgIsReply) {
     return Row(
       children: [
         Container(
@@ -123,7 +131,7 @@ class ReplyMsg extends StatelessWidget {
             height: listDocument.isNotEmpty ? 240 : 40,
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
             decoration: BoxDecoration(
-              color: isSent == false ? AppColors.greyBG : AppColors.backgroundLight,
+              color: isSent == false ? darkModeColorReply : AppColors.backgroundLight,
               borderRadius: const BorderRadius.only(
                 topRight: Radius.circular(5),
                 bottomRight: Radius.circular(5),
@@ -134,17 +142,26 @@ class ReplyMsg extends StatelessWidget {
               children: [
                 _nameSend,
                 listDocument.isNotEmpty
-                    ? SizedBox(
-                        height: 200,
-                        child: ImgFile(
-                          urlFile: listDocument.first.path!,
-                          isSent: isSent,
-                          textMsgError: 'Đã xảy ra lỗi \nVui lòng thử lại',
+                    ? InkWell(
+                        onTap: () {
+                          OpenFile.open(listDocument.first.path!);
+                        },
+                        child: SizedBox(
+                          height: 200,
+                          child: ImgFile(
+                            urlFile: listDocument.first.type == TypeDocument.VIDEO.toTypeDocument
+                                ? listDocument.first.pathThumbnail!
+                                : listDocument.first.path!,
+                            isSent: isSent,
+                            textMsgError: 'Đã xảy ra lỗi \nVui lòng thử lại',
+                            isReplyColor: AppColors.textBlack,
+                            darkModeIconColor: darkModeMsgIsReply,
+                          ),
                         ),
                       )
                     : const SizedBox(),
                 Expanded(
-                  child: _msgIsReply,
+                  child: _msgIsReply(isSent ? AppColors.textBlack : darkModeMsgIsReply),
                 ),
               ],
             ),
@@ -161,12 +178,12 @@ class ReplyMsg extends StatelessWidget {
     );
   }
 
-  Widget get _msgIsReply {
+  Widget _msgIsReply(Color darkModeMsgIsReply) {
     return Text(
       message!,
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
-      style: AppTextStyle.blackS14.copyWith(),
+      style: AppTextStyle.blackS14.copyWith(color: darkModeMsgIsReply),
     );
   }
 }

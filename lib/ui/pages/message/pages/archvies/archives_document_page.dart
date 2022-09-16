@@ -58,7 +58,7 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: AppColors.greyBgr,
+      backgroundColor: theme.focusColor,
       body: BlocBuilder<ArchivesDocumentCubit, ArchivesDocumentState>(
         bloc: _cubit,
         buildWhen: (pre, cur) => pre.indexTypeDocument != cur.indexTypeDocument,
@@ -67,13 +67,12 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
             children: [
               _buildAppBar(theme.iconTheme.color!),
               Container(
-                decoration:  BoxDecoration(
-                  color: theme.hintColor,
-
+                decoration: BoxDecoration(
+                  color: theme.focusColor,
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                    vertical: 10,
+                    vertical: 15,
                     horizontal: 20,
                   ),
                   child: _listDocument(),
@@ -81,10 +80,10 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
               ),
               Expanded(
                 child: state.indexTypeDocument == 0
-                    ? _viewImage()
+                    ? _viewImage(theme.iconTheme.color!)
                     : state.indexTypeDocument == 1
-                        ? _viewFile()
-                        : _viewVideo(),
+                        ? _viewFile(theme.iconTheme.color!)
+                        : _viewVideo(theme.iconTheme.color!),
               ),
             ],
           );
@@ -150,7 +149,7 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
     );
   }
 
-  Widget _viewImage() {
+  Widget _viewImage(Color color) {
     return Container(
       child: widget.listImg.isNotEmpty
           ? GridView.builder(
@@ -164,17 +163,22 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
               itemBuilder: (context, index) {
                 return ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: ImgFile(
-                    urlFile: (widget.listImg[index].path ?? ""),
+                  child: InkWell(
+                    onTap: (){
+                      OpenFile.open(widget.listImg[index].path);
+                    },
+                    child: ImgFile(
+                      urlFile: (widget.listImg[index].path ?? ""),
+                    ),
                   ),
                 );
               },
             )
-          : const DataEmpty(color: AppColors.btnColor),
+          : DataEmpty(color: color),
     );
   }
 
-  Widget _viewFile() {
+  Widget _viewFile(Color color) {
     return BlocBuilder<ArchivesDocumentCubit, ArchivesDocumentState>(
       bloc: _cubit,
       buildWhen: (pre, cur) => pre.loadStatus != cur.loadStatus,
@@ -197,17 +201,17 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
                 },
                 separatorBuilder: (BuildContext context, int index) {
                   return Container(
-                    height: 1,
+                    height: 3,
                     color: AppColors.greyBgr,
                   );
                 },
               )
-            : const DataEmpty(color: AppColors.btnColor);
+            : DataEmpty(color: color);
       },
     );
   }
 
-  Widget _viewVideo() {
+  Widget _viewVideo(Color color) {
     return BlocBuilder<ArchivesDocumentCubit, ArchivesDocumentState>(
       bloc: _cubit,
       buildWhen: (pre, cur) => pre.loadStatus != cur.loadStatus,
@@ -232,12 +236,12 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
                 },
                 separatorBuilder: (BuildContext context, int index) {
                   return Container(
-                    height: 1,
+                    height: 3,
                     color: AppColors.greyBgr,
                   );
                 },
               )
-            : const DataEmpty(color: AppColors.btnColor);
+            : DataEmpty(color: color);
       },
     );
   }

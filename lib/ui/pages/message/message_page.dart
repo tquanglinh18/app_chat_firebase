@@ -83,7 +83,7 @@ class _MessagePageState extends State<MessagePage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: theme.highlightColor,
+      backgroundColor: theme.focusColor,
       body: Stack(
         children: [
           Column(
@@ -104,12 +104,20 @@ class _MessagePageState extends State<MessagePage> {
                     if (state.loadStatus == LoadStatus.loading) {
                       return Container();
                     } else {
-                      return _listMsg(state.listMessage);
+                      return _listMsg(
+                        state.listMessage,
+                        theme.hoverColor,
+                        theme.focusColor,
+                      );
                     }
                   },
                 ),
               ),
-              _inputMessage,
+              _inputMessage(
+                theme.backgroundColor,
+                theme.hoverColor,
+                theme.iconTheme.color!,
+              ),
             ],
           ),
           _customProgressHUD,
@@ -161,7 +169,7 @@ class _MessagePageState extends State<MessagePage> {
     );
   }
 
-  Widget _listMsg(List<MessageEntity> listMessage) {
+  Widget _listMsg(List<MessageEntity> listMessage, Color darkModeMsgColor, Color darkModeOptionMsgColor) {
     SchedulerBinding.instance.addPostFrameCallback(getSizeAndPosition);
     return ListView.builder(
       controller: controller,
@@ -205,6 +213,7 @@ class _MessagePageState extends State<MessagePage> {
                           listDocumnet: listMessage[index].document ?? [],
                           nameSend: listMessage[index].nameSend ?? "",
                           nameConversion: widget.nameConversion,
+                          isDarkModeMsg: darkModeMsgColor,
                           onLongPress: () {
                             _focusNode.unfocus();
                             _cubit.setIndexMsg(index);
@@ -216,11 +225,14 @@ class _MessagePageState extends State<MessagePage> {
                               barrierColor: Colors.transparent,
                               builder: (contextBottomSheet) {
                                 return Container(
-                                  decoration:
-                                      BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white,
+                                  ),
                                   child: _optionMessage(
                                     contextBottomSheet,
                                     listMessage[index].icConversion == state.uidFireBase,
+                                    darkModeOptionMsgColor,
                                   ),
                                 );
                               },
@@ -234,32 +246,33 @@ class _MessagePageState extends State<MessagePage> {
     );
   }
 
-  Widget get _msgField {
+  Widget _msgField(Color? colorMsgField, Color colorTextTyping) {
     return Container(
       alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4),
-        color: AppColors.titleColor,
+        color: colorMsgField,
       ),
       child: TextField(
         autofocus: true,
         controller: controllerMsg,
         focusNode: _focusNode,
-        style: AppTextStyle.blackS14.copyWith(),
+        style: AppTextStyle.whiteS14.copyWith(color: colorTextTyping),
         minLines: 1,
         maxLines: 3,
         decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-            border: InputBorder.none,
-            hintText: "Typing the message...",
-            hintStyle: AppTextStyle.black.copyWith(
-              color: AppColors.hintTextColor,
-            )),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+          border: InputBorder.none,
+          hintText: "Typing the message...",
+          hintStyle: AppTextStyle.black.copyWith(
+            color: AppColors.hintTextColor,
+          ),
+        ),
       ),
     );
   }
 
-  Widget get _inputMessage {
+  Widget _inputMessage(Color colorInputMsg, Color colorMsgField, Color colorTextTyping) {
     return BlocConsumer<MessageCubit, MessageState>(
       bloc: _cubit,
       listenWhen: (pre, cur) =>
@@ -296,7 +309,7 @@ class _MessagePageState extends State<MessagePage> {
             Container(
               padding: EdgeInsets.fromLTRB(12, 10, 12, 10 + MediaQuery.of(context).padding.bottom),
               decoration: BoxDecoration(
-                color: AppColors.backgroundLight,
+                color: colorMsgField,
                 borderRadius: state.isReplyMsg || state.listDocument.isNotEmpty
                     ? const BorderRadius.only(
                         topLeft: Radius.circular(15),
@@ -323,7 +336,7 @@ class _MessagePageState extends State<MessagePage> {
                       ),
                       const SizedBox(width: 17),
                       Expanded(
-                        child: _msgField,
+                        child: _msgField(colorMsgField, colorTextTyping),
                       ),
                       const SizedBox(width: 17),
                       _sendBtn(
@@ -409,9 +422,10 @@ class _MessagePageState extends State<MessagePage> {
       child: Column(
         children: [
           typeDocument == TypeDocument.FILE.name
-              ? const Icon(
-                  Icons.file_present_outlined,
-                  size: 45,
+              ? Image.asset(
+                  AppImages.icFileDefault,
+                  height: 50,
+                  width: 50,
                 )
               : typeDocument == TypeDocument.VIDEO.name
                   ? SizedBox(
@@ -530,13 +544,14 @@ class _MessagePageState extends State<MessagePage> {
     );
   }
 
-  Widget _optionMessage(BuildContext contextBottomSheet, bool isSend) {
+  Widget _optionMessage(BuildContext contextBottomSheet, bool isSend, Color darkModeColor) {
     return BlocBuilder<MessageCubit, MessageState>(
       bloc: _cubit,
       builder: (context, state) {
         return Container(
-          height: 90,
+          height: 90 + MediaQuery.of(context).padding.bottom,
           padding: const EdgeInsets.symmetric(vertical: 15),
+          color: darkModeColor,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

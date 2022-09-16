@@ -27,33 +27,41 @@ class ItemOptioneMsg extends StatelessWidget {
   final ButtonType? buttonType;
   final VoidCallback? onTap;
 
-  const ItemOptioneMsg({Key? key, this.iconItem, this.title, this.buttonType, this.onTap}) : super(key: key);
+  const ItemOptioneMsg({
+    Key? key,
+    this.iconItem,
+    this.title,
+    this.buttonType,
+    this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return InkWell(
       onTap: buttonType == ButtonType.ACTIVE ? onTap : null,
       child: Column(
         children: [
           _iconOption,
-          _titleOption,
+          _titleOption(theme.iconTheme.color!),
         ],
       ),
     );
   }
 
-  Widget get _titleOption {
+  Widget _titleOption(Color colorText) {
     return Text(
       title!,
       style: AppTextStyle.blackS14.copyWith(
         fontSize: 14,
         fontWeight: FontWeight.w400,
         height: 2,
+        color: colorText
       ),
     );
   }
 
-  Widget get _iconOption {
+  Widget get _iconOption{
     return Container(
       padding: const EdgeInsets.all(2),
       decoration: BoxDecoration(

@@ -43,6 +43,7 @@ class _OptionChatState extends State<OptionChat> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return AnimatedCrossFade(
       firstChild: const SizedBox(),
       secondChild: Container(
@@ -52,23 +53,23 @@ class _OptionChatState extends State<OptionChat> {
           children: <Widget>[
             InkWell(
               onTap: loadAssets,
-              child: const Icon(
+              child: Icon(
                 Icons.image,
-                color: AppColors.btnColor,
+                color: theme.hintColor,
               ),
             ),
             InkWell(
               onTap: _openVideo,
-              child: const Icon(
+              child: Icon(
                 Icons.videocam,
-                color: AppColors.btnColor,
+                color: theme.hintColor,
               ),
             ),
             InkWell(
               onTap: _openDocument,
-              child: const Icon(
+              child: Icon(
                 Icons.file_open_rounded,
-                color: AppColors.btnColor,
+                color: theme.hintColor,
               ),
             ),
             // InkWell(

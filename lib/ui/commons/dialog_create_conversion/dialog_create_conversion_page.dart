@@ -68,6 +68,7 @@ class _DialogCreateCobersionState extends State<DialogCreateCobersion> {
                             child: const Icon(
                               Icons.image,
                               size: 60,
+                              color: AppColors.btnColor,
                             ),
                           )
                         : _imgRoomConversion(
@@ -120,20 +121,21 @@ class _DialogCreateCobersionState extends State<DialogCreateCobersion> {
       autofocus: true,
       style: const TextStyle(fontSize: 14, color: Colors.black),
       decoration: const InputDecoration(
-          isDense: true,
-          hintStyle: TextStyle(
-            fontSize: 14,
-            color: Colors.grey,
-            fontStyle: FontStyle.italic,
-          ),
-          hintText: "Nhập tên cuộc hội thoại",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-            borderSide: BorderSide(width: 0, style: BorderStyle.none),
-          ),
-          contentPadding: EdgeInsets.all(12),
-          filled: true,
-          fillColor: AppColors.whiteFAFAFA),
+        isDense: true,
+        hintStyle: TextStyle(
+          fontSize: 14,
+          color: Colors.grey,
+          fontStyle: FontStyle.italic,
+        ),
+        hintText: "Nhập tên cuộc hội thoại",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          borderSide: BorderSide(width: 0, style: BorderStyle.none),
+        ),
+        contentPadding: EdgeInsets.all(12),
+        filled: true,
+        fillColor: AppColors.whiteFAFAFA,
+      ),
       keyboardType: TextInputType.text,
       textAlign: TextAlign.start,
       textAlignVertical: TextAlignVertical.center,

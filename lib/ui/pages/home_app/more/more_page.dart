@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base/ui/commons/img_file.dart';
 import 'package:flutter_base/ui/pages/home_app/more/more_cubit.dart';
 import 'package:flutter_base/ui/pages/home_app/more/type_setting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -89,7 +88,10 @@ class _MorePageState extends State<MorePage> {
             child: (urlImage ?? "").isNotEmpty
                 ? ClipRRect(
                     borderRadius: BorderRadius.circular(100),
-                    child: ImgFile(urlFile: urlImage ?? ''),
+                    child: Avatar(
+                      urlAvatar: urlImage ?? "",
+                      darkModeColor: color!,
+                    ),
                   )
                 : const CircleAvatar(
                     backgroundImage: AssetImage(AppImages.icAvatarDefault),

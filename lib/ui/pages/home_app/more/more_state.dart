@@ -1,6 +1,5 @@
 part of 'more_cubit.dart';
 
-@immutable
 class MoreState extends Equatable {
   final LoadStatus? loadStatus;
 

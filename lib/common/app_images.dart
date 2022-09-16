@@ -41,4 +41,6 @@ class AppImages {
   static const icFileVideo = "assets/images/ic_file_video.png";
   static const icFileDocx = "assets/images/ic_file_docx.png";
   static const icFileXlxs = "assets/images/ic_file_xlxs.png";
+
+  static const icFileDefault = "assets/images/ic_file.png";
 }
