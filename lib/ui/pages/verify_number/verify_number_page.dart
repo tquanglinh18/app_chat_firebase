@@ -49,18 +49,17 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           Column(
             children: [
-              _buildAppBar(theme.iconTheme.color!),
+              _buildAppBar,
               const SizedBox(height: 80),
-              _guideEnterOtpCode(theme.iconTheme.color!),
+              _guideEnterOtpCode,
               const SizedBox(height: 50),
-              buildOtp(theme.appBarTheme.backgroundColor!),
+              buildOtp,
               const SizedBox(height: 50),
               _reSentCode,
             ],
@@ -71,14 +70,14 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
     );
   }
 
-  Widget _buildAppBar(Color color) {
+  Widget get _buildAppBar {
     return AppBarWidget(
       onBackPressed: Navigator.of(context).pop,
-      colorIcon: color,
+      colorIcon: Theme.of(context).iconTheme.color!,
     );
   }
 
-  Widget _guideEnterOtpCode(Color color) {
+  Widget get _guideEnterOtpCode {
     return Column(
       children: [
         Text(
@@ -86,7 +85,7 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
           style: AppTextStyle.blackS18.copyWith(
             fontWeight: FontWeight.w600,
             fontSize: 24,
-            color: color,
+            color: Theme.of(context).iconTheme.color!,
           ),
         ),
         const SizedBox(height: 8),
@@ -96,7 +95,7 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
           style: AppTextStyle.blackS14.copyWith(
             fontWeight: FontWeight.w400,
             height: 2,
-            color: color,
+            color: Theme.of(context).iconTheme.color!,
           ),
         ),
       ],
@@ -141,7 +140,7 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
     );
   }
 
-  Widget buildOtp(Color color) {
+  Widget get buildOtp {
     return BlocConsumer<VerifyNumberCubit, VerifyNumberState>(
       bloc: _cubitVerify,
       listenWhen: (pre, cur) => pre.loadStatus != cur.loadStatus,
@@ -188,7 +187,7 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
               selectedColor: Colors.grey,
             ),
             cursorColor: Colors.grey,
-            backgroundColor: color,
+            backgroundColor: Theme.of(context).appBarTheme.backgroundColor!,
             onCompleted: (value) {},
             onChanged: (value) {
               if (_textOTPController.text.length == 6) {

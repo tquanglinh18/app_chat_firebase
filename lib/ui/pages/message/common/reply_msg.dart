@@ -6,7 +6,7 @@ import 'package:open_file/open_file.dart';
 import '../../../../common/app_colors.dart';
 import '../../../../common/app_text_styles.dart';
 
-class ReplyMsg extends StatelessWidget {
+class ReplyMsg extends StatefulWidget {
   final String? message;
   final bool isSent;
 
@@ -28,23 +28,29 @@ class ReplyMsg extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<ReplyMsg> createState() => _ReplyMsgState();
+}
+
+class _ReplyMsgState extends State<ReplyMsg> {
+  @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Align(
-      alignment: isSent != false ? Alignment.centerRight : Alignment.centerLeft,
+      alignment: widget.isSent != false ? Alignment.centerRight : Alignment.centerLeft,
       child: Column(
-        crossAxisAlignment: isSent != true ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+        crossAxisAlignment: widget.isSent != true ? CrossAxisAlignment.start : CrossAxisAlignment.end,
         children: [
           Text(
-            nameReply,
+            widget.nameReply,
             style: AppTextStyle.greyS12.copyWith(fontSize: 10),
           ),
           Container(
             padding: const EdgeInsets.all(10),
-            margin: isSent != false ? const EdgeInsets.fromLTRB(93, 6, 6, 6) : const EdgeInsets.fromLTRB(6, 6, 93, 6),
+            margin: widget.isSent != false
+                ? const EdgeInsets.fromLTRB(93, 6, 6, 6)
+                : const EdgeInsets.fromLTRB(6, 6, 93, 6),
             decoration: BoxDecoration(
-              color: (isSent != true) ? theme.hoverColor : AppColors.btnColor,
-              borderRadius: (isSent != true)
+              color: (widget.isSent != true) ? Theme.of(context).hoverColor : AppColors.btnColor,
+              borderRadius: (widget.isSent != true)
                   ? const BorderRadius.only(
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10),
@@ -57,16 +63,13 @@ class ReplyMsg extends StatelessWidget {
                     ),
             ),
             child: Column(
-              crossAxisAlignment: (isSent != true) ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+              crossAxisAlignment: (widget.isSent != true) ? CrossAxisAlignment.start : CrossAxisAlignment.end,
               mainAxisSize: MainAxisSize.min,
               children: [
-                _msgReply(
-                  theme.focusColor,
-                  theme.iconTheme.color!,
-                ),
-                _replyText(theme.iconTheme.color!),
+                _msgReply,
+                _replyText,
                 const SizedBox(height: 4),
-                _msgTimer(theme.iconTheme.color!),
+                _msgTimer,
               ],
             ),
           ),
@@ -75,16 +78,14 @@ class ReplyMsg extends StatelessWidget {
     );
   }
 
-  Widget _replyText(
-    Color darkModeTextColor,
-  ) {
+  Widget get _replyText {
     return Text(
-      textReply!,
-      style: (isSent != true)
+      widget.textReply!,
+      style: (widget.isSent != true)
           ? AppTextStyle.blackS14.copyWith(
               fontWeight: FontWeight.w400,
               fontSize: 14,
-              color: darkModeTextColor,
+              color: Theme.of(context).iconTheme.color!,
             )
           : AppTextStyle.whiteS14.copyWith(
               fontWeight: FontWeight.w400,
@@ -93,16 +94,14 @@ class ReplyMsg extends StatelessWidget {
     );
   }
 
-  Widget _msgTimer(
-    Color darkModeTimerColor,
-  ) {
+  Widget get _msgTimer {
     return Text(
-      timer!,
-      style: (isSent != true)
+      widget.timer!,
+      style: (widget.isSent != true)
           ? AppTextStyle.blackS14.copyWith(
               fontWeight: FontWeight.w400,
               fontSize: 10,
-              color: darkModeTimerColor,
+              color: Theme.of(context).iconTheme.color!,
             )
           : AppTextStyle.whiteS14.copyWith(
               fontWeight: FontWeight.w400,
@@ -111,15 +110,15 @@ class ReplyMsg extends StatelessWidget {
     );
   }
 
-  Widget _msgReply(Color darkModeColorReply, Color darkModeMsgIsReply) {
+  Widget get _msgReply {
     return Row(
       children: [
         Container(
           width: 5,
-          height: listDocument.isNotEmpty ? 240 : 40,
+          height: widget.listDocument.isNotEmpty ? 240 : 40,
           margin: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
-            color: isSent == false ? AppColors.btnColor : AppColors.hintTextColor,
+            color: widget.isSent == false ? AppColors.btnColor : AppColors.hintTextColor,
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(15),
               bottomLeft: Radius.circular(15),
@@ -128,10 +127,10 @@ class ReplyMsg extends StatelessWidget {
         ),
         Expanded(
           child: Container(
-            height: listDocument.isNotEmpty ? 240 : 40,
+            height: widget.listDocument.isNotEmpty ? 240 : 40,
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
             decoration: BoxDecoration(
-              color: isSent == false ? darkModeColorReply : AppColors.backgroundLight,
+              color: widget.isSent == false ? Theme.of(context).focusColor : AppColors.backgroundLight,
               borderRadius: const BorderRadius.only(
                 topRight: Radius.circular(5),
                 bottomRight: Radius.circular(5),
@@ -141,27 +140,27 @@ class ReplyMsg extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _nameSend,
-                listDocument.isNotEmpty
+                widget.listDocument.isNotEmpty
                     ? InkWell(
                         onTap: () {
-                          OpenFile.open(listDocument.first.path!);
+                          OpenFile.open(widget.listDocument.first.path!);
                         },
                         child: SizedBox(
                           height: 200,
                           child: ImgFile(
-                            urlFile: listDocument.first.type == TypeDocument.VIDEO.toTypeDocument
-                                ? listDocument.first.pathThumbnail!
-                                : listDocument.first.path!,
-                            isSent: isSent,
+                            urlFile: widget.listDocument.first.type == TypeDocument.VIDEO.toTypeDocument
+                                ? widget.listDocument.first.pathThumbnail!
+                                : widget.listDocument.first.path!,
+                            isSent: widget.isSent,
                             textMsgError: 'Đã xảy ra lỗi \nVui lòng thử lại',
                             isReplyColor: AppColors.textBlack,
-                            darkModeIconColor: darkModeMsgIsReply,
+                            darkModeIconColor: Theme.of(context).iconTheme.color!,
                           ),
                         ),
                       )
                     : const SizedBox(),
                 Expanded(
-                  child: _msgIsReply(isSent ? AppColors.textBlack : darkModeMsgIsReply),
+                  child: _msgIsReply(widget.isSent ? AppColors.textBlack : Theme.of(context).iconTheme.color!),
                 ),
               ],
             ),
@@ -173,14 +172,14 @@ class ReplyMsg extends StatelessWidget {
 
   Widget get _nameSend {
     return Text(
-      nameSend,
+      widget.nameSend,
       style: AppTextStyle.greyS12.copyWith(fontSize: 10),
     );
   }
 
   Widget _msgIsReply(Color darkModeMsgIsReply) {
     return Text(
-      message!,
+      widget.message!,
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
       style: AppTextStyle.blackS14.copyWith(color: darkModeMsgIsReply),

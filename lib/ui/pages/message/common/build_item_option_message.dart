@@ -37,13 +37,12 @@ class ItemOptioneMsg extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return InkWell(
       onTap: buttonType == ButtonType.ACTIVE ? onTap : null,
       child: Column(
         children: [
           _iconOption,
-          _titleOption(theme.iconTheme.color!),
+          _titleOption(Theme.of(context).iconTheme.color!),
         ],
       ),
     );

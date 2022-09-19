@@ -42,7 +42,7 @@ class MessagePage extends StatefulWidget {
   State<MessagePage> createState() => _MessagePageState();
 }
 
-class _MessagePageState extends State<MessagePage> {
+class _MessagePageState extends State<MessagePage>{
   late MessageCubit _cubit;
   TextEditingController controllerMsg = TextEditingController(text: "");
   late final CustomProgressHUD _customProgressHUD;
@@ -81,15 +81,14 @@ class _MessagePageState extends State<MessagePage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: theme.focusColor,
+      backgroundColor: Theme.of(context).focusColor,
       body: Stack(
         children: [
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _buildAppBar(theme.iconTheme.color!),
+              _buildAppBar,
               Expanded(
                 child: BlocConsumer<MessageCubit, MessageState>(
                   bloc: _cubit,
@@ -106,18 +105,12 @@ class _MessagePageState extends State<MessagePage> {
                     } else {
                       return _listMsg(
                         state.listMessage,
-                        theme.hoverColor,
-                        theme.focusColor,
                       );
                     }
                   },
                 ),
               ),
-              _inputMessage(
-                theme.backgroundColor,
-                theme.hoverColor,
-                theme.iconTheme.color!,
-              ),
+              _inputMessage,
             ],
           ),
           _customProgressHUD,
@@ -126,12 +119,12 @@ class _MessagePageState extends State<MessagePage> {
     );
   }
 
-  Widget _buildAppBar(Color color) {
+  Widget get _buildAppBar {
     return AppBarWidget(
       title: widget.nameConversion,
       onBackPressed: Navigator.of(context).pop,
       showBackButton: true,
-      colorIcon: color,
+      colorIcon: Theme.of(context).iconTheme.color!,
       rightActions: [
         InkWell(
           onTap: () {
@@ -143,7 +136,7 @@ class _MessagePageState extends State<MessagePage> {
           },
           child: Image.asset(
             AppImages.icSearchMessage,
-            color: color,
+            color: Theme.of(context).iconTheme.color!,
           ),
         ),
         InkWell(
@@ -162,14 +155,14 @@ class _MessagePageState extends State<MessagePage> {
           },
           child: Image.asset(
             AppImages.icOption,
-            color: color,
+            color: Theme.of(context).iconTheme.color!,
           ),
         ),
       ],
     );
   }
 
-  Widget _listMsg(List<MessageEntity> listMessage, Color darkModeMsgColor, Color darkModeOptionMsgColor) {
+  Widget _listMsg(List<MessageEntity> listMessage) {
     SchedulerBinding.instance.addPostFrameCallback(getSizeAndPosition);
     return ListView.builder(
       controller: controller,
@@ -213,7 +206,7 @@ class _MessagePageState extends State<MessagePage> {
                           listDocumnet: listMessage[index].document ?? [],
                           nameSend: listMessage[index].nameSend ?? "",
                           nameConversion: widget.nameConversion,
-                          isDarkModeMsg: darkModeMsgColor,
+                          isDarkModeMsg: Theme.of(context).hoverColor,
                           onLongPress: () {
                             _focusNode.unfocus();
                             _cubit.setIndexMsg(index);
@@ -232,7 +225,6 @@ class _MessagePageState extends State<MessagePage> {
                                   child: _optionMessage(
                                     contextBottomSheet,
                                     listMessage[index].icConversion == state.uidFireBase,
-                                    darkModeOptionMsgColor,
                                   ),
                                 );
                               },
@@ -246,18 +238,20 @@ class _MessagePageState extends State<MessagePage> {
     );
   }
 
-  Widget _msgField(Color? colorMsgField, Color colorTextTyping) {
+  Widget get _msgField {
     return Container(
       alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4),
-        color: colorMsgField,
+        color: Theme.of(context).hoverColor,
       ),
       child: TextField(
         autofocus: true,
         controller: controllerMsg,
         focusNode: _focusNode,
-        style: AppTextStyle.whiteS14.copyWith(color: colorTextTyping),
+        style: AppTextStyle.whiteS14.copyWith(
+          color: Theme.of(context).iconTheme.color!,
+        ),
         minLines: 1,
         maxLines: 3,
         decoration: InputDecoration(
@@ -272,7 +266,7 @@ class _MessagePageState extends State<MessagePage> {
     );
   }
 
-  Widget _inputMessage(Color colorInputMsg, Color colorMsgField, Color colorTextTyping) {
+  Widget get _inputMessage {
     return BlocConsumer<MessageCubit, MessageState>(
       bloc: _cubit,
       listenWhen: (pre, cur) =>
@@ -309,7 +303,7 @@ class _MessagePageState extends State<MessagePage> {
             Container(
               padding: EdgeInsets.fromLTRB(12, 10, 12, 10 + MediaQuery.of(context).padding.bottom),
               decoration: BoxDecoration(
-                color: colorMsgField,
+                color: Theme.of(context).hoverColor,
                 borderRadius: state.isReplyMsg || state.listDocument.isNotEmpty
                     ? const BorderRadius.only(
                         topLeft: Radius.circular(15),
@@ -336,7 +330,7 @@ class _MessagePageState extends State<MessagePage> {
                       ),
                       const SizedBox(width: 17),
                       Expanded(
-                        child: _msgField(colorMsgField, colorTextTyping),
+                        child: _msgField,
                       ),
                       const SizedBox(width: 17),
                       _sendBtn(
@@ -494,7 +488,10 @@ class _MessagePageState extends State<MessagePage> {
     );
   }
 
-  Widget _sendBtn(bool isReplyMsg, bool sendMsgLoadStatus) {
+  Widget _sendBtn(
+    bool isReplyMsg,
+    bool sendMsgLoadStatus,
+  ) {
     return InkWell(
       onTap: () {
         isReplyMsg == true
@@ -544,14 +541,17 @@ class _MessagePageState extends State<MessagePage> {
     );
   }
 
-  Widget _optionMessage(BuildContext contextBottomSheet, bool isSend, Color darkModeColor) {
+  Widget _optionMessage(
+    BuildContext contextBottomSheet,
+    bool isSend,
+  ) {
     return BlocBuilder<MessageCubit, MessageState>(
       bloc: _cubit,
       builder: (context, state) {
         return Container(
           height: 90 + MediaQuery.of(context).padding.bottom,
           padding: const EdgeInsets.symmetric(vertical: 15),
-          color: darkModeColor,
+          color: Theme.of(context).focusColor,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -580,4 +580,8 @@ class _MessagePageState extends State<MessagePage> {
       },
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

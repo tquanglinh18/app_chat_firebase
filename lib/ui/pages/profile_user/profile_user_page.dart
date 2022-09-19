@@ -71,11 +71,10 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
   }
 
   Widget get _buildAppBar {
-    final theme = Theme.of(context);
     return AppBarWidget(
       onBackPressed: Navigator.of(context).pop,
       title: "Your Profile",
-      colorIcon: theme.iconTheme.color!,
+      colorIcon: Theme.of(context).iconTheme.color!,
     );
   }
 

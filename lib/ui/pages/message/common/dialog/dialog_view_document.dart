@@ -30,7 +30,7 @@ class DialogViewDocument extends StatefulWidget {
   State<DialogViewDocument> createState() => _DialogViewDocumentState();
 }
 
-class _DialogViewDocumentState extends State<DialogViewDocument> {
+class _DialogViewDocumentState extends State<DialogViewDocument> with AutomaticKeepAliveClientMixin {
   late DialogViewDocumentCubit _cubit;
 
   @override
@@ -43,13 +43,13 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    super.build(context);
     return Material(
       color: Colors.transparent,
       child: Container(
         margin: const EdgeInsets.only(top: 100),
         decoration: BoxDecoration(
-          color: theme.appBarTheme.backgroundColor!,
+          color: Theme.of(context).appBarTheme.backgroundColor!,
           borderRadius: const BorderRadius.only(
             topRight: Radius.circular(15),
             topLeft: Radius.circular(15),
@@ -64,7 +64,7 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
             ),
             const SizedBox(height: 10),
             Expanded(
-              child: _viewDocument(),
+              child: _viewDocument,
             ),
           ],
         ),
@@ -73,7 +73,6 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
   }
 
   Widget get _buildappBar {
-    final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.all(15),
       child: Row(
@@ -82,7 +81,7 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
           Expanded(
             child: Text(
               'Thông tin cuộc hội thoại',
-              style: theme.textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyText1,
               // style: AppTextStyle.blackS18.copyWith(
               //   fontSize: 20,
               //   fontWeight: FontWeight.w400,
@@ -114,9 +113,8 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
     required String imgPath,
     required String nameUser,
   }) {
-    final theme = Theme.of(context);
     return Container(
-      color: theme.focusColor,
+      color: Theme.of(context).focusColor,
       padding: const EdgeInsets.all(15),
       child: Row(
         children: [
@@ -130,22 +128,21 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
           const SizedBox(width: 15),
           Text(
             nameUser,
-            style: theme.textTheme.bodyText1,
+            style: Theme.of(context).textTheme.bodyText1,
           ),
         ],
       ),
     );
   }
 
-  Widget _viewDocument() {
-    final theme = Theme.of(context);
+  Widget get _viewDocument {
     return BlocBuilder<DialogViewDocumentCubit, DialogViewDocumentState>(
       bloc: _cubit,
       buildWhen: (pre, cur) => pre.listImg != cur.listImg,
       builder: (context, state) {
         return Container(
           padding: const EdgeInsets.all(15),
-          color: theme.focusColor,
+          color: Theme.of(context).focusColor,
           child: Column(
             children: [
               Row(
@@ -165,12 +162,12 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
                   const SizedBox(width: 15),
                   Text(
                     "Kho lưu trữ",
-                    style: theme.textTheme.bodyText1,
+                    style: Theme.of(context).textTheme.bodyText1,
                   ),
                 ],
               ),
               _space,
-              _optionDocumentView(theme.textTheme.bodyText2!),
+              _optionDocumentView,
               _space,
               state.listImg.isEmpty ? _previewImageIsEmpty : _previewImage,
             ],
@@ -184,7 +181,7 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
     return const SizedBox(height: 20);
   }
 
-  Widget _optionDocumentView(TextStyle style) {
+  Widget get _optionDocumentView {
     return BlocBuilder<DialogViewDocumentCubit, DialogViewDocumentState>(
       bloc: _cubit,
       buildWhen: (pre, cur) =>
@@ -212,11 +209,11 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
                 },
                 child: Center(
                   child: SizedBox(
-                    width: MediaQuery.of(context).size.width / 2,
+                    width: (MediaQuery.of(context).size.width - 30) / 2,
                     child: Text(
                       listDocument[index].toTypeDocument,
                       textAlign: TextAlign.center,
-                      style: style,
+                      style: Theme.of(context).textTheme.bodyText2!,
                     ),
                   ),
                 ),
@@ -225,7 +222,7 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
             itemCount: 2,
             separatorBuilder: (BuildContext context, int index) {
               return Container(
-                height: 60,
+                height: 50,
                 width: 2,
                 color: AppColors.hintTextColor,
               );
@@ -329,4 +326,8 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

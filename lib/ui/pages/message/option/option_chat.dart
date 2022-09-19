@@ -39,8 +39,6 @@ class OptionChat extends StatefulWidget {
 
 class _OptionChatState extends State<OptionChat> {
   List<Asset> images = <Asset>[];
-  late FlutterAudioRecorder2 _recorder;
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -72,21 +70,6 @@ class _OptionChatState extends State<OptionChat> {
                 color: theme.hintColor,
               ),
             ),
-            // InkWell(
-            //   onTap: () async {
-            //     await _checkPermission().then(
-            //       (value) {
-            //         if (value ?? false) {
-            //           _start(recordingStatus: RecordingStatus.Unset);
-            //         }
-            //       },
-            //     );
-            //   },
-            //   child: Container(
-            //     margin: const EdgeInsets.only(left: 5),
-            //     child: const Icon(Icons.record_voice_over),
-            //   ),
-            // ),
           ],
         ),
       ),
@@ -94,59 +77,6 @@ class _OptionChatState extends State<OptionChat> {
       crossFadeState: widget.isSelected ? CrossFadeState.showSecond : CrossFadeState.showFirst,
       duration: const Duration(milliseconds: 250),
     );
-  }
-
-  _start({RecordingStatus? recordingStatus}) async {
-    try {
-      await _recorder.start();
-      var recording = await _recorder.current(channel: 0);
-
-      const tick = Duration(milliseconds: 50);
-      Timer.periodic(tick, (Timer t) async {
-        if (recordingStatus == RecordingStatus.Stopped) {
-          t.cancel();
-        }
-        var current = await _recorder.current(channel: 0);
-        widget.callBackRecord!(current);
-      });
-    } catch (e) {
-      logger.d(e);
-    }
-  }
-
-  //record
-  Future<bool?> _checkPermission() async {
-    try {
-      if (await FlutterAudioRecorder2.hasPermissions ?? false) {
-        String customPath = '/flutter_audio_recorder_';
-        io.Directory appDocDirectory;
-        if (io.Platform.isIOS) {
-          appDocDirectory = await getApplicationDocumentsDirectory();
-        } else {
-          appDocDirectory = (await getExternalStorageDirectory())!;
-        }
-        // can add extension like ".mp4" ".wav" ".m4a" ".aac"
-        customPath = appDocDirectory.path + customPath + DateTime.now().millisecondsSinceEpoch.toString();
-        _recorder = FlutterAudioRecorder2(customPath, audioFormat: AudioFormat.WAV);
-
-        await _recorder.initialized;
-        // after initialization
-        var current = await _recorder.current(channel: 0);
-        // _cubit.updateStatusRecord(
-        //     record: current, recordingStatus: current!.status);
-        return true;
-      } else {
-        DxFlushBar.showFlushBar(
-          context,
-          type: FlushBarType.ERROR,
-          message: "Bạn cần cấp quyền truy cập micro để sử dụng chức năng này",
-        );
-        return false;
-      }
-    } catch (e) {
-      logger.d(e);
-    }
-    return null;
   }
 
   //get image

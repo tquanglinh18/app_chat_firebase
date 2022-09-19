@@ -42,7 +42,6 @@ class _MorePageState extends State<MorePage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Scaffold(
       body: BlocBuilder<MoreCubit, MoreState>(
         bloc: _cubit,
@@ -55,14 +54,9 @@ class _MorePageState extends State<MorePage> {
                 name: state.name,
                 phoneNumber: state.phoneNumber,
                 urlImage: state.avatar,
-                style: theme.textTheme.bodyText1,
-                color: theme.iconTheme.color,
               ),
               Expanded(
-                child: _itemMore(
-                  color: theme.iconTheme.color!,
-                  style: theme.textTheme.bodyText1,
-                ),
+                child: _itemMore,
               ),
             ],
           );
@@ -75,8 +69,6 @@ class _MorePageState extends State<MorePage> {
     String? urlImage,
     String? name,
     String? phoneNumber,
-    TextStyle? style,
-    Color? color,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
@@ -90,7 +82,7 @@ class _MorePageState extends State<MorePage> {
                     borderRadius: BorderRadius.circular(100),
                     child: Avatar(
                       urlAvatar: urlImage ?? "",
-                      darkModeColor: color!,
+                      darkModeColor: Theme.of(context).iconTheme.color!,
                     ),
                   )
                 : const CircleAvatar(
@@ -105,7 +97,6 @@ class _MorePageState extends State<MorePage> {
               children: [
                 _nameUserLogin(
                   name!,
-                  style!,
                 ),
                 _phoneNumberUserLogin(phoneNumber!),
               ],
@@ -113,15 +104,18 @@ class _MorePageState extends State<MorePage> {
           ),
           Image.asset(
             AppImages.icNext,
-            color: color,
+            color: Theme.of(context).iconTheme.color,
           ),
         ],
       ),
     );
   }
 
-  Widget _nameUserLogin(String name, TextStyle style) {
-    return Text(name, style: style);
+  Widget _nameUserLogin(String name) {
+    return Text(
+      name,
+      style: Theme.of(context).textTheme.bodyText1,
+    );
   }
 
   Widget _phoneNumberUserLogin(String phoneNumber) {
@@ -135,7 +129,7 @@ class _MorePageState extends State<MorePage> {
     );
   }
 
-  Widget _itemMore({required Color color, TextStyle? style}) {
+  Widget get _itemMore {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
       child: ListView.separated(
@@ -154,18 +148,18 @@ class _MorePageState extends State<MorePage> {
                 children: [
                   _iconMoreOption(
                     pathIcon: listType[index].pathIcon,
-                    color: color,
+                    color: Theme.of(context).iconTheme.color!,
                   ),
                   const SizedBox(width: 15),
                   Expanded(
                     child: _titleMoreOption(
                       title: listType[index].title,
-                      style: style!,
+                      style: Theme.of(context).textTheme.bodyText1!,
                     ),
                   ),
                   Image.asset(
                     AppImages.icNext,
-                    color: color,
+                    color: Theme.of(context).iconTheme.color!,
                   ),
                 ],
               ),

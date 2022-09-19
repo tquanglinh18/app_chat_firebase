@@ -51,7 +51,7 @@ class _SplashChildPageState extends State<SplashChildPage> {
               if (value.isNotEmpty) {
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
-                    builder: (_) => HomeAppPage(),
+                    builder: (_) => const HomeAppPage(),
                     settings: const RouteSettings(name: "home"),
                   ),
                   (route) => false,
@@ -91,7 +91,9 @@ class _SplashChildPageState extends State<SplashChildPage> {
             child: SizedBox(
               height: 200,
               width: 200,
-              child: Image.asset(AppImages.icLogoTransparent),
+              child: Image.asset(
+                AppImages.icLogoTransparent,
+              ),
             ),
           ),
         ],

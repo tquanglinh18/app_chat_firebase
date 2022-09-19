@@ -48,7 +48,6 @@ class _ContactPageState extends State<ContactPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -68,12 +67,10 @@ class _ContactPageState extends State<ContactPage> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  _buildAppBar(theme.iconTheme.color!),
+                  _buildAppBar,
                   _buildSearchBar(state.searchText ?? ''),
                   Expanded(
-                    child: _contacts(
-                      style: theme.textTheme.bodyText1,
-                    ),
+                    child: _contacts,
                   ),
                 ],
               );
@@ -85,12 +82,12 @@ class _ContactPageState extends State<ContactPage> {
     );
   }
 
-  Widget _buildAppBar(Color color) {
+  Widget get _buildAppBar {
     return AppBarCustom(
       title: "Contacts",
       icCount: 1,
       image: const [AppImages.icAddContact],
-      color: color,
+      color: Theme.of(context).iconTheme.color!,
       onTap: () async {
         await showDialog(
           context: context,
@@ -127,9 +124,7 @@ class _ContactPageState extends State<ContactPage> {
     );
   }
 
-  Widget _contacts({
-    TextStyle? style,
-  }) {
+  Widget get _contacts {
     return BlocConsumer<ContactCubit, ContactState>(
       bloc: _cubit,
       listener: (context, state) {
@@ -167,7 +162,7 @@ class _ContactPageState extends State<ContactPage> {
                     child: _buildListContact(
                       urlImageNetwok: state.listConversion[index].avatarConversion ?? '',
                       nameConversion: state.listConversion[index].nameConversion ?? '',
-                      style: style!,
+                      style: Theme.of(context).textTheme.bodyText1!,
                     ),
                   );
                 },

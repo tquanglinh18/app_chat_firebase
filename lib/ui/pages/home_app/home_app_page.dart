@@ -13,11 +13,11 @@ List<String> listUrlImage = [AppImages.icPerson, AppImages.icChat, AppImages.icM
 List<String> listTitle = ["Contacts", "Chats", "More"];
 
 class HomeAppPage extends StatefulWidget {
-  String? name;
-  String? phoneNumber;
-  String? urlAvatar;
+  final String? name;
+  final String? phoneNumber;
+  final String? urlAvatar;
 
-  HomeAppPage({
+  const HomeAppPage({
     Key? key,
     this.name,
     this.phoneNumber,
@@ -39,7 +39,6 @@ class _HomeAppPageState extends State<HomeAppPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Scaffold(
       body: Column(
         children: [
@@ -60,16 +59,13 @@ class _HomeAppPageState extends State<HomeAppPage> {
               },
             ),
           ),
-          _bottomNavigator(
-            theme.textTheme.bodyText1!,
-            theme.iconTheme.color,
-          ),
+          _bottomNavigator,
         ],
       ),
     );
   }
 
-  Widget _bottomNavigator(TextStyle style, Color? color) {
+  Widget get _bottomNavigator {
     return Visibility(
       visible: MediaQuery.of(context).viewInsets.bottom == 0,
       child: BlocBuilder<HomeAppCubit, HomeAppState>(
@@ -95,12 +91,10 @@ class _HomeAppPageState extends State<HomeAppPage> {
                         ? itemBottomNavigatorIsSelected(
                             urlImage: listUrlImage[index],
                             title: listTitle[index],
-                            style: style,
                           )
                         : itemBottomNavigatorIsNotSelected(
                             listUrlImage[index],
                             listTitle[index],
-                            color!,
                           ),
                   ),
                 );
@@ -115,14 +109,13 @@ class _HomeAppPageState extends State<HomeAppPage> {
   Widget itemBottomNavigatorIsSelected({
     required String urlImage,
     required String title,
-    required TextStyle style,
   }) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           title,
-          style: style,
+          style: Theme.of(context).textTheme.bodyText1,
         ),
         const Text(
           "•",
@@ -132,7 +125,7 @@ class _HomeAppPageState extends State<HomeAppPage> {
     );
   }
 
-  Widget itemBottomNavigatorIsNotSelected(String urlImage, String title, Color color) {
+  Widget itemBottomNavigatorIsNotSelected(String urlImage, String title) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -142,7 +135,7 @@ class _HomeAppPageState extends State<HomeAppPage> {
           child: Image.asset(
             urlImage,
             fit: BoxFit.contain,
-            color: color,
+            color: Theme.of(context).iconTheme.color,
           ),
         ),
       ],

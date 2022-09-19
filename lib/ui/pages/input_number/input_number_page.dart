@@ -32,7 +32,6 @@ class _InputNumberPageState extends State<InputNumberPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Column(
@@ -44,13 +43,13 @@ class _InputNumberPageState extends State<InputNumberPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
                     children: [
-                      _buildAppBar(theme.iconTheme.color!),
+                      _buildAppBar,
                       const SizedBox(height: 80),
-                      _guideInputPhoneNumber(theme.iconTheme.color!),
+                      _guideInputPhoneNumber,
                       const SizedBox(height: 48),
-                      _inputPhoneNumberField(theme.iconTheme.color!),
+                      _inputPhoneNumberField,
                       const SizedBox(height: 81),
-                      _continueBtn,
+                      _btnContinue,
                     ],
                   ),
                 ),
@@ -62,14 +61,14 @@ class _InputNumberPageState extends State<InputNumberPage> {
     );
   }
 
-  Widget _buildAppBar(Color color) {
+  Widget get _buildAppBar {
     return AppBarWidget(
       onBackPressed: Navigator.of(context).pop,
-      colorIcon: color,
+      colorIcon: Theme.of(context).iconTheme.color!,
     );
   }
 
-  Widget _guideInputPhoneNumber(Color colorText) {
+  Widget get _guideInputPhoneNumber {
     return Column(
       children: [
         Text(
@@ -78,7 +77,7 @@ class _InputNumberPageState extends State<InputNumberPage> {
           style: AppTextStyle.blackS18.copyWith(
             fontWeight: FontWeight.w600,
             fontSize: 24,
-            color: colorText,
+            color: Theme.of(context).iconTheme.color!,
           ),
         ),
         const SizedBox(height: 8),
@@ -88,14 +87,14 @@ class _InputNumberPageState extends State<InputNumberPage> {
           style: AppTextStyle.blackS14.copyWith(
             fontWeight: FontWeight.w400,
             height: 1.4,
-            color: colorText,
+            color: Theme.of(context).iconTheme.color!,
           ),
         ),
       ],
     );
   }
 
-  Widget get _continueBtn {
+  Widget get _btnContinue {
     return BlocConsumer<InputNumberCubit, InputNumberState>(
       bloc: _cubit,
       listenWhen: (pre, cur) => pre.loadStatus != cur.loadStatus,
@@ -134,7 +133,7 @@ class _InputNumberPageState extends State<InputNumberPage> {
     );
   }
 
-  Widget _inputPhoneNumberField(Color colorSelected) {
+  Widget get _inputPhoneNumberField {
     return InternationalPhoneNumberInput(
       autoFocus: true,
       onInputChanged: (PhoneNumber number) {
@@ -148,10 +147,15 @@ class _InputNumberPageState extends State<InputNumberPage> {
       ),
       ignoreBlank: false,
       autoValidateMode: AutovalidateMode.disabled,
-      selectorTextStyle: TextStyle(color: colorSelected),
+      selectorTextStyle: TextStyle(
+        color: Theme.of(context).iconTheme.color!,
+      ),
       initialValue: PhoneNumber(isoCode: 'VN'),
       formatInput: false,
-      keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
+      keyboardType: const TextInputType.numberWithOptions(
+        signed: true,
+        decimal: true,
+      ),
       inputBorder: const OutlineInputBorder(),
       onSaved: (PhoneNumber number) {},
     );

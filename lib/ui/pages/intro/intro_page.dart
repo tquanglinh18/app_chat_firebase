@@ -10,7 +10,6 @@ class IntroAppPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -33,7 +32,7 @@ class IntroAppPage extends StatelessWidget {
                       style: AppTextStyle.blackS18.copyWith(
                         fontWeight: FontWeight.bold,
                         fontSize: 24,
-                        color: theme.iconTheme.color,
+                        color: Theme.of(context).iconTheme.color,
                       ),
                     ),
                     const SizedBox(height: 130),
@@ -41,7 +40,7 @@ class IntroAppPage extends StatelessWidget {
                       'Terms & Privacy Policy',
                       style: AppTextStyle.blackS14.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: theme.iconTheme.color,
+                        color: Theme.of(context).iconTheme.color,
                       ),
                     ),
                   ],
@@ -63,7 +62,11 @@ class IntroAppPage extends StatelessWidget {
     );
   }
 
-  Widget _btnStart(Function() onTap, double width, double height) {
+  Widget _btnStart(
+    Function() onTap,
+    double width,
+    double height,
+  ) {
     return Positioned(
       top: height - 100,
       left: 20,

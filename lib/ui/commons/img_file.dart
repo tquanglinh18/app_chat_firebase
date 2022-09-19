@@ -54,7 +54,7 @@ class ImgFile extends StatelessWidget {
                         padding: const EdgeInsets.only(bottom: 5),
                         child: Icon(
                           Icons.info_outline,
-                          color: !isSent ? darkModeIconColor : isReplyColor,
+                          color: !isSent ? darkModeIconColor : AppColors.backgroundLight,
                         ),
                       )
                     : const SizedBox(),

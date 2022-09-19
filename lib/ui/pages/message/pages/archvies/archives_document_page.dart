@@ -56,19 +56,18 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: theme.focusColor,
+      backgroundColor: Theme.of(context).focusColor,
       body: BlocBuilder<ArchivesDocumentCubit, ArchivesDocumentState>(
         bloc: _cubit,
         buildWhen: (pre, cur) => pre.indexTypeDocument != cur.indexTypeDocument,
         builder: (context, state) {
           return Column(
             children: [
-              _buildAppBar(theme.iconTheme.color!),
+              _buildAppBar,
               Container(
                 decoration: BoxDecoration(
-                  color: theme.focusColor,
+                  color: Theme.of(context).focusColor,
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
@@ -80,10 +79,10 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
               ),
               Expanded(
                 child: state.indexTypeDocument == 0
-                    ? _viewImage(theme.iconTheme.color!)
+                    ? _viewImage
                     : state.indexTypeDocument == 1
-                        ? _viewFile(theme.iconTheme.color!)
-                        : _viewVideo(theme.iconTheme.color!),
+                        ? _viewFile
+                        : _viewVideo,
               ),
             ],
           );
@@ -92,13 +91,13 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
     );
   }
 
-  Widget _buildAppBar(Color color) {
+  Widget get _buildAppBar {
     return AppBarWidget(
       title: "Kho lưu trữ",
       onBackPressed: () {
         Navigator.of(context).pop();
       },
-      colorIcon: color,
+      colorIcon: Theme.of(context).iconTheme.color!,
     );
   }
 
@@ -149,11 +148,11 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
     );
   }
 
-  Widget _viewImage(Color color) {
+  Widget get _viewImage {
     return Container(
       child: widget.listImg.isNotEmpty
           ? GridView.builder(
-              padding: const EdgeInsets.all(3),
+              padding: const EdgeInsets.all(10),
               itemCount: widget.listImg.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
@@ -164,7 +163,7 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
                 return ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: InkWell(
-                    onTap: (){
+                    onTap: () {
                       OpenFile.open(widget.listImg[index].path);
                     },
                     child: ImgFile(
@@ -174,11 +173,11 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
                 );
               },
             )
-          : DataEmpty(color: color),
+          : DataEmpty(color: Theme.of(context).iconTheme.color!),
     );
   }
 
-  Widget _viewFile(Color color) {
+  Widget get _viewFile {
     return BlocBuilder<ArchivesDocumentCubit, ArchivesDocumentState>(
       bloc: _cubit,
       buildWhen: (pre, cur) => pre.loadStatus != cur.loadStatus,
@@ -206,12 +205,12 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
                   );
                 },
               )
-            : DataEmpty(color: color);
+            : DataEmpty(color: Theme.of(context).iconTheme.color!);
       },
     );
   }
 
-  Widget _viewVideo(Color color) {
+  Widget get _viewVideo {
     return BlocBuilder<ArchivesDocumentCubit, ArchivesDocumentState>(
       bloc: _cubit,
       buildWhen: (pre, cur) => pre.loadStatus != cur.loadStatus,
@@ -241,7 +240,7 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
                   );
                 },
               )
-            : DataEmpty(color: color);
+            : DataEmpty(color: Theme.of(context).iconTheme.color!);
       },
     );
   }
@@ -260,9 +259,7 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             height: 40,
             child: Text(
-              "Ngày ${DateFormat('dd-MM-yyyy').format(
-                timeSend.toDateLocal() ?? DateTime.now(),
-              )}",
+              "Ngày ${DateFormat('dd-MM-yyyy').format(timeSend.toDateLocal() ?? DateTime.now())}",
               style: AppTextStyle.greyS14.copyWith(
                 fontWeight: FontWeight.w400,
                 fontSize: 14,

@@ -8,7 +8,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../common/app_colors.dart';
 import '../../../../common/app_images.dart';
-import '../../../../common/app_text_styles.dart';
 import '../../../commons/custom_app_bar.dart';
 import '../../../commons/custom_progress_hud.dart';
 import '../../../commons/data_empty.dart';
@@ -51,22 +50,23 @@ class _ChatsPageState extends State<ChatsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Scaffold(
       body: Stack(
         children: [
           Column(
             children: [
-              _buildAppBar(theme.iconTheme.color!),
+              _buildAppBar,
               _story,
               Container(
                 height: 1,
                 width: MediaQuery.of(context).size.width,
-                decoration: const BoxDecoration(color: AppColors.greyBG),
+                decoration: const BoxDecoration(
+                  color: AppColors.greyBG,
+                ),
               ),
               _buildSearchBar,
               Expanded(
-                child: _userChat(theme.textTheme.bodyText1),
+                child: _userChat,
               )
             ],
           ),
@@ -101,12 +101,15 @@ class _ChatsPageState extends State<ChatsPage> {
     );
   }
 
-  Widget _buildAppBar(Color color) {
+  Widget get _buildAppBar {
     return AppBarCustom(
       title: "Chats",
       icCount: 2,
-      image: const [AppImages.icNewMessage, AppImages.icMarkAsRead],
-      color: color,
+      image: const [
+        AppImages.icNewMessage,
+        AppImages.icMarkAsRead,
+      ],
+      color: Theme.of(context).iconTheme.color!,
       onTap: () {
         DxFlushBar.showFlushBar(
           context,
@@ -171,7 +174,10 @@ class _ChatsPageState extends State<ChatsPage> {
     );
   }
 
-  Widget _buildItemStr(String urlFile, String nameUpStory) {
+  Widget _buildItemStr(
+    String urlFile,
+    String nameUpStory,
+  ) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 8),
       child: Column(
@@ -265,7 +271,7 @@ class _ChatsPageState extends State<ChatsPage> {
     );
   }
 
-  Widget _userChat(TextStyle? style) {
+  Widget get _userChat {
     return BlocConsumer<ChatsCubit, ChatsState>(
       bloc: _cubit,
       listenWhen: (pre, cur) => pre.loadStatusGetUser != cur.loadStatusGetUser,
@@ -298,7 +304,9 @@ class _ChatsPageState extends State<ChatsPage> {
                         _avtUserChat(state.listUser[index].avatar ?? ""),
                         const SizedBox(width: 16),
                         Expanded(
-                          child: _nameUserChat(name: state.listUser[index].name ?? "", style: style!),
+                          child: _nameUserChat(
+                            name: state.listUser[index].name ?? "",
+                          ),
                         ),
                       ],
                     ),
@@ -333,11 +341,10 @@ class _ChatsPageState extends State<ChatsPage> {
 
   Widget _nameUserChat({
     required String name,
-    required TextStyle style,
   }) {
     return Text(
       name,
-      style: style,
+      style: Theme.of(context).textTheme.bodyText1!,
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
     );

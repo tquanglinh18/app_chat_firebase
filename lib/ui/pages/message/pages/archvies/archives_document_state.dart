@@ -1,6 +1,5 @@
 part of 'archives_document_cubit.dart';
 
-@immutable
 class ArchivesDocumentState extends Equatable {
   final int indexTypeDocument;
   final LoadStatus? loadStatus;

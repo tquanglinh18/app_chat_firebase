@@ -8,7 +8,7 @@ import 'package:open_file/open_file.dart';
 import '../../../../common/app_colors.dart';
 import '../../../../common/app_text_styles.dart';
 
-class TextMessage extends StatelessWidget {
+class TextMessage extends StatefulWidget {
   final String? message;
   final bool isSent;
   final String? timer;
@@ -31,66 +31,60 @@ class TextMessage extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<TextMessage> createState() => _TextMessageState();
+}
+
+class _TextMessageState extends State<TextMessage> {
+  @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return GestureDetector(
-      onLongPress: onLongPress,
+      onLongPress: widget.onLongPress,
       child: Align(
-        alignment: isSent != false ? Alignment.centerRight : Alignment.centerLeft,
+        alignment: widget.isSent != false ? Alignment.centerRight : Alignment.centerLeft,
         child: Column(
-          crossAxisAlignment: isSent != true ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+          crossAxisAlignment: widget.isSent != true ? CrossAxisAlignment.start : CrossAxisAlignment.end,
           children: [
             _nameSentMsg,
             Container(
               padding: const EdgeInsets.all(10),
-              margin: isSent != false ? const EdgeInsets.fromLTRB(93, 2, 6, 6) : const EdgeInsets.fromLTRB(6, 2, 93, 6),
+              margin: widget.isSent != false
+                  ? const EdgeInsets.fromLTRB(93, 2, 6, 6)
+                  : const EdgeInsets.fromLTRB(6, 2, 93, 6),
               decoration: BoxDecoration(
-                color: (isSent != true) ? isDarkModeMsg : AppColors.btnColor,
-                borderRadius: (isSent != true)
+                color: (widget.isSent != true) ? widget.isDarkModeMsg : AppColors.btnColor,
+                borderRadius: (widget.isSent != true)
                     ? const BorderRadius.only(
                         topLeft: Radius.circular(10),
                         topRight: Radius.circular(10),
                         bottomRight: Radius.circular(10),
                       )
                     : const BorderRadius.only(
-                        // topLeft: Radius.circular(10),
+                        topLeft: Radius.circular(10),
                         topRight: Radius.circular(10),
                         bottomLeft: Radius.circular(10),
                       ),
               ),
               child: Column(
-                crossAxisAlignment: (isSent != true) ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+                crossAxisAlignment: (widget.isSent != true) ? CrossAxisAlignment.start : CrossAxisAlignment.end,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        width: 1,
-                        color: AppColors.greyBG,
-                      ),
-                    ),
-                    child: listDocumnet.isNotEmpty
-                        ? (listDocumnet.first.type == TypeDocument.IMAGE.toTypeDocument)
-                            ? _typeImageMsg(() {
-                                OpenFile.open(listDocumnet.first.path!);
-                              }, theme.iconTheme.color!)
-                            : (listDocumnet.first.type == TypeDocument.VIDEO.toTypeDocument)
-                                ? _typeVideoMsg(
-                                    () {
-                                      OpenFile.open(listDocumnet.first.path!);
-                                    },
-                                    theme.iconTheme.color!,
-                                  )
-                                : listDocumnet.first.type == TypeDocument.FILE.toTypeDocument
-                                    ? _typeFileMsg(theme.iconTheme.color!)
-                                    : const SizedBox()
-                        : const SizedBox(),
-                  ),
+                  widget.listDocumnet.isNotEmpty
+                      ? (widget.listDocumnet.first.type == TypeDocument.IMAGE.toTypeDocument)
+                          ? _typeImageMsg(() {
+                              OpenFile.open(widget.listDocumnet.first.path!);
+                            })
+                          : (widget.listDocumnet.first.type == TypeDocument.VIDEO.toTypeDocument)
+                              ? _typeVideoMsg(() {
+                                  OpenFile.open(widget.listDocumnet.first.path!);
+                                })
+                              : widget.listDocumnet.first.type == TypeDocument.FILE.toTypeDocument
+                                  ? _typeFileMsg
+                                  : const SizedBox()
+                      : const SizedBox(),
                   const SizedBox(height: 4),
-                  _msgText(theme.iconTheme.color!),
+                  _msgText,
                   const SizedBox(height: 4),
-                  _msgTimer(theme.iconTheme.color!),
+                  _msgTimer,
                 ],
               ),
             ),
@@ -100,11 +94,15 @@ class TextMessage extends StatelessWidget {
     );
   }
 
-  Widget _msgText(Color colorMsgText) {
+  Widget get _msgText {
     return Text(
-      message!,
-      style: (isSent != true)
-          ? AppTextStyle.blackS14.copyWith(fontWeight: FontWeight.w400, fontSize: 14, color: colorMsgText)
+      widget.message!,
+      style: (widget.isSent != true)
+          ? AppTextStyle.blackS14.copyWith(
+              fontWeight: FontWeight.w400,
+              fontSize: 14,
+              color: Theme.of(context).iconTheme.color!,
+            )
           : AppTextStyle.whiteS14.copyWith(
               fontWeight: FontWeight.w400,
               fontSize: 14,
@@ -112,14 +110,14 @@ class TextMessage extends StatelessWidget {
     );
   }
 
-  Widget _msgTimer(Color colorMsgTimer) {
+  Widget get _msgTimer {
     return Text(
-      timer!,
-      style: (isSent != true)
+      widget.timer!,
+      style: (widget.isSent != true)
           ? AppTextStyle.blackS14.copyWith(
               fontWeight: FontWeight.w400,
               fontSize: 10,
-              color: colorMsgTimer,
+              color: Theme.of(context).iconTheme.color!,
             )
           : AppTextStyle.whiteS14.copyWith(
               fontWeight: FontWeight.w400,
@@ -130,12 +128,12 @@ class TextMessage extends StatelessWidget {
 
   Widget get _nameSentMsg {
     return Text(
-      nameSend,
+      widget.nameSend,
       style: AppTextStyle.greyS12.copyWith(fontSize: 10),
     );
   }
 
-  Widget _typeFileMsg(Color darkModeIconColor) {
+  Widget get _typeFileMsg {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 10,
@@ -143,11 +141,11 @@ class TextMessage extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
-          OpenFile.open(listDocumnet.first.path);
+          OpenFile.open(widget.listDocumnet.first.path);
         },
         child: Image.asset(
           AppImages.icFileDefault,
-          color: isSent ? AppColors.backgroundLight : darkModeIconColor,
+          color: widget.isSent ? AppColors.backgroundLight : Theme.of(context).iconTheme.color!,
           height: 100,
           width: 100,
         ),
@@ -157,7 +155,6 @@ class TextMessage extends StatelessWidget {
 
   Widget _typeVideoMsg(
     Function() onTap,
-    Color darkModeIconColor,
   ) {
     return InkWell(
       onTap: onTap,
@@ -168,18 +165,18 @@ class TextMessage extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             ImgFile(
-              urlFile: listDocumnet.first.pathThumbnail ?? "",
-              isSent: isSent,
+              urlFile: widget.listDocumnet.first.pathThumbnail ?? "",
+              isSent: widget.isSent,
               textMsgError: 'Đã xảy ra lỗi \nVui lòng thử lại',
               documentIsVideo: true,
               isBorderSide: true,
-              darkModeIconColor: darkModeIconColor,
+              darkModeIconColor: Theme.of(context).iconTheme.color!,
               isReplyColor: AppColors.backgroundLight,
             ),
             Icon(
               Icons.play_circle_fill_outlined,
               size: 50,
-              color: darkModeIconColor,
+              color: widget.isSent ? AppColors.backgroundLight : Theme.of(context).iconTheme.color!,
             ),
           ],
         ),
@@ -187,15 +184,15 @@ class TextMessage extends StatelessWidget {
     );
   }
 
-  Widget _typeImageMsg(Function() onTap, Color darkModeIconColor) {
+  Widget _typeImageMsg(Function() onTap) {
     return InkWell(
       onTap: onTap,
       child: ImgFile(
-        urlFile: listDocumnet.first.path!,
+        urlFile: widget.listDocumnet.first.path!,
         textMsgError: 'Đã xảy ra lỗi \nVui lòng thử lại',
-        isSent: isSent,
+        isSent: widget.isSent,
         isBorderSide: true,
-        darkModeIconColor: darkModeIconColor,
+        darkModeIconColor: Theme.of(context).iconTheme.color!,
       ),
     );
   }
