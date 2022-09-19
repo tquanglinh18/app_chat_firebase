@@ -51,7 +51,7 @@ class _SplashChildPageState extends State<SplashChildPage> {
               if (value.isNotEmpty) {
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
-                    builder: (_) => const ProfileUserPage(),
+                    builder: (_) => const HomeAppPage(),
                     settings: const RouteSettings(name: "home"),
                   ),
                   (route) => false,
@@ -72,7 +72,7 @@ class _SplashChildPageState extends State<SplashChildPage> {
         } else {
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-              builder: (_) => const ProfileUserPage(),
+              builder: (_) => const IntroAppPage(),
               settings: const RouteSettings(name: "intro"),
             ),
             (route) => false,
