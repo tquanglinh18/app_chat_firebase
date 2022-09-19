@@ -9,7 +9,7 @@ import '../../../network/fire_base_api.dart';
 import 'message_state.dart';
 
 class MessageCubit extends Cubit<MessageState> {
-  MessageCubit() : super(MessageState());
+  MessageCubit() : super(const MessageState());
 
   initData(String icConversion) async {
     try {
@@ -75,11 +75,11 @@ class MessageCubit extends Cubit<MessageState> {
   }
 
   realTimeFireBase(String icConversion) {
-    FirebaseApi.getMessages(icConversion).then((value) {
-      emit(state.copyWith(
-        listMessage: value,
-      ));
-    });
+    FirebaseApi.getMessages(icConversion).then(
+      (value) {
+        emit(state.copyWith(listMessage: value));
+      },
+    );
   }
 
   setIndexMsg(int index) {
@@ -145,11 +145,20 @@ class MessageCubit extends Cubit<MessageState> {
     emit(state.copyWith(hintOptionMsg: !state.hintOptionMsg));
   }
 
+  showInputMsg() {
+    emit(state.copyWith(hintInputMsg: !state.hintInputMsg));
+  }
+
   isSelected() {
     emit(state.copyWith(isSelected: !state.isSelected));
   }
 
-  addDocument(String type, String path, String pathThumbnail, String name) {
+  addDocument({
+    required String type,
+    required String path,
+    required String pathThumbnail,
+    required String name,
+  }) {
     try {
       List<DocumentEntity> listDocument = List.from(state.listDocument);
       listDocument.add(
@@ -170,6 +179,6 @@ class MessageCubit extends Cubit<MessageState> {
   }
 
   removeImgSelected() {
-    emit(state.copyWith(listDocument: []));
+    emit(state.copyWith(listDocument: [], ));
   }
 }

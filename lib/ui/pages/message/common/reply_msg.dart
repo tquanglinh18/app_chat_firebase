@@ -4,6 +4,7 @@ import 'package:flutter_base/ui/commons/img_file.dart';
 import 'package:flutter_base/ui/pages/message/type_document.dart';
 import 'package:open_file/open_file.dart';
 import '../../../../common/app_colors.dart';
+import '../../../../common/app_images.dart';
 import '../../../../common/app_text_styles.dart';
 
 class ReplyMsg extends StatefulWidget {
@@ -115,7 +116,7 @@ class _ReplyMsgState extends State<ReplyMsg> {
       children: [
         Container(
           width: 5,
-          height: widget.listDocument.isNotEmpty ? 240 : 40,
+          height: widget.listDocument.isNotEmpty ? 250 : 50,
           margin: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
             color: widget.isSent == false ? AppColors.btnColor : AppColors.hintTextColor,
@@ -127,7 +128,7 @@ class _ReplyMsgState extends State<ReplyMsg> {
         ),
         Expanded(
           child: Container(
-            height: widget.listDocument.isNotEmpty ? 240 : 40,
+            height: widget.listDocument.isNotEmpty ? 250 : 50,
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
             decoration: BoxDecoration(
               color: widget.isSent == false ? Theme.of(context).focusColor : AppColors.backgroundLight,
@@ -140,25 +141,33 @@ class _ReplyMsgState extends State<ReplyMsg> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _nameSend,
+                const SizedBox(height: 5),
                 widget.listDocument.isNotEmpty
                     ? InkWell(
                         onTap: () {
                           OpenFile.open(widget.listDocument.first.path!);
                         },
-                        child: SizedBox(
-                          height: 200,
-                          child: ImgFile(
-                            urlFile: widget.listDocument.first.type == TypeDocument.VIDEO.toTypeDocument
-                                ? widget.listDocument.first.pathThumbnail!
-                                : widget.listDocument.first.path!,
-                            isSent: widget.isSent,
-                            textMsgError: 'Đã xảy ra lỗi \nVui lòng thử lại',
-                            isReplyColor: AppColors.textBlack,
-                            darkModeIconColor: Theme.of(context).iconTheme.color!,
-                          ),
-                        ),
+                        child: widget.listDocument.first.type == TypeDocument.FILE.toTypeDocument
+                            ? Center(
+                                child: Image.asset(
+                                AppImages.icFileDefault,
+                                height: 180,
+                              ))
+                            : SizedBox(
+                                height: 200,
+                                child: ImgFile(
+                                  urlFile: widget.listDocument.first.type == TypeDocument.VIDEO.toTypeDocument
+                                      ? widget.listDocument.first.pathThumbnail!
+                                      : widget.listDocument.first.path!,
+                                  isSent: widget.isSent,
+                                  textMsgError: 'Đã xảy ra lỗi \nVui lòng thử lại',
+                                  isReplyColor: AppColors.textBlack,
+                                  darkModeIconColor: Theme.of(context).iconTheme.color!,
+                                ),
+                              ),
                       )
                     : const SizedBox(),
+                const SizedBox(height: 5),
                 Expanded(
                   child: _msgIsReply(widget.isSent ? AppColors.textBlack : Theme.of(context).iconTheme.color!),
                 ),

@@ -30,7 +30,7 @@ class DialogViewDocument extends StatefulWidget {
   State<DialogViewDocument> createState() => _DialogViewDocumentState();
 }
 
-class _DialogViewDocumentState extends State<DialogViewDocument> with AutomaticKeepAliveClientMixin {
+class _DialogViewDocumentState extends State<DialogViewDocument> {
   late DialogViewDocumentCubit _cubit;
 
   @override
@@ -43,7 +43,6 @@ class _DialogViewDocumentState extends State<DialogViewDocument> with AutomaticK
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Material(
       color: Colors.transparent,
       child: Container(
@@ -82,10 +81,6 @@ class _DialogViewDocumentState extends State<DialogViewDocument> with AutomaticK
             child: Text(
               'Thông tin cuộc hội thoại',
               style: Theme.of(context).textTheme.bodyText1,
-              // style: AppTextStyle.blackS18.copyWith(
-              //   fontSize: 20,
-              //   fontWeight: FontWeight.w400,
-              // ),
               textAlign: TextAlign.center,
             ),
           ),
@@ -327,7 +322,4 @@ class _DialogViewDocumentState extends State<DialogViewDocument> with AutomaticK
     );
   }
 
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
 }

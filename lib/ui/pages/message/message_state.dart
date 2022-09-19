@@ -4,20 +4,21 @@ import 'package:flutter_base/models/enums/load_status.dart';
 import '../../../models/entities/message_entity.dart';
 
 class MessageState extends Equatable {
-  List<MessageEntity> listMessage;
-  LoadStatus? loadStatus;
-  LoadStatus? sendMsgLoadStatus;
-  LoadStatus? deletLoadStatus;
-  LoadStatus? replyLoadStatus;
-  bool hintOptionMsg;
-  bool isReplyMsg;
-  int? indexMsg;
-  String uidFireBase;
-  bool isSelected;
-  List<DocumentEntity> listDocument;
-  String? nameSend;
+  final List<MessageEntity> listMessage;
+  final LoadStatus? loadStatus;
+  final LoadStatus? sendMsgLoadStatus;
+  final LoadStatus? deletLoadStatus;
+  final LoadStatus? replyLoadStatus;
+  final bool hintOptionMsg;
+  final bool isReplyMsg;
+  final int? indexMsg;
+  final String uidFireBase;
+  final bool isSelected;
+  final List<DocumentEntity> listDocument;
+  final String? nameSend;
+  final bool hintInputMsg;
 
-  MessageState({
+  const MessageState({
     this.listMessage = const [],
     this.loadStatus,
     this.sendMsgLoadStatus,
@@ -30,6 +31,7 @@ class MessageState extends Equatable {
     this.isSelected = false,
     this.listDocument = const [],
     this.nameSend,
+    this.hintInputMsg = true,
   });
 
   MessageState copyWith({
@@ -45,6 +47,7 @@ class MessageState extends Equatable {
     bool? isSelected,
     List<DocumentEntity>? listDocument,
     String? nameSend,
+    bool? hintInputMsg,
   }) {
     return MessageState(
       listMessage: listMessage ?? this.listMessage,
@@ -59,6 +62,7 @@ class MessageState extends Equatable {
       isSelected: isSelected ?? this.isSelected,
       listDocument: listDocument ?? this.listDocument,
       nameSend: nameSend ?? this.nameSend,
+      hintInputMsg: hintInputMsg ?? this.hintInputMsg,
     );
   }
 
@@ -76,5 +80,6 @@ class MessageState extends Equatable {
         isSelected,
         listDocument,
         nameSend,
+        hintInputMsg,
       ];
 }

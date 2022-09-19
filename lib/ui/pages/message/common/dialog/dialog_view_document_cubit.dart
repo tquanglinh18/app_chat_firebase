@@ -22,7 +22,8 @@ class DialogViewDocumentCubit extends Cubit<DialogViewDocumentState> {
             if (value.isNotEmpty)
               {
                 value.sort((a, b) => b.createdAt!.compareTo(a.createdAt!)),
-                listMsg = value.where((element) => (element.document ?? []).isNotEmpty).toList(),
+                listMsg = value.where((element) => (element.document ?? []).isNotEmpty && (element.nameReply ?? '').isEmpty).toList(),
+
                 listMsg.forEach((element) {
                   switch ((element.document ?? []).first.type) {
                     case "IMAGE":

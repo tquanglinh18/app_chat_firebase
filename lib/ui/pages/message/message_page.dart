@@ -42,7 +42,7 @@ class MessagePage extends StatefulWidget {
   State<MessagePage> createState() => _MessagePageState();
 }
 
-class _MessagePageState extends State<MessagePage>{
+class _MessagePageState extends State<MessagePage> {
   late MessageCubit _cubit;
   TextEditingController controllerMsg = TextEditingController(text: "");
   late final CustomProgressHUD _customProgressHUD;
@@ -83,38 +83,47 @@ class _MessagePageState extends State<MessagePage>{
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).focusColor,
-      body: Stack(
-        children: [
-          Column(
-            mainAxisSize: MainAxisSize.min,
+      body: BlocBuilder<MessageCubit, MessageState>(
+        bloc: _cubit,
+        buildWhen: (pre, cur) => pre.hintInputMsg != cur.hintInputMsg,
+        builder: (context, state) {
+          return Stack(
             children: [
-              _buildAppBar,
-              Expanded(
-                child: BlocConsumer<MessageCubit, MessageState>(
-                  bloc: _cubit,
-                  listenWhen: (pre, cur) => pre.loadStatus != cur.loadStatus,
-                  listener: (context, state) {
-                    if (state.loadStatus != LoadStatus.loading) {
-                      _customProgressHUD.progress.dismiss();
-                    }
-                  },
-                  buildWhen: (pre, cur) => pre.loadStatus != cur.loadStatus || pre.listMessage != cur.listMessage,
-                  builder: (context, state) {
-                    if (state.loadStatus == LoadStatus.loading) {
-                      return Container();
-                    } else {
-                      return _listMsg(
-                        state.listMessage,
-                      );
-                    }
-                  },
-                ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _buildAppBar,
+                  Expanded(
+                    child: BlocConsumer<MessageCubit, MessageState>(
+                      bloc: _cubit,
+                      listenWhen: (pre, cur) => pre.loadStatus != cur.loadStatus,
+                      listener: (context, state) {
+                        if (state.loadStatus != LoadStatus.loading) {
+                          _customProgressHUD.progress.dismiss();
+                        }
+                      },
+                      buildWhen: (pre, cur) => pre.loadStatus != cur.loadStatus || pre.listMessage != cur.listMessage,
+                      builder: (context, state) {
+                        if (state.loadStatus == LoadStatus.loading) {
+                          return Container();
+                        } else {
+                          return _listMsg(
+                            state.listMessage,
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                  Visibility(
+                    visible: state.hintInputMsg,
+                    child: _inputMessage,
+                  ),
+                ],
               ),
-              _inputMessage,
+              _customProgressHUD,
             ],
-          ),
-          _customProgressHUD,
-        ],
+          );
+        },
       ),
     );
   }
@@ -171,7 +180,7 @@ class _MessagePageState extends State<MessagePage>{
       itemBuilder: (BuildContext context, int index) {
         return BlocBuilder<MessageCubit, MessageState>(
           bloc: _cubit,
-          buildWhen: (pre, cur) => pre.hintOptionMsg != cur.hintOptionMsg,
+          buildWhen: (pre, cur) => pre.hintOptionMsg != cur.hintOptionMsg || pre.hintInputMsg != cur.hintInputMsg,
           builder: (context, state) {
             return AutoScrollTag(
               key: ValueKey(index),
@@ -209,6 +218,7 @@ class _MessagePageState extends State<MessagePage>{
                           isDarkModeMsg: Theme.of(context).hoverColor,
                           onLongPress: () {
                             _focusNode.unfocus();
+                            _cubit.showInputMsg();
                             _cubit.setIndexMsg(index);
                             _cubit.showOptionMsg();
                             showModalBottomSheet(
@@ -317,17 +327,19 @@ class _MessagePageState extends State<MessagePage>{
                   state.listDocument.isNotEmpty ? _isNotEmptyDocument : const SizedBox(),
                   Row(
                     children: [
-                      _moreOptionMsg(
-                        () {
-                          state.listDocument.isNotEmpty
-                              ? DxFlushBar.showFlushBar(
-                                  context,
-                                  type: FlushBarType.WARNING,
-                                  title: "Chỉ được chọn 1 File đính kèm!",
-                                )
-                              : _cubit.isSelected();
-                        },
-                      ),
+                      state.listDocument.isNotEmpty || state.isReplyMsg
+                          ? const SizedBox()
+                          : _moreOptionMsg(
+                              () {
+                                state.listDocument.isNotEmpty
+                                    ? DxFlushBar.showFlushBar(
+                                        context,
+                                        type: FlushBarType.WARNING,
+                                        title: "Chỉ được chọn 1 File đính kèm!",
+                                      )
+                                    : _cubit.isSelected();
+                              },
+                            ),
                       const SizedBox(width: 17),
                       Expanded(
                         child: _msgField,
@@ -395,9 +407,13 @@ class _MessagePageState extends State<MessagePage>{
     return InkWell(
       onTap: () {
         _cubit.removeImgSelected();
+        controllerMsg.text = '';
       },
       child: Container(
-        decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.backgroundLight),
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: AppColors.backgroundLight,
+        ),
         child: const Icon(
           Icons.close,
           size: 15,
@@ -516,26 +532,26 @@ class _MessagePageState extends State<MessagePage>{
       isSelected: isSelected,
       onChooseImage: (file) {
         _cubit.addDocument(
-          TypeDocument.IMAGE.toTypeDocument,
-          file.first.path,
-          '',
-          file.first.path.split("/").last,
+          type: TypeDocument.IMAGE.toTypeDocument,
+          path: file.first.path,
+          pathThumbnail: '',
+          name: file.first.path.split("/").last,
         );
       },
       onChooseVideo: (listFile, file) {
         _cubit.addDocument(
-          TypeDocument.VIDEO.toTypeDocument,
-          listFile.first.path,
-          file.path,
-          listFile.first.path.split("/").last,
+          type: TypeDocument.VIDEO.toTypeDocument,
+          path: listFile.first.path,
+          pathThumbnail: file.path,
+          name: listFile.first.path.split("/").last,
         );
       },
       onChooseDocument: (file) {
         _cubit.addDocument(
-          TypeDocument.FILE.toTypeDocument,
-          file.first.path,
-          '',
-          file.first.path.split('/').last,
+          type: TypeDocument.FILE.toTypeDocument,
+          path: file.first.path,
+          pathThumbnail: '',
+          name: file.first.path.split('/').last,
         );
       },
     );
@@ -547,11 +563,25 @@ class _MessagePageState extends State<MessagePage>{
   ) {
     return BlocBuilder<MessageCubit, MessageState>(
       bloc: _cubit,
+      buildWhen: (pre, cur) => pre.hintInputMsg != cur.hintInputMsg || pre.hintOptionMsg != cur.hintOptionMsg,
       builder: (context, state) {
         return Container(
           height: 90 + MediaQuery.of(context).padding.bottom,
           padding: const EdgeInsets.symmetric(vertical: 15),
-          color: Theme.of(context).focusColor,
+          decoration: BoxDecoration(
+            boxShadow: const [
+              BoxShadow(
+                color: AppColors.btnColor,
+                blurRadius: 10,
+                offset: Offset(2, 0), // Shadow position
+              ),
+            ],
+            color: Theme.of(context).focusColor,
+            borderRadius: const BorderRadius.only(
+              topRight: Radius.circular(10),
+              topLeft: Radius.circular(10),
+            ),
+          ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -562,6 +592,7 @@ class _MessagePageState extends State<MessagePage>{
                 onTap: () {
                   Navigator.of(contextBottomSheet).pop();
                   _cubit.showReplyMsg();
+                  _cubit.showInputMsg();
                 },
                 buttonType: ButtonType.ACTIVE,
               ),
@@ -571,6 +602,7 @@ class _MessagePageState extends State<MessagePage>{
                 onTap: () {
                   Navigator.of(contextBottomSheet).pop();
                   _cubit.deleteMsg(widget.idConversion);
+                  _cubit.showInputMsg();
                 },
                 buttonType: isSend ? ButtonType.ACTIVE : ButtonType.IN_ACTIVE,
               ),
@@ -580,8 +612,4 @@ class _MessagePageState extends State<MessagePage>{
       },
     );
   }
-
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
 }
