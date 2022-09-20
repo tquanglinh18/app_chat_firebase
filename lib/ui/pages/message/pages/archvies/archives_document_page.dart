@@ -1,13 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_base/common/app_images.dart';
 import 'package:flutter_base/common/app_text_styles.dart';
 import 'package:flutter_base/ui/commons/datetime_formatter.dart';
+import 'package:flutter_base/ui/commons/flus_bar.dart';
 import 'package:flutter_base/ui/commons/img_file.dart';
 import 'package:flutter_base/ui/pages/message/pages/archvies/archives_document_cubit.dart';
 import 'package:flutter_base/ui/widgets/appbar/app_bar_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../../../../common/app_colors.dart';
 import '../../../../../models/entities/message_entity.dart';
@@ -164,7 +168,7 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
                   borderRadius: BorderRadius.circular(10),
                   child: InkWell(
                     onTap: () {
-                      OpenFile.open(widget.listImg[index].path);
+                      _checkExists(widget.listImg[index].path!);
                     },
                     child: ImgFile(
                       urlFile: (widget.listImg[index].path ?? ""),
@@ -190,7 +194,7 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
                   return _itemFilePreview(
                     name: state.listDocumentFile[index].name ?? "",
                     onTap: () {
-                      OpenFile.open(state.listDocumentFile[index].path ?? "");
+                      _checkExists(state.listDocumentFile[index].path ?? "");
                     },
                     type: (state.listDocumentFile[index].name ?? "").split('.').last,
                     nameSend: state.listDocumentFile[index].nameSend ?? "",
@@ -223,8 +227,8 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
                   return _itemFilePreview(
                     name: (state.listDocumentVideo[index].name ?? ""),
                     onTap: () {
-                      OpenFile.open(
-                        (state.listDocumentVideo[index].path),
+                      _checkExists(
+                        (state.listDocumentVideo[index].path!),
                       );
                     },
                     type: (state.listDocumentVideo[index].name ?? "").split(".").last,
@@ -329,5 +333,21 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
               ),
             ),
           );
+  }
+
+  _checkExists(String fieName) async {
+    String fileName = fieName;
+    String dir = (await getApplicationDocumentsDirectory()).path;
+    String savePath = '$dir/$fileName';
+    if (await File(savePath).exists()) {
+      OpenFile.open(savePath);
+    } else {
+      if (!mounted) return;
+      DxFlushBar.showFlushBar(
+        context,
+        title: "Tệp tin không tồn tại!",
+        type: FlushBarType.ERROR,
+      );
+    }
   }
 }

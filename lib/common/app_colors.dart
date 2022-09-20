@@ -54,4 +54,5 @@ class AppColors {
   static const Color greyBgr = Color(0xffF2F2F2);
 
   static const Color bgrDarkMode = Color(0xff0F1828);
+  static const Color bts182130 = Color(0xff182130);
 }

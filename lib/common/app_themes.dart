@@ -72,6 +72,8 @@ class AppThemes {
       focusColor: isDarkMode ? AppColors.bgrDarkMode : AppColors.greyBgr,
       hintColor: isDarkMode ? AppColors.backgroundLight : AppColors.btnColor,
       splashColor: isDarkMode ? AppColors.backgroundLight.withOpacity(0.2) : AppColors.border.withOpacity(0.2),
+      indicatorColor: isDarkMode ? AppColors.greyBgr.withOpacity(0.3) : AppColors.textBlack.withOpacity(0.5),
+      canvasColor: isDarkMode ? AppColors.bts182130 : AppColors.textWhite,
     );
   }
 }

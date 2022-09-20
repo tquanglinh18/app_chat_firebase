@@ -88,7 +88,7 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
         if (state.loadStatus == LoadStatus.success) {
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-              builder: (_) => HomeAppPage(),
+              builder: (_) => const HomeAppPage(),
               settings: const RouteSettings(name: "home"),
             ),
             (route) => false,
@@ -124,13 +124,16 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
       height: 36,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: AppColors.greyBG),
-      child: TextField(
+      child: TextFormField(
         autofocus: true,
+        textAlignVertical: TextAlignVertical.center,
         style: AppTextStyle.blackS14,
+        
         onChanged: (value) {
           _cubit.firstNameChanged(value);
         },
         decoration: InputDecoration(
+          contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
           border: InputBorder.none,
           hintText: "First Name (Required)",
           hintStyle: AppTextStyle.greyS14.copyWith(
@@ -148,12 +151,13 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
       height: 36,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: AppColors.greyBG),
-      child: TextField(
+      child: TextFormField(
         style: AppTextStyle.blackS14,
         onChanged: (value) {
           _cubit.lastNameChanged(value);
         },
         decoration: InputDecoration(
+          contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
           border: InputBorder.none,
           hintText: "Last Name (Optional)",
           hintStyle: AppTextStyle.greyS14.copyWith(

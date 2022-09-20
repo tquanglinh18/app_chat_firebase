@@ -21,7 +21,7 @@ extension ButtonTypeExtension on ButtonType {
   }
 }
 
-class ItemOptioneMsg extends StatelessWidget {
+class ItemOptioneMsg extends StatefulWidget {
   final IconData? iconItem;
   final String? title;
   final ButtonType? buttonType;
@@ -36,31 +36,37 @@ class ItemOptioneMsg extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<ItemOptioneMsg> createState() => _ItemOptioneMsgState();
+}
+
+class _ItemOptioneMsgState extends State<ItemOptioneMsg> {
+  @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: buttonType == ButtonType.ACTIVE ? onTap : null,
+      onTap: widget.buttonType == ButtonType.ACTIVE ? widget.onTap : null,
       child: Column(
         children: [
           _iconOption,
-          _titleOption(Theme.of(context).iconTheme.color!),
+          _titleOption,
         ],
       ),
     );
   }
 
-  Widget _titleOption(Color colorText) {
+  Widget get _titleOption {
     return Text(
-      title!,
+      widget.title!,
       style: AppTextStyle.blackS14.copyWith(
-        fontSize: 14,
-        fontWeight: FontWeight.w400,
-        height: 2,
-        color: colorText
-      ),
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          height: 2,
+          color: widget.buttonType == ButtonType.IN_ACTIVE
+              ? Theme.of(context).indicatorColor
+              : Theme.of(context).iconTheme.color!),
     );
   }
 
-  Widget get _iconOption{
+  Widget get _iconOption {
     return Container(
       padding: const EdgeInsets.all(2),
       decoration: BoxDecoration(
@@ -68,9 +74,9 @@ class ItemOptioneMsg extends StatelessWidget {
         color: AppColors.hintTextColor,
       ),
       child: Icon(
-        iconItem,
+        widget.iconItem,
         size: 20,
-        color: buttonType == ButtonType.ACTIVE ? AppColors.btnColor : AppColors.bgrColorsChatPage,
+        color: widget.buttonType == ButtonType.ACTIVE ? AppColors.btnColor : AppColors.bgrColorsChatPage,
       ),
     );
   }

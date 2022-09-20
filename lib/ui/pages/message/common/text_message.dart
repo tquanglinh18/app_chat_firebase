@@ -1,12 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_base/common/app_images.dart';
 import 'package:flutter_base/models/entities/message_entity.dart';
 import 'package:flutter_base/ui/commons/img_file.dart';
 import 'package:flutter_base/ui/pages/message/type_document.dart';
 import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../../../common/app_colors.dart';
 import '../../../../common/app_text_styles.dart';
+import '../../../commons/flus_bar.dart';
 
 class TextMessage extends StatefulWidget {
   final String? message;
@@ -51,7 +55,7 @@ class _TextMessageState extends State<TextMessage> {
                   ? const EdgeInsets.fromLTRB(93, 2, 6, 6)
                   : const EdgeInsets.fromLTRB(6, 2, 93, 6),
               decoration: BoxDecoration(
-                color: (widget.isSent != true) ? widget.isDarkModeMsg : AppColors.btnColor,
+                color: (!widget.isSent) ? widget.isDarkModeMsg : AppColors.btnColor,
                 borderRadius: (widget.isSent != true)
                     ? const BorderRadius.only(
                         topLeft: Radius.circular(10),
@@ -71,11 +75,11 @@ class _TextMessageState extends State<TextMessage> {
                   widget.listDocumnet.isNotEmpty
                       ? (widget.listDocumnet.first.type == TypeDocument.IMAGE.toTypeDocument)
                           ? _typeImageMsg(() {
-                              OpenFile.open(widget.listDocumnet.first.path!);
+                              _checkExists(widget.listDocumnet.first.path!);
                             })
                           : (widget.listDocumnet.first.type == TypeDocument.VIDEO.toTypeDocument)
                               ? _typeVideoMsg(() {
-                                  OpenFile.open(widget.listDocumnet.first.path!);
+                                  _checkExists(widget.listDocumnet.first.path!);
                                 })
                               : widget.listDocumnet.first.type == TypeDocument.FILE.toTypeDocument
                                   ? _typeFileMsg
@@ -141,7 +145,7 @@ class _TextMessageState extends State<TextMessage> {
       ),
       child: InkWell(
         onTap: () {
-          OpenFile.open(widget.listDocumnet.first.path);
+          _checkExists(widget.listDocumnet.first.path!);
         },
         child: Image.asset(
           AppImages.icFileDefault,
@@ -195,5 +199,21 @@ class _TextMessageState extends State<TextMessage> {
         darkModeIconColor: Theme.of(context).iconTheme.color!,
       ),
     );
+  }
+
+  _checkExists(String fieName) async {
+    String fileName = fieName;
+    String dir = (await getApplicationDocumentsDirectory()).path;
+    String savePath = '$dir/$fileName';
+    if (await File(savePath).exists()) {
+      OpenFile.open(savePath);
+    } else {
+      if (!mounted) return;
+      DxFlushBar.showFlushBar(
+        context,
+        title: "Tệp tin không tồn tại!",
+        type: FlushBarType.ERROR,
+      );
+    }
   }
 }

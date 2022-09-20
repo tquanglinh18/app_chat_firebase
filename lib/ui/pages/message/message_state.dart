@@ -17,8 +17,9 @@ class MessageState extends Equatable {
   final List<DocumentEntity> listDocument;
   final String? nameSend;
   final bool hintInputMsg;
+  bool isFirst;
 
-  const MessageState({
+   MessageState({
     this.listMessage = const [],
     this.loadStatus,
     this.sendMsgLoadStatus,
@@ -32,6 +33,7 @@ class MessageState extends Equatable {
     this.listDocument = const [],
     this.nameSend,
     this.hintInputMsg = true,
+    this.isFirst = false,
   });
 
   MessageState copyWith({
@@ -48,6 +50,7 @@ class MessageState extends Equatable {
     List<DocumentEntity>? listDocument,
     String? nameSend,
     bool? hintInputMsg,
+    bool? isFirst,
   }) {
     return MessageState(
       listMessage: listMessage ?? this.listMessage,
@@ -63,6 +66,7 @@ class MessageState extends Equatable {
       listDocument: listDocument ?? this.listDocument,
       nameSend: nameSend ?? this.nameSend,
       hintInputMsg: hintInputMsg ?? this.hintInputMsg,
+      isFirst: isFirst ?? this.isFirst,
     );
   }
 
@@ -81,5 +85,6 @@ class MessageState extends Equatable {
         listDocument,
         nameSend,
         hintInputMsg,
+        isFirst,
       ];
 }

@@ -9,7 +9,7 @@ import '../../../network/fire_base_api.dart';
 import 'message_state.dart';
 
 class MessageCubit extends Cubit<MessageState> {
-  MessageCubit() : super(const MessageState());
+  MessageCubit() : super( MessageState());
 
   initData(String icConversion) async {
     try {

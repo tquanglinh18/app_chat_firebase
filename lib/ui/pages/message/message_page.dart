@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_base/common/app_images.dart';
-
 import 'package:flutter_base/models/entities/message_entity.dart';
 import 'package:flutter_base/models/enums/load_status.dart';
 import 'package:flutter_base/ui/commons/custom_progress_hud.dart';
@@ -18,7 +17,6 @@ import 'package:flutter_base/ui/widgets/appbar/app_bar_widget.dart';
 import 'package:flutter_base/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
-
 import '../../../../common/app_colors.dart';
 import '../../../../common/app_text_styles.dart';
 import '../../commons/flus_bar.dart';
@@ -72,8 +70,28 @@ class _MessagePageState extends State<MessagePage> {
 
   void getSizeAndPosition(_) async {
     try {
-      await controller.scrollToIndex(_cubit.state.listMessage.length,
-          preferPosition: AutoScrollPosition.middle, duration: const Duration(seconds: 5));
+      if(_cubit.state.isFirst == false){
+        await controller.scrollToIndex(
+          _cubit.state.listMessage.length,
+          preferPosition: AutoScrollPosition.middle,
+          duration: const Duration(seconds: 3),
+        ).then((value) => {
+          _cubit.state.isFirst = true
+        });
+      }
+
+    } catch (e) {
+      logger.e('getSizeAndPosition\n$e');
+    }
+  }
+
+  void getSizeAndPositionToIndex(int index) async {
+    try {
+      await controller.scrollToIndex(
+        index,
+        preferPosition: AutoScrollPosition.middle,
+        duration: const Duration(seconds: 3),
+      );
     } catch (e) {
       logger.e('getSizeAndPosition\n$e');
     }
@@ -114,10 +132,11 @@ class _MessagePageState extends State<MessagePage> {
                       },
                     ),
                   ),
-                  Visibility(
-                    visible: state.hintInputMsg,
-                    child: _inputMessage,
-                  ),
+                  state.hintInputMsg
+                      ? _inputMessage
+                      : SizedBox(
+                          height: 95 + MediaQuery.of(context).padding.bottom,
+                        ),
                 ],
               ),
               _customProgressHUD,
@@ -220,7 +239,7 @@ class _MessagePageState extends State<MessagePage> {
                             _focusNode.unfocus();
                             _cubit.showInputMsg();
                             _cubit.setIndexMsg(index);
-                            _cubit.showOptionMsg();
+                            // getSizeAndPositionToIndex(index);
                             showModalBottomSheet(
                               useRootNavigator: true,
                               context: context,
@@ -237,6 +256,12 @@ class _MessagePageState extends State<MessagePage> {
                                     listMessage[index].icConversion == state.uidFireBase,
                                   ),
                                 );
+                              },
+                            ).then(
+                              (value) {
+                                if (value == null) {
+                                  _cubit.showInputMsg();
+                                }
                               },
                             );
                           },
@@ -569,14 +594,14 @@ class _MessagePageState extends State<MessagePage> {
           height: 90 + MediaQuery.of(context).padding.bottom,
           padding: const EdgeInsets.symmetric(vertical: 15),
           decoration: BoxDecoration(
-            boxShadow: const [
+            boxShadow: [
               BoxShadow(
-                color: AppColors.btnColor,
-                blurRadius: 10,
-                offset: Offset(2, 0), // Shadow position
+                color: AppColors.textBlack.withOpacity(0.07),
+                blurRadius: 6,
+                offset: const Offset(0, -4), // Shadow position
               ),
             ],
-            color: Theme.of(context).focusColor,
+            color: Theme.of(context).canvasColor,
             borderRadius: const BorderRadius.only(
               topRight: Radius.circular(10),
               topLeft: Radius.circular(10),
@@ -592,7 +617,6 @@ class _MessagePageState extends State<MessagePage> {
                 onTap: () {
                   Navigator.of(contextBottomSheet).pop();
                   _cubit.showReplyMsg();
-                  _cubit.showInputMsg();
                 },
                 buttonType: ButtonType.ACTIVE,
               ),
@@ -602,7 +626,6 @@ class _MessagePageState extends State<MessagePage> {
                 onTap: () {
                   Navigator.of(contextBottomSheet).pop();
                   _cubit.deleteMsg(widget.idConversion);
-                  _cubit.showInputMsg();
                 },
                 buttonType: isSend ? ButtonType.ACTIVE : ButtonType.IN_ACTIVE,
               ),
