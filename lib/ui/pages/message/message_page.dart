@@ -337,8 +337,8 @@ class _MessagePageState extends State<MessagePage> {
               ),
               child: Column(
                 children: [
-                  state.isReplyMsg ? _isReplyMsg((state.listMessage[state.indexMsg!].message)!) : const SizedBox(),
                   state.listDocument.isNotEmpty ? _isNotEmptyDocument : const SizedBox(),
+                  state.isReplyMsg ? _isReplyMsg((state.listMessage[state.indexMsg!].message)!) : const SizedBox(),
                   Row(
                     children: [
                       state.listDocument.isNotEmpty || state.isReplyMsg
@@ -499,8 +499,11 @@ class _MessagePageState extends State<MessagePage> {
               Expanded(
                 child: Text(
                   textMsgInput,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
+              const SizedBox(width: 5),
               InkWell(
                 onTap: () {
                   _cubit.showReplyMsg();
