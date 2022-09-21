@@ -1,6 +1,5 @@
 part of 'profile_user_cubit.dart';
 
-@immutable
 class ProfileUserState extends Equatable {
   final String? firstName;
   final String? lastName;

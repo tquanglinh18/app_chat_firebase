@@ -218,6 +218,8 @@ class _ChatsPageState extends State<ChatsPage> {
                     urlFile: urlFile,
                     isBorderRadius: true,
                     isBorderSide: true,
+                      isSent: true,
+                      isReplyMsg: true,
                   ),
                 ),
               ),

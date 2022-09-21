@@ -76,8 +76,15 @@ class DocumentEntity {
   @JsonKey()
   String? createAt;
 
-  DocumentEntity(
-      {this.path, this.type, this.pathThumbnail, this.name, this.isHeader = false, this.nameSend, this.createAt});
+  DocumentEntity({
+    this.path,
+    this.type,
+    this.pathThumbnail,
+    this.name,
+    this.isHeader = false,
+    this.nameSend,
+    this.createAt,
+  });
 
   factory DocumentEntity.fromJson(Map<String, dynamic> json) => _$DocumentEntityFromJson(json);
 

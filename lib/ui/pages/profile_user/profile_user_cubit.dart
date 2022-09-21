@@ -1,7 +1,6 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_base/models/entities/user_entity.dart';
-import 'package:meta/meta.dart';
 
 import '../../../database/share_preferences_helper.dart';
 import '../../../models/enums/load_status.dart';
@@ -47,20 +46,24 @@ class ProfileUserCubit extends Cubit<ProfileUserState> {
               user.avatar = state.image;
               user.phoneNumber = phoneNumber;
             } else {
-              listUserFireBase.add(UserEntity(
+              listUserFireBase.add(
+                UserEntity(
+                  name: name,
+                  uid: uidFireBase,
+                  avatar: state.image,
+                  phoneNumber: phoneNumber,
+                ),
+              );
+            }
+          } else {
+            listUserFireBase.add(
+              UserEntity(
                 name: name,
                 uid: uidFireBase,
                 avatar: state.image,
                 phoneNumber: phoneNumber,
-              ));
-            }
-          } else {
-            listUserFireBase.add(UserEntity(
-              name: name,
-              uid: uidFireBase,
-              avatar: state.image,
-              phoneNumber: phoneNumber,
-            ));
+              ),
+            );
           }
           FirebaseApi.uploadProfile(uidFireBase, listUserFireBase).then(
             (value) {

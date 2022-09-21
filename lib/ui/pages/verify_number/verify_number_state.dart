@@ -2,6 +2,7 @@ part of 'verify_number_cubit.dart';
 
 class VerifyNumberState extends Equatable {
   final String? idUser;
+
   final LoadStatus? loadStatus;
   final String error;
 
@@ -23,7 +24,6 @@ class VerifyNumberState extends Equatable {
     );
   }
 
-  // TODO: implement props
   @override
   List<Object?> get props => [
         idUser,

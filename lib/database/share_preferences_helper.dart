@@ -10,6 +10,29 @@ class SharedPreferencesHelper {
 
   static const _nameUserLogin = '_nameUserLogin';
 
+  static const _phoneUserLogin = '_phoneUserLogin';
+
+  static Future<String> getPhoneUserLoginKey() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      return prefs.getString(_phoneUserLogin) ?? "";
+    } catch (e) {
+      logger.e(e);
+      return "";
+    }
+  }
+
+  //Set authKey
+  static void setPhoneUserLoginKey(String phoneUserLogin) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_phoneUserLogin, phoneUserLogin);
+  }
+
+  static void removePhoneUserLoginKey() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_phoneUserLogin);
+  }
+
   static Future<String> getNameUserLoginKey() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -20,7 +43,7 @@ class SharedPreferencesHelper {
     }
   }
 
-  //Set authKey
+  //Set nameUserLogin
   static void setNameUserLoginKey(String nameUserLogin) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(_nameUserLogin, nameUserLogin);

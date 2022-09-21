@@ -82,7 +82,9 @@ class _TextMessageState extends State<TextMessage> {
                                   _checkExists(widget.listDocumnet.first.path!);
                                 })
                               : widget.listDocumnet.first.type == TypeDocument.FILE.toTypeDocument
-                                  ? _typeFileMsg
+                                  ? _typeFileMsg(() {
+                                      _checkExists(widget.listDocumnet.first.path!);
+                                    })
                                   : const SizedBox()
                       : const SizedBox(),
                   const SizedBox(height: 4),
@@ -137,16 +139,14 @@ class _TextMessageState extends State<TextMessage> {
     );
   }
 
-  Widget get _typeFileMsg {
+  Widget _typeFileMsg(Function() onTap) {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 10,
         vertical: 20,
       ),
       child: InkWell(
-        onTap: () {
-          _checkExists(widget.listDocumnet.first.path!);
-        },
+        onTap: onTap,
         child: Image.asset(
           AppImages.icFileDefault,
           color: widget.isSent ? AppColors.backgroundLight : Theme.of(context).iconTheme.color!,
@@ -197,16 +197,14 @@ class _TextMessageState extends State<TextMessage> {
         isSent: widget.isSent,
         isBorderSide: true,
         darkModeIconColor: Theme.of(context).iconTheme.color!,
+
       ),
     );
   }
 
-  _checkExists(String fieName) async {
-    String fileName = fieName;
-    String dir = (await getApplicationDocumentsDirectory()).path;
-    String savePath = '$dir/$fileName';
-    if (await File(savePath).exists()) {
-      OpenFile.open(savePath);
+  _checkExists(String fileName) async {
+    if (await File(fileName).exists()) {
+      OpenFile.open(fileName);
     } else {
       if (!mounted) return;
       DxFlushBar.showFlushBar(

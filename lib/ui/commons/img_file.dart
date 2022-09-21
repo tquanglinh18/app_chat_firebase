@@ -8,6 +8,7 @@ import '../../common/app_text_styles.dart';
 class ImgFile extends StatelessWidget {
   final String urlFile;
   final bool isSent;
+  final bool isReplyMsg;
   final String textMsgError;
   final bool documentIsVideo;
   final bool isBorderRadius;
@@ -19,6 +20,7 @@ class ImgFile extends StatelessWidget {
     Key? key,
     required this.urlFile,
     this.isSent = false,
+    this.isReplyMsg = false,
     this.textMsgError = '',
     this.documentIsVideo = false,
     this.isBorderRadius = false,
@@ -45,7 +47,7 @@ class ImgFile extends StatelessWidget {
             ),
           ),
           child: Padding(
-            padding: documentIsVideo ? const EdgeInsets.only(top: 120) : EdgeInsets.zero,
+            padding: documentIsVideo ? const EdgeInsets.only(top: 90) : EdgeInsets.zero,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -54,7 +56,7 @@ class ImgFile extends StatelessWidget {
                         padding: const EdgeInsets.only(bottom: 5),
                         child: Icon(
                           Icons.info_outline,
-                          color: !isSent ? darkModeIconColor : AppColors.backgroundLight,
+                          color: !isSent ? darkModeIconColor : isReplyMsg ? AppColors.backgroundDark :AppColors.backgroundLight,
                         ),
                       )
                     : const SizedBox(),

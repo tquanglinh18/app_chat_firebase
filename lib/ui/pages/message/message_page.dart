@@ -70,28 +70,17 @@ class _MessagePageState extends State<MessagePage> {
 
   void getSizeAndPosition(_) async {
     try {
-      if(_cubit.state.isFirst == false){
-        await controller.scrollToIndex(
-          _cubit.state.listMessage.length,
-          preferPosition: AutoScrollPosition.middle,
-          duration: const Duration(seconds: 3),
-        ).then((value) => {
-          _cubit.state.isFirst = true
-        });
+      if (_cubit.state.isFirst == false) {
+        await controller
+            .scrollToIndex(
+              _cubit.state.listMessage.length,
+              preferPosition: AutoScrollPosition.middle,
+              duration: const Duration(seconds: 1),
+            )
+            .then((value) => {
+                  _cubit.state.isFirst = true,
+                });
       }
-
-    } catch (e) {
-      logger.e('getSizeAndPosition\n$e');
-    }
-  }
-
-  void getSizeAndPositionToIndex(int index) async {
-    try {
-      await controller.scrollToIndex(
-        index,
-        preferPosition: AutoScrollPosition.middle,
-        duration: const Duration(seconds: 3),
-      );
     } catch (e) {
       logger.e('getSizeAndPosition\n$e');
     }
@@ -461,6 +450,7 @@ class _MessagePageState extends State<MessagePage> {
                   AppImages.icFileDefault,
                   height: 50,
                   width: 50,
+                  color: Theme.of(context).iconTheme.color,
                 )
               : typeDocument == TypeDocument.VIDEO.name
                   ? SizedBox(
@@ -544,6 +534,7 @@ class _MessagePageState extends State<MessagePage> {
                 controllerMsg.text,
                 widget.idConversion,
               );
+        _cubit.state.isFirst = false;
       },
       child: Image.asset(
         AppImages.icSentMessage,

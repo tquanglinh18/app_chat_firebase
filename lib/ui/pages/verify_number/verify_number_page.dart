@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_base/blocs/app_cubit.dart';
 import 'package:flutter_base/common/app_colors.dart';
+import 'package:flutter_base/database/share_preferences_helper.dart';
 import 'package:flutter_base/models/enums/load_status.dart';
 import 'package:flutter_base/ui/commons/custom_progress_hud.dart';
 import 'package:flutter_base/ui/commons/flus_bar.dart';
@@ -133,7 +134,9 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
           },
           child: Text(
             'Resent code',
-            style: AppTextStyle.whiteS16.copyWith(color: AppColors.btnColor),
+            style: AppTextStyle.whiteS16.copyWith(
+              color: AppColors.btnColor,
+            ),
           ),
         );
       },
@@ -157,11 +160,10 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
             );
           } else if (state.loadStatus == LoadStatus.success) {
             _cubitApp.saveIdUser(state.idUser);
+            SharedPreferencesHelper.setPhoneUserLoginKey(widget.phoneNumber);
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (context) => ProfileUserPage(
-                  phoneNumber: widget.phoneNumber,
-                ),
+                builder: (context) => const ProfileUserPage(),
               ),
             );
           }

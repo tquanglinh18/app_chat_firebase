@@ -14,15 +14,14 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../common/app_colors.dart';
+import '../../../database/share_preferences_helper.dart';
 
 class ProfileUserPage extends StatefulWidget {
   final Color colorIcon;
-  final String phoneNumber;
 
   const ProfileUserPage({
     Key? key,
     this.colorIcon = Colors.black,
-    this.phoneNumber = '',
   }) : super(key: key);
 
   @override
@@ -107,8 +106,11 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
           child: AppButtons(
             isLoading: state.loadStatus == LoadStatus.loading,
             buttonType: state.firstName != '' ? ButtonType.ACTIVE : ButtonType.IN_ACTIVE,
-            onTap: () {
-              _cubit.uploadUser('${state.firstName} ${state.lastName}', widget.phoneNumber);
+            onTap: () async {
+              _cubit.uploadUser(
+                '${state.firstName} ${state.lastName}',
+                await SharedPreferencesHelper.getPhoneUserLoginKey(),
+              );
               FocusScope.of(context).unfocus();
             },
             title: "Save",
@@ -128,7 +130,6 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
         autofocus: true,
         textAlignVertical: TextAlignVertical.center,
         style: AppTextStyle.blackS14,
-        
         onChanged: (value) {
           _cubit.firstNameChanged(value);
         },

@@ -11,8 +11,6 @@ import 'package:flutter_base/ui/widgets/appbar/app_bar_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
-import 'package:path_provider/path_provider.dart';
-
 import '../../../../../common/app_colors.dart';
 import '../../../../../models/entities/message_entity.dart';
 import '../../../../commons/data_empty.dart';
@@ -335,12 +333,9 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
           );
   }
 
-  _checkExists(String fieName) async {
-    String fileName = fieName;
-    String dir = (await getApplicationDocumentsDirectory()).path;
-    String savePath = '$dir/$fileName';
-    if (await File(savePath).exists()) {
-      OpenFile.open(savePath);
+  _checkExists(String fileName) async {
+    if (await File(fileName).exists()) {
+      OpenFile.open(fileName);
     } else {
       if (!mounted) return;
       DxFlushBar.showFlushBar(
