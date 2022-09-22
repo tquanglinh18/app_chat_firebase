@@ -63,12 +63,14 @@ class _ViewStoryState extends State<ViewStory> {
       },
       children: widget.urlImagePath
           .asMap()
-          .map((index, value) {
-            return MapEntry(
-              index,
-              _buildItemPageView(widget.urlImagePath[index]),
-            );
-          })
+          .map(
+            (index, value) {
+              return MapEntry(
+                index,
+                _buildItemPageView(widget.urlImagePath[index]),
+              );
+            },
+          )
           .values
           .toList(),
     );

@@ -228,7 +228,6 @@ class _MessagePageState extends State<MessagePage> {
                             _focusNode.unfocus();
                             _cubit.showInputMsg();
                             _cubit.setIndexMsg(index);
-                            // getSizeAndPositionToIndex(index);
                             showModalBottomSheet(
                               useRootNavigator: true,
                               context: context,

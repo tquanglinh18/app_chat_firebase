@@ -44,10 +44,6 @@ class DxFlushBar {
         break;
     }
 
-    // if (title != null && title.isNotEmpty) {
-    //   _title = title;
-    // }
-
     Flushbar flushBar;
     flushBar = Flushbar(
       isDismissible: true,

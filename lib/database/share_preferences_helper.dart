@@ -22,7 +22,7 @@ class SharedPreferencesHelper {
     }
   }
 
-  //Set authKey
+  //Set phoneNumberKey
   static void setPhoneUserLoginKey(String phoneUserLogin) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(_phoneUserLogin, phoneUserLogin);

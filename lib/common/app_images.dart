@@ -10,6 +10,7 @@ class AppImages {
   static const icEyeOpen = 'assets/images/ic_eye_open.png';
 
   static const icIntroApp = 'assets/images/ic_intro_app.png';
+  static const icIntroAppIsDarkMode = 'assets/images/ic_intro_app_is_dark_mode.png';
   static const icPerson = 'assets/images/ic_person.png';
   static const icChat = 'assets/images/ic_chat.png';
   static const icMore = 'assets/images/ic_more.png';
