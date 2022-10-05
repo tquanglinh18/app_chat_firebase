@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base/ui/pages/home_app/progress/item_progress_view.dart';
+
+import 'item_progress_view.dart';
 
 class ProgressView extends StatefulWidget {
   final int length;

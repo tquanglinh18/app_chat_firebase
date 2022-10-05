@@ -1,7 +1,15 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'home_state.dart';
-
+part 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit() : super(HomeState());
+  HomeCubit() : super(const HomeState());
+
+  onItemTapped(int index) {
+    emit(state.copyWith(selectedIndex: index));
+  }
+
+  void initData() {
+    emit(state.copyWith());
+  }
 }

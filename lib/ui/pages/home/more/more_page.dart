@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base/ui/pages/home_app/more/more_cubit.dart';
-import 'package:flutter_base/ui/pages/home_app/more/type_setting.dart';
+import 'package:flutter_base/ui/pages/home/more/type_setting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import '../../../../common/app_images.dart';
@@ -8,6 +7,7 @@ import '../../../../common/app_text_styles.dart';
 import '../../../commons/avatar.dart';
 import '../../../commons/custom_app_bar.dart';
 import '../../setting/setting_page.dart';
+import 'more_cubit.dart';
 
 List<SettingType> listType = [
   SettingType.ACCOUNT,

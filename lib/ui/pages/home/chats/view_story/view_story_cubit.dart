@@ -1,4 +1,4 @@
-import 'package:flutter_base/ui/pages/home_app/chats/view_story/view_story_state.dart';
+import 'package:flutter_base/ui/pages/home/chats/view_story/view_story_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ViewStoryCubit extends Cubit<ViewStoryState> {

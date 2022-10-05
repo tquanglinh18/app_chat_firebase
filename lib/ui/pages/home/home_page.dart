@@ -1,77 +1,141 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base/common/app_dimens.dart';
-import 'package:flutter_base/models/enums/movie_category.dart';
-import 'package:flutter_base/ui/widgets/tabs/app_tab_bar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../common/app_images.dart';
+import 'chats/chats_page.dart';
+import 'contact/contact_page.dart';
+import 'home_cubit.dart';
+import 'more/more_page.dart';
 
-import 'movies/movies_page.dart';
-import 'widgets/home_app_bar.dart';
+List<String> listUrlImage = [AppImages.icPerson, AppImages.icChat, AppImages.icMore];
+List<String> listTitle = ["Contacts", "Chats", "More"];
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final String? name;
+  final String? phoneNumber;
+  final String? urlAvatar;
+
+  const HomePage({
+    Key? key,
+    this.name,
+    this.phoneNumber,
+    this.urlAvatar,
+  }) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
-  @override
-  bool get wantKeepAlive => true;
-
-  late TabController _tapBarController;
+class _HomePageState extends State<HomePage> {
+  late HomeCubit _cubit;
 
   @override
   void initState() {
     super.initState();
-    _tapBarController = TabController(length: 2, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
+    _cubit = HomeCubit();
   }
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Scaffold(
-      appBar: HomeAppBar(
-          //Todo
-          // avatarUrl: authService.user.value?.avatarUrl ?? "",
+      body: Column(
+        children: [
+          Expanded(
+            child: BlocBuilder<HomeCubit, HomeState>(
+              bloc: _cubit,
+              builder: (context, state) {
+                switch (state.selectedIndex) {
+                  case 0:
+                    return const ContactPage();
+                  case 1:
+                    return const ChatsPage();
+                  case 2:
+                    return const MorePage();
+                  default:
+                    return const ContactPage();
+                }
+              },
+            ),
           ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(AppDimens.paddingNormal),
-              child: AppTabBar(
-                tabController: _tapBarController,
-                tabItems: const [
-                  "Trending",
-                  "Upcoming",
-                ],
-              ),
-            ),
-            Expanded(
-              child: TabBarView(
-                controller: _tapBarController,
-                children: [
-                  _buildTrendingMovies(),
-                  _buildUpcomingMovies(),
-                ],
-              ),
-            ),
-          ],
-        ),
+          _bottomNavigator,
+        ],
       ),
     );
   }
 
-  Widget _buildTrendingMovies() {
-    return const MoviesPage(section: MovieCategory.trending);
+  Widget get _bottomNavigator {
+    return Visibility(
+      visible: MediaQuery.of(context).viewInsets.bottom == 0,
+      child: BlocBuilder<HomeCubit, HomeState>(
+        bloc: _cubit,
+        buildWhen: (pre, cur) => pre.selectedIndex != cur.selectedIndex,
+        builder: (context, state) {
+          return SizedBox(
+            height: 83 + MediaQuery.of(context).padding.bottom,
+            width: MediaQuery.of(context).size.width,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              physics: const NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.zero,
+              itemCount: 3,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    _cubit.onItemTapped(index);
+                  },
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width / 3,
+                    child: state.selectedIndex == index
+                        ? itemBottomNavigatorIsSelected(
+                            urlImage: listUrlImage[index],
+                            title: listTitle[index],
+                          )
+                        : itemBottomNavigatorIsNotSelected(
+                            listUrlImage[index],
+                            listTitle[index],
+                          ),
+                  ),
+                );
+              },
+            ),
+          );
+        },
+      ),
+    );
   }
 
-  Widget _buildUpcomingMovies() {
-    return const MoviesPage(section: MovieCategory.upcoming);
+  Widget itemBottomNavigatorIsSelected({
+    required String urlImage,
+    required String title,
+  }) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          title,
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
+        const Text(
+          "•",
+          style: TextStyle(fontSize: 30),
+        ),
+      ],
+    );
+  }
+
+  Widget itemBottomNavigatorIsNotSelected(String urlImage, String title) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          height: 24,
+          width: 24,
+          child: Image.asset(
+            urlImage,
+            fit: BoxFit.contain,
+            color: Theme.of(context).iconTheme.color,
+          ),
+        ),
+      ],
+    );
   }
 }

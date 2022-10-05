@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_base/common/app_text_styles.dart';
-import 'package:flutter_base/ui/pages/home_app/chats/view_story/view_story_cubit.dart';
-import 'package:flutter_base/ui/pages/home_app/progress/progress_view.dart';
+import 'package:flutter_base/ui/pages/home/chats/view_story/view_story_cubit.dart';
 
 import '../../../../../common/app_colors.dart';
+import '../../progress/progress_view.dart';
 
 class ViewStory extends StatefulWidget {
   final List<String> urlImagePath;

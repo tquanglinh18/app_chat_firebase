@@ -37,7 +37,7 @@ class ContactCubit extends Cubit<ContactState> {
   }
 
   listSearch(String? searchText) {
-    if ((searchText ?? "").isEmpty) return;
+    if ((searchText ?? "").isEmpty) return state.listConversion;
     emit(state.copyWith(loadStatusSearch: LoadStatus.loading));
     try {
       FirebaseApi.getConversion().then(
@@ -74,12 +74,18 @@ class ContactCubit extends Cubit<ContactState> {
     );
   }
 
-  addConversion(Map<String, dynamic> data) {
+  addConversion(Map<String, dynamic> data) async {
     try {
       emit(state.copyWith(loadStatusAddConversion: LoadStatus.loading));
-      FirebaseApi.addConversion(data).then((value) {
-        if (value) {
-          emit(state.copyWith(loadStatusAddConversion: LoadStatus.success));
+      await FirebaseApi.urlImage(data["avatarConversion"]).then((value) {
+        if (value.isNotEmpty) {
+          FirebaseApi.addConversion(data).then((value) {
+            if (value) {
+              emit(state.copyWith(loadStatusAddConversion: LoadStatus.success));
+            } else {
+              emit(state.copyWith(loadStatusAddConversion: LoadStatus.failure));
+            }
+          });
         } else {
           emit(state.copyWith(loadStatusAddConversion: LoadStatus.failure));
         }

@@ -25,6 +25,7 @@ class ConversionEntity {
   @JsonKey()
   String? nameConversion;
 
+
   ConversionEntity({
     this.avatarConversion,
     this.nameConversion,

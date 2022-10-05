@@ -1,7 +1,5 @@
-import 'package:flutter_base/ui/pages/sign_in/sign_in_page.dart';
 import 'package:get/get.dart';
 
-import '../ui/pages/main/main_page.dart';
 import '../ui/pages/splash/splash_page.dart';
 
 class RouteConfig {
@@ -15,7 +13,5 @@ class RouteConfig {
   ///Alias ​​mapping page
   static final List<GetPage> getPages = [
     GetPage(name: splash, page: () => const SplashPage()),
-    GetPage(name: main, page: () => const MainPage()),
-    GetPage(name: signIn, page: () => const SignInPage()),
   ];
 }

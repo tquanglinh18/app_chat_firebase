@@ -1,10 +1,19 @@
-import 'package:equatable/equatable.dart';
+part of 'home_cubit.dart';
 
 class HomeState extends Equatable {
-  HomeState() {
-    ///Initialize variables
+  final int selectedIndex;
+
+  const HomeState({this.selectedIndex = 0});
+
+  HomeState copyWith({
+    int? selectedIndex,
+  }) {
+    return HomeState(
+      selectedIndex: selectedIndex ?? this.selectedIndex,
+    );
   }
 
   @override
-  List<Object?> get props => [];
+  // TODO: implement props
+  List<Object?> get props => [selectedIndex];
 }

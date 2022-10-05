@@ -1,29 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base/common/app_images.dart';
 import 'package:flutter_base/database/share_preferences_helper.dart';
-import 'package:flutter_base/repositories/auth_repository.dart';
-import 'package:flutter_base/ui/pages/home_app/home_app_page.dart';
-import 'package:flutter_base/ui/pages/profile_user/profile_user_page.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../repositories/user_repository.dart';
+import '../home/home_page.dart';
 import '../intro/intro_page.dart';
-import 'splash_cubit.dart';
+import '../profile/profile_page.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) {
-        return SplashCubit(
-          authRepo: RepositoryProvider.of<AuthRepository>(context),
-          userRepo: RepositoryProvider.of<UserRepository>(context),
-        );
-      },
-      child: const SplashChildPage(),
-    );
+    return const SplashChildPage();
   }
 }
 
@@ -38,7 +25,6 @@ class _SplashChildPageState extends State<SplashChildPage> {
   @override
   void initState() {
     super.initState();
-    context.read<SplashCubit>();
     init();
   }
 
@@ -51,7 +37,7 @@ class _SplashChildPageState extends State<SplashChildPage> {
               if (value.isNotEmpty) {
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
-                    builder: (_) => const HomeAppPage(),
+                    builder: (_) => const HomePage(),
                     settings: const RouteSettings(name: "home"),
                   ),
                   (route) => false,
@@ -59,7 +45,7 @@ class _SplashChildPageState extends State<SplashChildPage> {
               } else {
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
-                    builder: (_) => const ProfileUserPage(
+                    builder: (_) => const ProfilePage(
                       colorIcon: Colors.transparent,
                     ),
                     settings: const RouteSettings(name: "profile"),

@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/models/enums/load_status.dart';
-import 'package:flutter_base/ui/pages/home_app/chats/chats_cubit.dart';
-import 'package:flutter_base/ui/pages/home_app/chats/view_story/view_story_page.dart';
+import 'package:flutter_base/ui/pages/home/chats/view_story/view_story_page.dart';
 import 'package:flutter_base/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -15,6 +14,7 @@ import '../../../commons/flus_bar.dart';
 import '../../../commons/img_file.dart';
 import '../../../commons/my_dialog.dart';
 import '../../../commons/search_bar.dart';
+import 'chats_cubit.dart';
 
 class ChatsPage extends StatefulWidget {
   const ChatsPage({Key? key}) : super(key: key);

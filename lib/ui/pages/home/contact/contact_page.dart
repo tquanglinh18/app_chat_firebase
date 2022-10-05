@@ -110,15 +110,18 @@ class _ContactPageState extends State<ContactPage> {
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: SearchBar(
         hintText: "Tìm kiếm cuộc hội thoại",
-        onChanged: (value) => _cubit.onSearchTextChanged(value),
+        onChanged: (value) {
+          _cubit.onSearchTextChanged(value);
+          _cubit.listSearch(value);
+        },
         controller: controller,
         onClose: () {
           controller.text = "";
           _cubit.initData();
         },
-        onSubmit: (value) {
-          _cubit.listSearch(value);
-        },
+        // onSubmit: (value) {
+        //   _cubit.listSearch(value);
+        // },
         isClose: searchText != "" ? true : false,
       ),
     );
