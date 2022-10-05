@@ -35,36 +35,38 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       emit(state.copyWith(loadStatus: LoadStatus.loading));
       await SharedPreferencesHelper.getUidFireBaseKey().then(
-        (uidFireBase) {
+        (uidFireBase) async {
           List<UserEntity> listUserFireBase = state.listUser;
           bool isCheck = listUserFireBase.any((element) => element.uid == uidFireBase);
-          if (isCheck) {
-            int index = listUserFireBase.indexWhere((element) => element.uid == uidFireBase);
-            if (index != -1) {
-              UserEntity user = listUserFireBase[index];
-              user.name = name;
-              user.avatar = state.image;
-              user.phoneNumber = phoneNumber;
+          await FirebaseApi.urlImage(state.image).then((urlIamge) {
+            if (isCheck) {
+              int index = listUserFireBase.indexWhere((element) => element.uid == uidFireBase);
+              if (index != -1) {
+                UserEntity user = listUserFireBase[index];
+                user.name = name;
+                user.avatar = urlIamge;
+                user.phoneNumber = phoneNumber;
+              } else {
+                listUserFireBase.add(
+                  UserEntity(
+                    name: name,
+                    uid: uidFireBase,
+                    avatar: urlIamge,
+                    phoneNumber: phoneNumber,
+                  ),
+                );
+              }
             } else {
               listUserFireBase.add(
                 UserEntity(
                   name: name,
                   uid: uidFireBase,
-                  avatar: state.image,
+                  avatar: urlIamge,
                   phoneNumber: phoneNumber,
                 ),
               );
             }
-          } else {
-            listUserFireBase.add(
-              UserEntity(
-                name: name,
-                uid: uidFireBase,
-                avatar: state.image,
-                phoneNumber: phoneNumber,
-              ),
-            );
-          }
+          });
           FirebaseApi.uploadProfile(uidFireBase, listUserFireBase).then(
             (value) {
               if (value) {

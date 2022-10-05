@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/models/enums/load_status.dart';
+import 'package:flutter_base/ui/commons/img_network.dart';
 import 'package:flutter_base/ui/pages/home/chats/view_story/view_story_page.dart';
 import 'package:flutter_base/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -336,7 +337,7 @@ class _ChatsPageState extends State<ChatsPage> {
       child: SizedBox(
         height: 48,
         width: 48,
-        child: ImgFile(urlFile: urlAvt),
+        child: ImgNetwork(urlFile: urlAvt),
       ),
     );
   }

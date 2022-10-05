@@ -109,6 +109,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 '${state.firstName} ${state.lastName}',
                 await SharedPreferencesHelper.getPhoneUserLoginKey(),
               );
+
               FocusScope.of(context).unfocus();
             },
             title: "Save",

@@ -4,7 +4,7 @@ import 'package:flutter_base/common/app_colors.dart';
 import 'package:flutter_base/common/app_images.dart';
 import 'package:flutter_base/models/enums/load_status.dart';
 import 'package:flutter_base/ui/commons/flus_bar.dart';
-import 'package:flutter_base/ui/commons/img_file.dart';
+import 'package:flutter_base/ui/commons/img_network.dart';
 import 'package:flutter_base/ui/commons/search_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../utils/logger.dart';
@@ -52,6 +52,7 @@ class _ContactPageState extends State<ContactPage> {
       body: Stack(
         children: [
           BlocConsumer<ContactCubit, ContactState>(
+            listenWhen: (pre, cur) => pre.loadStatusAddConversion != cur.loadStatusAddConversion,
             listener: (context, state) {
               if (state.loadStatusAddConversion == LoadStatus.failure) {
                 DxFlushBar.showFlushBar(
@@ -59,6 +60,11 @@ class _ContactPageState extends State<ContactPage> {
                   type: FlushBarType.ERROR,
                   title: "Không thể tạo cuộc hội thoại",
                 );
+                _customProgressHUD.progress.dismiss();
+              } else if (state.loadStatusAddConversion == LoadStatus.loading) {
+                _customProgressHUD.progress.show();
+              } else {
+                _customProgressHUD.progress.dismiss();
               }
             },
             bloc: _cubit,
@@ -224,9 +230,12 @@ class _ContactPageState extends State<ContactPage> {
         child: SizedBox(
           height: 48,
           width: 48,
-          child: ImgFile(
+          child: ImgNetwork(
             urlFile: urlImageNetwok,
           ),
+          // ImgFile(
+          //   urlFile: urlImageNetwok,
+          // ),
         ),
       ),
     );

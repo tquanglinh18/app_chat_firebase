@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base/ui/commons/img_network.dart';
 import 'package:flutter_base/ui/pages/home/more/type_setting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -80,9 +81,8 @@ class _MorePageState extends State<MorePage> {
             child: (urlImage ?? "").isNotEmpty
                 ? ClipRRect(
                     borderRadius: BorderRadius.circular(100),
-                    child: Avatar(
-                      urlAvatar: urlImage ?? "",
-                      darkModeColor: Theme.of(context).iconTheme.color!,
+                    child: ImgNetwork(
+                       urlFile: urlImage ?? "",
                     ),
                   )
                 : const CircleAvatar(

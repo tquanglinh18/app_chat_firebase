@@ -6,6 +6,7 @@ import 'package:flutter_base/models/entities/chat_user_entity.dart';
 import 'package:flutter_base/models/entities/message_entity.dart';
 import 'package:flutter_base/models/entities/story_entity.dart';
 import 'package:flutter_base/models/entities/user_entity.dart';
+import 'package:path_provider/path_provider.dart';
 
 class FirebaseApi {
   static Future<bool> uploadMessage(
@@ -172,10 +173,10 @@ class FirebaseApi {
     }
   }
 
-  static Future<bool> addConversion(Map<String, dynamic> value) async {
+  static Future<bool> addConversion(Map<String, dynamic> param) async {
     bool isCheck = false;
     try {
-      await FirebaseFirestore.instance.collection('user').add(value).then((value) {
+      await FirebaseFirestore.instance.collection('user').add(param).then((value) {
         isCheck = true;
       });
       return isCheck;
@@ -185,56 +186,21 @@ class FirebaseApi {
   }
 
   static Future<String> urlImage(String filePath) async {
-    String downloadUrl = '';
+    String imageUrl = '';
     try {
-//       final storageRef = FirebaseStorage.instance.ref();
-//
-// // Create a reference to "mountains.jpg"
-//       final mountainsRef = storageRef.child(filePath);
-//
-//       await mountainsRef.putFile(File(filePath)).then((downloadUrl) async {
-//         await mountainsRef.getDownloadURL().then((urlDL) {
-//           print("$urlDL");
-//         });
-//       }, onError: () {
-//         print("onError");
-//       });
-      final file = File(filePath);
-
-// Create the file metadata
-      final metadata = SettableMetadata(contentType: filePath.split("/").last);
-
-// Create a reference to the Firebase Storage bucket
-      final storageRef = FirebaseStorage.instance.ref();
-
-// Upload file and metadata to the path 'images/mountains.jpg'
-      final uploadTask = storageRef.child(filePath).putFile(file, metadata);
-
-// Listen for state changes, errors, and completion of the upload.
-      uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) async {
-        switch (taskSnapshot.state) {
-          case TaskState.running:
-            final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
-            print("Upload is $progress% complete.");
-            break;
-          case TaskState.paused:
-            print("Upload is paused.");
-            break;
-          case TaskState.canceled:
-            print("Upload was canceled");
-            break;
-          case TaskState.error:
-            // Handle unsuccessful uploads
-            break;
-          case TaskState.success:
-            // Handle successful uploads on complete
-            // ...
-            break;
-        }
+      final firebaseStorage = FirebaseStorage.instance;
+      var snapshot = await firebaseStorage
+          .ref()
+          .child("images/${filePath.split("/").last}")
+          .putFile(File(filePath))
+          .whenComplete(() {});
+      await snapshot.ref.getDownloadURL().then((value) {
+        imageUrl = value;
       });
-      return downloadUrl;
+
+      return imageUrl;
     } catch (e) {
-      return downloadUrl;
+      return imageUrl;
     }
   }
 }

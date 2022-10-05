@@ -79,6 +79,7 @@ class ContactCubit extends Cubit<ContactState> {
       emit(state.copyWith(loadStatusAddConversion: LoadStatus.loading));
       await FirebaseApi.urlImage(data["avatarConversion"]).then((value) {
         if (value.isNotEmpty) {
+          data["avatarConversion"] = value;
           FirebaseApi.addConversion(data).then((value) {
             if (value) {
               emit(state.copyWith(loadStatusAddConversion: LoadStatus.success));
