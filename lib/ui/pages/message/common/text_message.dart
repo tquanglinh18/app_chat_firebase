@@ -1,5 +1,6 @@
 import 'dart:io';
-
+import 'package:flutter_base/ui/pages/message/pages/play_video.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/common/app_images.dart';
 import 'package:flutter_base/models/entities/message_entity.dart';
@@ -75,11 +76,17 @@ class _TextMessageState extends State<TextMessage> {
                 children: [
                   widget.listDocumnet.isNotEmpty
                       ? (widget.listDocumnet.first.type == TypeDocument.IMAGE.toTypeDocument)
-                          ? _typeImageMsg(() {
-                              _openfile(widget.listDocumnet.first.path!);
-                            })
+                          ? _typeImageMsg(() {})
                           : (widget.listDocumnet.first.type == TypeDocument.VIDEO.toTypeDocument)
                               ? _typeVideoMsg(() {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => PlayVideo(
+                                        nameConversion: widget.nameConversion,
+                                        path: widget.listDocumnet.first.pathThumbnail!,
+                                      ),
+                                    ),
+                                  );
                                   _openfile(widget.listDocumnet.first.pathThumbnail!);
                                 })
                               : widget.listDocumnet.first.type == TypeDocument.FILE.toTypeDocument
@@ -203,6 +210,19 @@ class _TextMessageState extends State<TextMessage> {
   }
 
   _openfile(String filePath) async {
-    OpenFile.open(filePath);
+    if (!await launchUrl(
+      Uri(path: filePath),
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw 'Could not launch';
+    }
   }
+//   const url = 'https://blog.logrocket.com';
+//   if (await canLaunch(url)) {
+//     await launch(url);
+//   } else {
+//     throw 'Could not launch $url';
+//   }
+//
+// }
 }

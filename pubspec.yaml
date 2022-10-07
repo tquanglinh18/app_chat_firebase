@@ -82,6 +82,8 @@ dependencies:
   open_file: ^3.2.1
   scroll_to_index: ^3.0.1
 
+  url_launcher: ^6.1.6
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

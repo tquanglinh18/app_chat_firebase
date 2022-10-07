@@ -191,7 +191,7 @@ class FirebaseApi {
       final firebaseStorage = FirebaseStorage.instance;
       var snapshot = await firebaseStorage
           .ref()
-          .child("images/${filePath.split("/").last}")
+          .child("videos/${filePath.split("/").last}")
           .putFile(File(filePath))
           .whenComplete(() {});
       await snapshot.ref.getDownloadURL().then((value) {

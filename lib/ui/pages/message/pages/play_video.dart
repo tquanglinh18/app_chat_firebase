@@ -18,7 +18,7 @@ class _PlayVideoState extends State<PlayVideo> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(widget.path)
+    _controller = VideoPlayerController.network("https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4")
       ..initialize().then((_) {
         setState(() {});
       });
