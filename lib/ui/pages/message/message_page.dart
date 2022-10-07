@@ -7,6 +7,7 @@ import 'package:flutter_base/models/enums/load_status.dart';
 import 'package:flutter_base/ui/commons/custom_progress_hud.dart';
 import 'package:flutter_base/ui/commons/datetime_formatter.dart';
 import 'package:flutter_base/ui/commons/img_file.dart';
+import 'package:flutter_base/ui/commons/img_network.dart';
 import 'package:flutter_base/ui/commons/my_dialog.dart';
 import 'package:flutter_base/ui/pages/message/common/build_item_option_message.dart';
 import 'package:flutter_base/ui/pages/message/common/dialog/dialog_view_document.dart';
@@ -458,7 +459,7 @@ class _MessagePageState extends State<MessagePage> {
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
-                          ImgFile(urlFile: urlFile),
+                          ImgNetwork(urlFile: urlFile),
                           const Icon(
                             Icons.play_circle_fill_outlined,
                             color: AppColors.hintTextColor,
@@ -469,7 +470,7 @@ class _MessagePageState extends State<MessagePage> {
                   : SizedBox(
                       height: 70,
                       width: 100,
-                      child: ImgFile(urlFile: urlFile),
+                      child: ImgNetwork(urlFile: urlFile),
                     ),
         ],
       ),

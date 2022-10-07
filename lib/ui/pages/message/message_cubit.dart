@@ -9,7 +9,7 @@ import '../../../network/fire_base_api.dart';
 import 'message_state.dart';
 
 class MessageCubit extends Cubit<MessageState> {
-  MessageCubit() : super( MessageState());
+  MessageCubit() : super(MessageState());
 
   initData(String icConversion) async {
     try {
@@ -160,25 +160,31 @@ class MessageCubit extends Cubit<MessageState> {
     required String name,
   }) {
     try {
-      List<DocumentEntity> listDocument = List.from(state.listDocument);
-      listDocument.add(
-        DocumentEntity(
-          type: type,
-          path: path,
-          pathThumbnail: pathThumbnail,
-          name: name,
-          nameSend: state.nameSend,
-          createAt: DateTime.now().toUtc().toString(),
-        ),
-      );
+      FirebaseApi.urlImage(path).then((urlPath) {
+        FirebaseApi.urlImage(pathThumbnail).then((urlPathThumnail) {
+          List<DocumentEntity> listDocument = List.from(state.listDocument);
+          listDocument.add(
+            DocumentEntity(
+              type: type,
+              path: urlPath,
+              pathThumbnail: urlPathThumnail,
+              name: name,
+              nameSend: state.nameSend,
+              createAt: DateTime.now().toUtc().toString(),
+            ),
+          );
 
-      emit(state.copyWith(listDocument: listDocument));
+          emit(state.copyWith(listDocument: listDocument));
+        });
+      });
     } catch (e) {
       print(e);
     }
   }
 
   removeImgSelected() {
-    emit(state.copyWith(listDocument: [], ));
+    emit(state.copyWith(
+      listDocument: [],
+    ));
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base/common/app_colors.dart';
 import 'package:flutter_base/common/app_text_styles.dart';
 import 'package:flutter_base/ui/commons/img_file.dart';
+import 'package:flutter_base/ui/commons/img_network.dart';
 import 'package:flutter_base/ui/pages/message/common/dialog/dialog_view_document_cubit.dart';
 import 'package:flutter_base/ui/pages/message/pages/archvies/archives_document_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -116,7 +117,7 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
           SizedBox(
             height: 70,
             width: 70,
-            child: ImgFile(
+            child: ImgNetwork(
               urlFile: imgPath,
             ),
           ),
@@ -246,7 +247,7 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
                       width: MediaQuery.of(context).size.width / 4 - 25,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child: ImgFile(
+                        child: ImgNetwork(
                           urlFile: state.listImg[index].path ?? "",
                         ),
                       ),

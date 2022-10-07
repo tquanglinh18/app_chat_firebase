@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base/common/app_images.dart';
 import 'package:flutter_base/models/entities/message_entity.dart';
 import 'package:flutter_base/ui/commons/img_file.dart';
+import 'package:flutter_base/ui/commons/img_network.dart';
 import 'package:flutter_base/ui/pages/message/type_document.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
@@ -75,15 +76,15 @@ class _TextMessageState extends State<TextMessage> {
                   widget.listDocumnet.isNotEmpty
                       ? (widget.listDocumnet.first.type == TypeDocument.IMAGE.toTypeDocument)
                           ? _typeImageMsg(() {
-                              _checkExists(widget.listDocumnet.first.path!);
+                              _openfile(widget.listDocumnet.first.path!);
                             })
                           : (widget.listDocumnet.first.type == TypeDocument.VIDEO.toTypeDocument)
                               ? _typeVideoMsg(() {
-                                  _checkExists(widget.listDocumnet.first.path!);
+                                  _openfile(widget.listDocumnet.first.pathThumbnail!);
                                 })
                               : widget.listDocumnet.first.type == TypeDocument.FILE.toTypeDocument
                                   ? _typeFileMsg(() {
-                                      _checkExists(widget.listDocumnet.first.path!);
+                                      _openfile(widget.listDocumnet.first.path!);
                                     })
                                   : const SizedBox()
                       : const SizedBox(),
@@ -168,7 +169,7 @@ class _TextMessageState extends State<TextMessage> {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            ImgFile(
+            ImgNetwork(
               urlFile: widget.listDocumnet.first.pathThumbnail ?? "",
               isSent: widget.isSent,
               textMsgError: 'Đã xảy ra lỗi \nVui lòng thử lại',
@@ -191,27 +192,17 @@ class _TextMessageState extends State<TextMessage> {
   Widget _typeImageMsg(Function() onTap) {
     return InkWell(
       onTap: onTap,
-      child: ImgFile(
+      child: ImgNetwork(
         urlFile: widget.listDocumnet.first.path!,
         textMsgError: 'Đã xảy ra lỗi \nVui lòng thử lại',
         isSent: widget.isSent,
         isBorderSide: true,
         darkModeIconColor: Theme.of(context).iconTheme.color!,
-
       ),
     );
   }
 
-  _checkExists(String fileName) async {
-    if (await File(fileName).exists()) {
-      OpenFile.open(fileName);
-    } else {
-      if (!mounted) return;
-      DxFlushBar.showFlushBar(
-        context,
-        title: "Tệp tin không tồn tại!",
-        type: FlushBarType.ERROR,
-      );
-    }
+  _openfile(String filePath) async {
+    OpenFile.open(filePath);
   }
 }
