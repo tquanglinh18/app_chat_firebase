@@ -1,3 +1,4 @@
+import 'package:flutter_base/ui/pages/message/type_document.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_base/models/entities/user_entity.dart';
@@ -38,7 +39,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         (uidFireBase) async {
           List<UserEntity> listUserFireBase = state.listUser;
           bool isCheck = listUserFireBase.any((element) => element.uid == uidFireBase);
-          await FirebaseApi.urlImage(state.image).then((urlIamge) {
+          await FirebaseApi.uploadDocument(state.image, TypeDocument.IMAGE).then((urlIamge) {
             if (isCheck) {
               int index = listUserFireBase.indexWhere((element) => element.uid == uidFireBase);
               if (index != -1) {

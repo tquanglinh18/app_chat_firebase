@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_base/ui/pages/message/type_document.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../database/share_preferences_helper.dart';
@@ -77,7 +78,7 @@ class ContactCubit extends Cubit<ContactState> {
   addConversion(Map<String, dynamic> data) async {
     try {
       emit(state.copyWith(loadStatusAddConversion: LoadStatus.loading));
-      await FirebaseApi.urlImage(data["avatarConversion"]).then((value) {
+      await FirebaseApi.uploadDocument(data["avatarConversion"], TypeDocument.IMAGE).then((value) {
         if (value.isNotEmpty) {
           data["avatarConversion"] = value;
           FirebaseApi.addConversion(data).then((value) {

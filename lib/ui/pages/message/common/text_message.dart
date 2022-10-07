@@ -83,11 +83,10 @@ class _TextMessageState extends State<TextMessage> {
                                     MaterialPageRoute(
                                       builder: (context) => PlayVideo(
                                         nameConversion: widget.nameConversion,
-                                        path: widget.listDocumnet.first.pathThumbnail!,
+                                        path: widget.listDocumnet.first.path!,
                                       ),
                                     ),
                                   );
-                                  _openfile(widget.listDocumnet.first.pathThumbnail!);
                                 })
                               : widget.listDocumnet.first.type == TypeDocument.FILE.toTypeDocument
                                   ? _typeFileMsg(() {

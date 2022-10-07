@@ -2,13 +2,15 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_base/common/app_text_styles.dart';
+import 'package:flutter_base/models/entities/story_entity.dart';
+import 'package:flutter_base/ui/commons/img_network.dart';
 import 'package:flutter_base/ui/pages/home/chats/view_story/view_story_cubit.dart';
 
 import '../../../../../common/app_colors.dart';
 import '../../progress/progress_view.dart';
 
 class ViewStory extends StatefulWidget {
-  final List<String> urlImagePath;
+  final List<StoryItemEntity> urlImagePath;
   final String name;
   final String urlAvatar;
 
@@ -67,7 +69,7 @@ class _ViewStoryState extends State<ViewStory> {
             (index, value) {
               return MapEntry(
                 index,
-                _buildItemPageView(widget.urlImagePath[index]),
+                _buildItemPageView(widget.urlImagePath[index].urlImage ?? ''),
               );
             },
           )
@@ -77,28 +79,7 @@ class _ViewStoryState extends State<ViewStory> {
   }
 
   Widget _buildItemPageView(String path) {
-    return Image.file(
-      File(path),
-      errorBuilder: (
-        context,
-        error,
-        stackTrace,
-      ) {
-        return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Icon(
-                Icons.info_outline,
-                color: AppColors.border,
-              ),
-              SizedBox(height: 15),
-              Text("Đã xảy ra lỗi!"),
-            ],
-          ),
-        );
-      },
-    );
+    return ImgNetwork(urlFile: path);
   }
 
   Widget get _buildProgressView {
@@ -130,7 +111,10 @@ class _ViewStoryState extends State<ViewStory> {
     );
   }
 
-  Widget _buildUserUpStory({required String name, required String urlAvatar}) {
+  Widget _buildUserUpStory({
+    required String name,
+    required String urlAvatar,
+  }) {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Row(
@@ -140,28 +124,8 @@ class _ViewStoryState extends State<ViewStory> {
             child: SizedBox(
               height: 48,
               width: 48,
-              child: Image.file(
-                File(urlAvatar),
-                errorBuilder: (
-                  context,
-                  error,
-                  stackTrace,
-                ) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        width: 1,
-                        color: AppColors.greyBG,
-                      ),
-                    ),
-                    child: const Icon(
-                      Icons.info_outline,
-                      color: AppColors.border,
-                    ),
-                  );
-                },
-                fit: BoxFit.cover,
+              child: ImgNetwork(
+                urlFile: urlAvatar,
               ),
             ),
           ),

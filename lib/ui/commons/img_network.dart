@@ -1,7 +1,5 @@
-import 'dart:io';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_base/ui/commons/custom_progress_hud.dart';
 
 import '../../common/app_colors.dart';
 import '../../common/app_text_styles.dart';
@@ -32,71 +30,120 @@ class ImgNetwork extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
-      urlFile,
-      // loadingBuilder: (context, child, loadingProgress) {
-      //   return CircularProgressIndicator();
-      //     CustomProgressHUD(
-      //     width: 20.0,
-      //     height: 20.0,
-      //     strokeWidth: 1.0,
-      //     backgroundColor: Colors.transparent,
-      //     color: Colors.red,
-      //     borderRadius: 8.0,
-      //     loading: true,
-      //   );
-      // },
-      errorBuilder: (
-        context,
-        error,
-        stackTrace,
-      ) {
-        return Container(
-          decoration: BoxDecoration(
-            borderRadius: !isBorderRadius ? BorderRadius.circular(16) : BorderRadius.zero,
-            border: Border.all(
-              color: isBorderSide ? Colors.transparent : AppColors.hintTextColor,
-              width: 1,
+    return CachedNetworkImage(
+      imageUrl: urlFile,
+      imageBuilder: (context, imageProvider) => Image.network(
+        urlFile,
+        errorBuilder: (
+          context,
+          error,
+          stackTrace,
+        ) {
+          return Container(
+            decoration: BoxDecoration(
+              borderRadius: !isBorderRadius ? BorderRadius.circular(16) : BorderRadius.zero,
+              border: Border.all(
+                color: isBorderSide ? Colors.transparent : AppColors.hintTextColor,
+                width: 1,
+              ),
             ),
-          ),
-          child: Padding(
-            padding: documentIsVideo ? const EdgeInsets.only(top: 90) : EdgeInsets.zero,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                !documentIsVideo
-                    ? Padding(
-                        padding: const EdgeInsets.only(bottom: 5),
-                        child: Icon(
-                          Icons.info_outline,
-                          color: !isSent
-                              ? darkModeIconColor
-                              : isReplyMsg
-                                  ? AppColors.backgroundDark
-                                  : AppColors.backgroundLight,
-                        ),
-                      )
-                    : const SizedBox(),
-                textMsgError.isNotEmpty
-                    ? Center(
-                        child: Text(
-                          'Đã xảy ra lỗi \nVui lòng thử lại',
-                          textAlign: TextAlign.center,
-                          style: isSent
-                              ? AppTextStyle.whiteS14.copyWith(
-                                  color: isReplyColor,
-                                )
-                              : AppTextStyle.blackS14.copyWith(
-                                  color: darkModeIconColor,
-                                ),
-                        ),
-                      )
-                    : const SizedBox(),
-              ],
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Padding(
+                padding: documentIsVideo ? const EdgeInsets.only(top: 90) : EdgeInsets.zero,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    !documentIsVideo
+                        ? Padding(
+                            padding: const EdgeInsets.only(bottom: 5),
+                            child: Icon(
+                              Icons.info_outline,
+                              color: !isSent
+                                  ? darkModeIconColor
+                                  : isReplyMsg
+                                      ? AppColors.backgroundDark
+                                      : AppColors.backgroundLight,
+                            ),
+                          )
+                        : const SizedBox(),
+                    textMsgError.isNotEmpty
+                        ? Center(
+                            child: Text(
+                              'Đã xảy ra lỗi \nVui lòng thử lại',
+                              textAlign: TextAlign.center,
+                              style: isSent
+                                  ? AppTextStyle.whiteS14.copyWith(
+                                      color: isReplyColor,
+                                    )
+                                  : AppTextStyle.blackS14.copyWith(
+                                      color: darkModeIconColor,
+                                    ),
+                            ),
+                          )
+                        : const SizedBox(),
+                  ],
+                ),
+              ),
             ),
+          );
+        },
+        fit: BoxFit.cover,
+      ),
+      placeholder: (context, url) => const Center(
+        child: Padding(
+          padding: EdgeInsets.all(15),
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            color: AppColors.btnColor,
           ),
-        );
-      },
+        ),
+      ),
+      errorWidget: (context, url, error) => Container(
+        decoration: BoxDecoration(
+          borderRadius: !isBorderRadius ? BorderRadius.circular(16) : BorderRadius.zero,
+          border: Border.all(
+            color: isBorderSide ? Colors.transparent : AppColors.hintTextColor,
+            width: 1,
+          ),
+        ),
+        child: Padding(
+          padding: documentIsVideo ? const EdgeInsets.only(top: 90) : EdgeInsets.zero,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              !documentIsVideo
+                  ? Padding(
+                      padding: const EdgeInsets.only(bottom: 5),
+                      child: Icon(
+                        Icons.info_outline,
+                        color: !isSent
+                            ? darkModeIconColor
+                            : isReplyMsg
+                                ? AppColors.backgroundDark
+                                : AppColors.backgroundLight,
+                      ),
+                    )
+                  : const SizedBox(),
+              textMsgError.isNotEmpty
+                  ? Center(
+                      child: Text(
+                        'Đã xảy ra lỗi \nVui lòng thử lại',
+                        textAlign: TextAlign.center,
+                        style: isSent
+                            ? AppTextStyle.whiteS14.copyWith(
+                                color: isReplyColor,
+                              )
+                            : AppTextStyle.blackS14.copyWith(
+                                color: darkModeIconColor,
+                              ),
+                      ),
+                    )
+                  : const SizedBox(),
+            ],
+          ),
+        ),
+      ),
       fit: BoxFit.cover,
     );
   }

@@ -19,7 +19,7 @@ class MessageState extends Equatable {
   final bool hintInputMsg;
   bool isFirst;
 
-   MessageState({
+  MessageState({
     this.listMessage = const [],
     this.loadStatus,
     this.sendMsgLoadStatus,

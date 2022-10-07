@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base/database/share_preferences_helper.dart';
 import 'package:flutter_base/models/enums/load_status.dart';
 import 'package:flutter_base/network/fire_base_api.dart';
+import 'package:flutter_base/ui/pages/message/type_document.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../models/entities/story_entity.dart';
@@ -27,15 +28,15 @@ class ChatsCubit extends Cubit<ChatsState> {
         listStory.insert(
             0,
             StoryEntity(
-              listImagePath: [state.image],
+              listStory: [state.storyItem!],
               name: state.nameUserLogin,
               uid: state.uid,
             ));
       } else {
         StoryEntity str = listStory[index];
-        List<String> lstImage = List.from(str.listImagePath ?? []);
-        lstImage.add(state.image);
-        str.listImagePath = lstImage;
+        List<StoryItemEntity> lstImage = List.from(str.listStory ?? []);
+        lstImage.add(state.storyItem!);
+        str.listStory = lstImage;
       }
       await FirebaseApi.upStory(listStory).then((value) {
         if (value) {
@@ -88,8 +89,21 @@ class ChatsCubit extends Cubit<ChatsState> {
   }
 
   setImage(String path) {
-    emit(state.copyWith(image: path));
-    upStory();
+    FirebaseApi.uploadDocument(path, TypeDocument.IMAGE).then(
+      (value) {
+        if (value.isNotEmpty) {
+          emit(
+            state.copyWith(
+              storyItem: StoryItemEntity(
+                createdAt: DateTime.now().toUtc().toString(),
+                urlImage: value,
+              ),
+            ),
+          );
+          upStory();
+        }
+      },
+    );
   }
 
   realTimeFireBase() {

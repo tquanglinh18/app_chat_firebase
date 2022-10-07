@@ -125,9 +125,6 @@ class _ContactPageState extends State<ContactPage> {
           controller.text = "";
           _cubit.initData();
         },
-        // onSubmit: (value) {
-        //   _cubit.listSearch(value);
-        // },
         isClose: searchText != "" ? true : false,
       ),
     );
@@ -233,9 +230,6 @@ class _ContactPageState extends State<ContactPage> {
           child: ImgNetwork(
             urlFile: urlImageNetwok,
           ),
-          // ImgFile(
-          //   urlFile: urlImageNetwok,
-          // ),
         ),
       ),
     );

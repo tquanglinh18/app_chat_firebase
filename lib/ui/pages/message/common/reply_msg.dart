@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/models/entities/message_entity.dart';
 import 'package:flutter_base/ui/commons/img_file.dart';
+import 'package:flutter_base/ui/commons/img_network.dart';
+import 'package:flutter_base/ui/pages/message/pages/play_video.dart';
 import 'package:flutter_base/ui/pages/message/type_document.dart';
 import 'package:open_file/open_file.dart';
 import '../../../../common/app_colors.dart';
@@ -147,9 +149,14 @@ class _ReplyMsgState extends State<ReplyMsg> {
                 widget.listDocument.isNotEmpty
                     ? InkWell(
                         onTap: () {
-                          _checkExists(
-                              widget.listDocument.first.path!
-                          );
+                          if (widget.listDocument.first.type == TypeDocument.VIDEO.toTypeDocument) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => PlayVideo(
+                                    nameConversion: widget.nameSend, path: widget.listDocument.first.path ?? ''),
+                              ),
+                            );
+                          }
                         },
                         child: widget.listDocument.first.type == TypeDocument.FILE.toTypeDocument
                             ? Center(
@@ -164,7 +171,7 @@ class _ReplyMsgState extends State<ReplyMsg> {
                                 child: Stack(
                                   alignment: Alignment.center,
                                   children: [
-                                    ImgFile(
+                                    ImgNetwork(
                                       urlFile: widget.listDocument.first.type == TypeDocument.VIDEO.toTypeDocument
                                           ? widget.listDocument.first.pathThumbnail!
                                           : widget.listDocument.first.path!,
@@ -220,18 +227,5 @@ class _ReplyMsgState extends State<ReplyMsg> {
       overflow: TextOverflow.ellipsis,
       style: AppTextStyle.blackS14.copyWith(color: darkModeMsgIsReply),
     );
-  }
-
-  _checkExists(String fieName) async {
-    if (await File(fieName).exists()) {
-      OpenFile.open(fieName);
-    } else {
-      if (!mounted) return;
-      DxFlushBar.showFlushBar(
-        context,
-        title: "Tệp tin không tồn tại!",
-        type: FlushBarType.ERROR,
-      );
-    }
   }
 }

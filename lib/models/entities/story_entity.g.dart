@@ -7,8 +7,8 @@ part of 'story_entity.dart';
 // **************************************************************************
 
 StoryEntity _$StoryEntityFromJson(Map<String, dynamic> json) => StoryEntity(
-      listImagePath: (json['listImagePath'] as List<dynamic>?)
-          ?.map((e) => e as String)
+      listStory: (json['listStory'] as List<dynamic>?)
+          ?.map((e) => StoryItemEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['name'] as String?,
       uid: json['uid'] as String?,
@@ -16,7 +16,19 @@ StoryEntity _$StoryEntityFromJson(Map<String, dynamic> json) => StoryEntity(
 
 Map<String, dynamic> _$StoryEntityToJson(StoryEntity instance) =>
     <String, dynamic>{
-      'listImagePath': instance.listImagePath,
+      'listStory': instance.listStory,
       'name': instance.name,
       'uid': instance.uid,
+    };
+
+StoryItemEntity _$StoryItemEntityFromJson(Map<String, dynamic> json) =>
+    StoryItemEntity(
+      createdAt: json['createdAt'] as String?,
+      urlImage: json['urlImage'] as String?,
+    );
+
+Map<String, dynamic> _$StoryItemEntityToJson(StoryItemEntity instance) =>
+    <String, dynamic>{
+      'createdAt': instance.createdAt,
+      'urlImage': instance.urlImage,
     };

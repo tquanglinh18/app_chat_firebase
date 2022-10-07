@@ -1,17 +1,14 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_base/common/app_images.dart';
 import 'package:flutter_base/common/app_text_styles.dart';
 import 'package:flutter_base/ui/commons/datetime_formatter.dart';
-import 'package:flutter_base/ui/commons/flus_bar.dart';
-import 'package:flutter_base/ui/commons/img_file.dart';
 import 'package:flutter_base/ui/commons/img_network.dart';
 import 'package:flutter_base/ui/pages/message/pages/archvies/archives_document_cubit.dart';
+import 'package:flutter_base/ui/pages/message/pages/play_video.dart';
 import 'package:flutter_base/ui/widgets/appbar/app_bar_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:open_file/open_file.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../../common/app_colors.dart';
 import '../../../../../models/entities/message_entity.dart';
 import '../../../../commons/data_empty.dart';
@@ -167,7 +164,7 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
                   borderRadius: BorderRadius.circular(10),
                   child: InkWell(
                     onTap: () {
-                      _checkExists(widget.listImg[index].path!);
+                      _openFile(widget.listImg[index].path!);
                     },
                     child: ImgNetwork(
                       urlFile: (widget.listImg[index].path ?? ""),
@@ -193,7 +190,7 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
                   return _itemFilePreview(
                     name: state.listDocumentFile[index].name ?? "",
                     onTap: () {
-                      _checkExists(state.listDocumentFile[index].path ?? "");
+                      _openFile(state.listDocumentFile[index].path ?? "");
                     },
                     type: (state.listDocumentFile[index].name ?? "").split('.').last,
                     nameSend: state.listDocumentFile[index].nameSend ?? "",
@@ -226,9 +223,14 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
                   return _itemFilePreview(
                     name: (state.listDocumentVideo[index].name ?? ""),
                     onTap: () {
-                      _checkExists(
-                        (state.listDocumentVideo[index].path!),
-                      );
+                      (Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => PlayVideo(
+                            nameConversion: "hhaha",
+                            path: state.listDocumentVideo[index].path ?? "",
+                          ),
+                        ),
+                      ));
                     },
                     type: (state.listDocumentVideo[index].name ?? "").split(".").last,
                     nameSend: state.listDocumentVideo[index].nameSend ?? "",
@@ -334,16 +336,12 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
           );
   }
 
-  _checkExists(String fileName) async {
-    if (await File(fileName).exists()) {
-      OpenFile.open(fileName);
-    } else {
-      if (!mounted) return;
-      DxFlushBar.showFlushBar(
-        context,
-        title: "Tệp tin không tồn tại!",
-        type: FlushBarType.ERROR,
-      );
+  _openFile(String fileName) async {
+    if (!await launchUrl(
+      Uri(path: fileName),
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw 'Could not launch';
     }
   }
 }

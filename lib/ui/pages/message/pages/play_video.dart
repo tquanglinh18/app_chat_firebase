@@ -18,7 +18,7 @@ class _PlayVideoState extends State<PlayVideo> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network("https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4")
+    _controller = VideoPlayerController.network(widget.path)
       ..initialize().then((_) {
         setState(() {});
       });
@@ -34,13 +34,15 @@ class _PlayVideoState extends State<PlayVideo> {
             onBackPressed: Navigator.of(context).pop,
             showBackButton: true,
           ),
-          Center(
-            child: _controller.value.isInitialized
-                ? AspectRatio(
-                    aspectRatio: _controller.value.aspectRatio,
-                    child: VideoPlayer(_controller),
-                  )
-                : Container(),
+          Expanded(
+            child: Center(
+              child: _controller.value.isInitialized
+                  ? AspectRatio(
+                      aspectRatio: _controller.value.aspectRatio,
+                      child: VideoPlayer(_controller),
+                    )
+                  : Container(),
+            ),
           ),
         ],
       ),

@@ -6,6 +6,7 @@ import 'package:flutter_base/models/entities/chat_user_entity.dart';
 import 'package:flutter_base/models/entities/message_entity.dart';
 import 'package:flutter_base/models/entities/story_entity.dart';
 import 'package:flutter_base/models/entities/user_entity.dart';
+import 'package:flutter_base/ui/pages/message/type_document.dart';
 import 'package:path_provider/path_provider.dart';
 
 class FirebaseApi {
@@ -122,7 +123,7 @@ class FirebaseApi {
     final updateStory = FirebaseFirestore.instance.collection('story').doc('story');
     await updateStory.update(
       {
-        'story': story.map((e) => e.toJson()).toList(),
+        'story': story.map((e) => convertStoryEntityToJson(e)).toList(),
       },
     ).then(
       (value) {
@@ -133,6 +134,23 @@ class FirebaseApi {
       },
     );
     return isCheck;
+  }
+
+  static Map<String, dynamic> convertStoryEntityToJson(StoryEntity instance) {
+    return {
+      'listStory': (instance.listStory ?? []).isNotEmpty
+          ? instance.listStory!.map((story) => convertStoryItemToJson(story)).toList()
+          : [],
+      'name': instance.name,
+      'uid': instance.uid,
+    };
+  }
+
+  static Map<String, dynamic> convertStoryItemToJson(StoryItemEntity instance) {
+    return {
+      'createdAt': instance.createdAt,
+      'urlImage': instance.urlImage,
+    };
   }
 
   static Future<List<StoryEntity>> getStory() async {
@@ -185,22 +203,26 @@ class FirebaseApi {
     }
   }
 
-  static Future<String> urlImage(String filePath) async {
-    String imageUrl = '';
+  static Future<String> uploadDocument(
+    String filePath,
+    TypeDocument type
+  ) async {
+    String urlLink = '';
     try {
       final firebaseStorage = FirebaseStorage.instance;
       var snapshot = await firebaseStorage
           .ref()
-          .child("videos/${filePath.split("/").last}")
+          .child(
+             "${type.toTypeDocument}/${filePath.split("/").last}" )
           .putFile(File(filePath))
           .whenComplete(() {});
       await snapshot.ref.getDownloadURL().then((value) {
-        imageUrl = value;
+        urlLink = value;
       });
 
-      return imageUrl;
+      return urlLink;
     } catch (e) {
-      return imageUrl;
+      return urlLink;
     }
   }
 }

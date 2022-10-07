@@ -12,7 +12,6 @@ import '../../../commons/custom_app_bar.dart';
 import '../../../commons/custom_progress_hud.dart';
 import '../../../commons/data_empty.dart';
 import '../../../commons/flus_bar.dart';
-import '../../../commons/img_file.dart';
 import '../../../commons/my_dialog.dart';
 import '../../../commons/search_bar.dart';
 import 'chats_cubit.dart';
@@ -150,7 +149,7 @@ class _ChatsPageState extends State<ChatsPage> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => ViewStory(
-                      urlImagePath: state.listStory[index].listImagePath ?? [],
+                      urlImagePath: state.listStory[index].listStory ?? [],
                       urlAvatar: state.listUser.isNotEmpty
                           ? state.listUser
                                   .where((element) => element.uid == state.listStory[index].uid)
@@ -164,10 +163,13 @@ class _ChatsPageState extends State<ChatsPage> {
                   ),
                 );
               },
-              child: _buildItemStr(
-                state.listStory[index].listImagePath?.last ?? "",
-                state.uid == state.listStory[index].uid ? "Your Story" : state.listStory[index].name ?? "",
-              ),
+              child: (state.listStory[index].listStory ?? []).isNotEmpty
+                  ? _buildItemStr(
+                      urlFile: (state.listStory[index].listStory)?.last.urlImage ?? "",
+                      nameUpStory:
+                          state.uid == state.listStory[index].uid ? "Your Story" : state.listStory[index].name ?? "",
+                    )
+                  : const SizedBox(),
             );
           },
         );
@@ -175,10 +177,7 @@ class _ChatsPageState extends State<ChatsPage> {
     );
   }
 
-  Widget _buildItemStr(
-    String urlFile,
-    String nameUpStory,
-  ) {
+  Widget _buildItemStr({required String urlFile, required String nameUpStory}) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 8),
       child: Column(
@@ -215,12 +214,12 @@ class _ChatsPageState extends State<ChatsPage> {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(16),
-                  child: ImgFile(
+                  child: ImgNetwork(
                     urlFile: urlFile,
                     isBorderRadius: true,
                     isBorderSide: true,
-                      isSent: true,
-                      isReplyMsg: true,
+                    isSent: true,
+                    isReplyMsg: true,
                   ),
                 ),
               ),
@@ -240,12 +239,15 @@ class _ChatsPageState extends State<ChatsPage> {
       bloc: _cubit,
       listenWhen: (pre, cur) => pre.loadStatusUpStory != cur.loadStatusUpStory,
       listener: (context, state) {
-        if (state.loadStatusUpStory == LoadStatus.failure) {
+        if (state.loadStatusUpStory == LoadStatus.success) {
+          _customProgressHUD.progress.dismiss();
+        } else if (state.loadStatusUpStory == LoadStatus.failure) {
           DxFlushBar.showFlushBar(
             context,
             title: "Đã xảy ra lỗi!",
             type: FlushBarType.ERROR,
           );
+          _customProgressHUD.progress.dismiss();
         }
       },
       child: InkWell(
@@ -354,7 +356,9 @@ class _ChatsPageState extends State<ChatsPage> {
   }
 
   _getFromGallery() async {
-    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery).whenComplete(() {
+      _customProgressHUD.progress.show();
+    });
     if (image == null) {
       return;
     }

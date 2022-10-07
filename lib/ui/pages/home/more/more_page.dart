@@ -75,14 +75,15 @@ class _MorePageState extends State<MorePage> {
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
       child: Row(
         children: [
-          SizedBox(
+          Container(
             height: 50,
             width: 50,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
             child: (urlImage ?? "").isNotEmpty
                 ? ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
+                    borderRadius: BorderRadius.circular(16),
                     child: ImgNetwork(
-                       urlFile: urlImage ?? "",
+                      urlFile: urlImage ?? "",
                     ),
                   )
                 : const CircleAvatar(

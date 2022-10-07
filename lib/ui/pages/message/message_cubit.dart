@@ -2,6 +2,7 @@ import 'package:flutter_base/database/share_preferences_helper.dart';
 import 'package:flutter_base/models/entities/message_entity.dart';
 import 'package:flutter_base/models/enums/load_status.dart';
 import 'package:flutter_base/ui/pages/message/option/option_chat.dart';
+import 'package:flutter_base/ui/pages/message/type_document.dart';
 import 'package:flutter_base/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -49,7 +50,50 @@ class MessageCubit extends Cubit<MessageState> {
     String icConversion,
   ) {
     try {
-      emit(state.copyWith(sendMsgLoadStatus: LoadStatus.loading));
+      emit(state.copyWith(
+        sendMsgLoadStatus: LoadStatus.loading
+      ));
+      if (state.listDocument.isNotEmpty) {
+        DocumentEntity documentEntity = state.listDocument.first;
+        switch (TypeDocumentExtension.fromTypeDocument(documentEntity.type ?? "")) {
+          case TypeDocument.IMAGE:
+            FirebaseApi.uploadDocument(documentEntity.path ?? "", TypeDocument.IMAGE).then((value) {
+              documentEntity.path = value;
+              sendNewMessage(text, icConversion);
+            });
+            break;
+          case TypeDocument.VIDEO:
+            FirebaseApi.uploadDocument(documentEntity.path ?? "", TypeDocument.VIDEO).then((urlLink) {
+              FirebaseApi.uploadDocument(documentEntity.pathThumbnail ?? "", TypeDocument.VIDEO)
+                  .then((urlLinkThumnail) {
+                documentEntity.path = urlLink;
+                documentEntity.pathThumbnail = urlLinkThumnail;
+                sendNewMessage(text, icConversion);
+              });
+            });
+            break;
+          case TypeDocument.FILE:
+            FirebaseApi.uploadDocument(documentEntity.path ?? "", TypeDocument.FILE).then((value) {
+              documentEntity.path = value;
+              sendNewMessage(text, icConversion);
+            });
+            break;
+          default:
+            break;
+        }
+      } else {
+        sendNewMessage(text, icConversion);
+      }
+    } catch (e) {
+      emit(state.copyWith(sendMsgLoadStatus: LoadStatus.failure));
+    }
+  }
+
+  sendNewMessage(
+    String text,
+    String icConversion,
+  ) {
+    try {
       final newMessage = MessageEntity(
         icConversion: state.uidFireBase,
         message: text,
@@ -66,11 +110,15 @@ class MessageCubit extends Cubit<MessageState> {
             listDocument: [],
           ));
         } else {
-          emit(state.copyWith(sendMsgLoadStatus: LoadStatus.failure));
+          emit(state.copyWith(
+            sendMsgLoadStatus: LoadStatus.failure
+          ));
         }
       });
     } catch (e) {
-      emit(state.copyWith(sendMsgLoadStatus: LoadStatus.failure));
+      emit(state.copyWith(
+        sendMsgLoadStatus: LoadStatus.failure
+      ));
     }
   }
 
@@ -154,29 +202,24 @@ class MessageCubit extends Cubit<MessageState> {
   }
 
   addDocument({
-    required String type,
+    required TypeDocument type,
     required String path,
     required String pathThumbnail,
     required String name,
   }) {
     try {
-      FirebaseApi.urlImage(path).then((urlPath) {
-        FirebaseApi.urlImage(pathThumbnail).then((urlPathThumnail) {
-          List<DocumentEntity> listDocument = List.from(state.listDocument);
-          listDocument.add(
-            DocumentEntity(
-              type: type,
-              path: urlPath,
-              pathThumbnail: urlPathThumnail,
-              name: name,
-              nameSend: state.nameSend,
-              createAt: DateTime.now().toUtc().toString(),
-            ),
-          );
-
-          emit(state.copyWith(listDocument: listDocument));
-        });
-      });
+      List<DocumentEntity> listDocument = List.from(state.listDocument);
+      listDocument.add(
+        DocumentEntity(
+          type: type.toTypeDocument,
+          path: path,
+          pathThumbnail: pathThumbnail,
+          name: name,
+          nameSend: state.nameSend,
+          createAt: DateTime.now().toUtc().toString(),
+        ),
+      );
+      emit(state.copyWith(listDocument: listDocument));
     } catch (e) {
       print(e);
     }

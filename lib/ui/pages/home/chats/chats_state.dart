@@ -7,7 +7,7 @@ class ChatsState extends Equatable {
   final List<StoryEntity> listStory;
   final LoadStatus? loadStatusGetUser;
   final List<UserEntity> listUser;
-  final String image;
+  final StoryItemEntity? storyItem;
   final LoadStatus? loadStatusUpStory;
   final String nameUserLogin;
   final String uid;
@@ -18,7 +18,7 @@ class ChatsState extends Equatable {
     this.listStory = const [],
     this.loadStatusGetUser,
     this.listUser = const [],
-    this.image = '',
+    this.storyItem ,
     this.loadStatusUpStory,
     this.nameUserLogin = '',
     this.uid = '',
@@ -30,7 +30,7 @@ class ChatsState extends Equatable {
     List<StoryEntity>? listStory,
     LoadStatus? loadStatusGetUser,
     List<UserEntity>? listUser,
-    String? image,
+    StoryItemEntity? storyItem,
     LoadStatus? loadStatusUpStory,
     String? nameUserLogin,
     String? uid,
@@ -41,7 +41,7 @@ class ChatsState extends Equatable {
       listStory: listStory ?? this.listStory,
       loadStatusGetUser: loadStatusGetUser ?? this.loadStatusGetUser,
       listUser: listUser ?? this.listUser,
-      image: image ?? this.image,
+      storyItem: storyItem ?? this.storyItem,
       loadStatusUpStory: loadStatusUpStory ?? this.loadStatusUpStory,
       nameUserLogin: nameUserLogin ?? this.nameUserLogin,
       uid: uid ?? this.uid,
@@ -56,7 +56,7 @@ class ChatsState extends Equatable {
         listStory,
         loadStatusGetUser,
         listUser,
-        image,
+        storyItem,
         loadStatusUpStory,
         nameUserLogin,
         uid,
