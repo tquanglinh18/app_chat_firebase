@@ -34,7 +34,6 @@ class _ViewStoryState extends State<ViewStory> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _cubit = ViewStoryCubit();
   }
 
   @override

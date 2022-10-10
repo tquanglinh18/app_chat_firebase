@@ -5,7 +5,7 @@ import '../../../../../models/entities/story_entity.dart';
 class ViewStoryState extends Equatable {
   final int indexPageView;
 
-  final List<StoryEntity> listStory;
+  final List<StoryItemEntity> listStory;
 
   const ViewStoryState({
     this.indexPageView = 0,
@@ -14,7 +14,7 @@ class ViewStoryState extends Equatable {
 
   ViewStoryState copyWith({
     int? indexPageView,
-    List<StoryEntity>? listStory,
+    List<StoryItemEntity>? listStory,
   }) {
     return ViewStoryState(
       indexPageView: indexPageView ?? this.indexPageView,

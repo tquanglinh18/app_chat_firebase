@@ -54,10 +54,23 @@ class ChatsCubit extends Cubit<ChatsState> {
     try {
       emit(state.copyWith(loadStatus: LoadStatus.loading));
       await FirebaseApi.getStory().then((value) {
-        emit(state.copyWith(
-          listStory: value,
-          loadStatus: LoadStatus.success,
-        ));
+        List<StoryEntity> listStory = value;
+        if (listStory.isNotEmpty) {
+          for (int i = 0; i < listStory.length; i++) {
+            for (int j = 0; j < listStory[i].listStory!.length; j++) {
+              if (DateTime.parse(listStory[i].listStory![j].createdAt ?? "").isBefore(
+                DateTime.now().toUtc().subtract(
+                      const Duration(days: 1),
+                    ),
+              )) {
+                listStory[i].listStory!.removeAt(j);
+              }
+            }
+          }
+          emit(state.copyWith(listStory: listStory, loadStatus: LoadStatus.success));
+        } else {
+          emit(state.copyWith(loadStatus: LoadStatus.failure));
+        }
       });
     } catch (e) {
       emit(state.copyWith(loadStatus: LoadStatus.failure));

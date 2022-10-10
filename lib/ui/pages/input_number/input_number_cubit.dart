@@ -22,12 +22,10 @@ class InputNumberCubit extends Cubit<InputNumberState> {
           await fireBaseAuth.signInWithCredential(credential);
         },
         verificationFailed: (FirebaseAuthException exception) {
-          print(exception.message);
           emit(state.copyWith(loadStatus: LoadStatus.failure,error: exception.message, ));
         },
         codeSent: (String verificationID, int? resentToken) {
           emit(state.copyWith(loadStatus: LoadStatus.success, verificationIDReceived: verificationID));
-          print(state.verificationIDReceived);
         },
         codeAutoRetrievalTimeout: (String verificationID) {},
         timeout: const Duration(seconds: 60));

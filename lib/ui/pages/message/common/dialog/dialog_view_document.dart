@@ -117,8 +117,11 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
           SizedBox(
             height: 70,
             width: 70,
-            child: ImgNetwork(
-              urlFile: imgPath,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: ImgNetwork(
+                urlFile: imgPath,
+              ),
             ),
           ),
           const SizedBox(width: 15),

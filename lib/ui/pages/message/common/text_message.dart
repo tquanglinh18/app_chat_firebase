@@ -210,18 +210,10 @@ class _TextMessageState extends State<TextMessage> {
 
   _openfile(String filePath) async {
     if (!await launchUrl(
-      Uri(path: filePath),
+      Uri.parse(filePath),
       mode: LaunchMode.externalApplication,
     )) {
       throw 'Could not launch';
     }
   }
-//   const url = 'https://blog.logrocket.com';
-//   if (await canLaunch(url)) {
-//     await launch(url);
-//   } else {
-//     throw 'Could not launch $url';
-//   }
-//
-// }
 }

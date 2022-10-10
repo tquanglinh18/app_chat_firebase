@@ -6,15 +6,27 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ViewStoryCubit extends Cubit<ViewStoryState> {
   ViewStoryCubit() : super(const ViewStoryState());
 
-  changeIndexPage(int index){
+  changeIndexPage(int index) {
     emit(state.copyWith(indexPageView: index));
   }
 
-  storyView(){
-    FirebaseApi.getStory().then((value) {
-      List<StoryEntity> list = value.where((element) => element.listStory!.where((element) => element.createdAt  DateTime.now().toUtc().toString())).toList();
-    });
-
-
+  storyView(String uid) async {
+    try {
+      List<StoryItemEntity> listStory = [];
+      await FirebaseApi.getStory().then((value) {
+        StoryEntity storyEntity = value[value.indexWhere((element) => element.uid == uid)];
+        final DateTime now = DateTime.now().toUtc();
+        List<StoryItemEntity> list = storyEntity.listStory!.toList();
+        for (int i = 0; i < list.length; i++) {
+          final DateTime date = DateTime.parse(storyEntity.listStory![i].createdAt ?? "");
+          if( now.subtract(const Duration( days:  1)).isBefore(date)){
+            listStory.add(storyEntity.listStory![i]);
+          }
+        }
+        emit(state.copyWith(listStory: listStory));
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 }
