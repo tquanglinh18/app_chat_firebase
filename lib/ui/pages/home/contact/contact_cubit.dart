@@ -1,9 +1,6 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_base/ui/pages/message/type_document.dart';
-import 'package:meta/meta.dart';
-
-import '../../../../database/share_preferences_helper.dart';
 import '../../../../models/entities/chat_user_entity.dart';
 import '../../../../models/enums/load_status.dart';
 import '../../../../network/fire_base_api.dart';
@@ -12,7 +9,7 @@ import '../../../../utils/logger.dart';
 part 'contact_state.dart';
 
 class ContactCubit extends Cubit<ContactState> {
-  ContactCubit() : super(ContactState());
+  ContactCubit() : super(const ContactState());
 
   onSearchTextChanged(String? searchText) {
     emit(state.copyWith(searchText: searchText));
@@ -96,4 +93,6 @@ class ContactCubit extends Cubit<ContactState> {
       emit(state.copyWith(loadStatusAddConversion: LoadStatus.failure));
     }
   }
+
+
 }

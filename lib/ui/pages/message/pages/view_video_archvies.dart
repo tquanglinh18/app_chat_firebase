@@ -20,7 +20,9 @@ class _PlayVideoState extends State<PlayVideo> {
     super.initState();
     _controller = VideoPlayerController.network(widget.path)
       ..initialize().then((_) {
-        setState(() {});
+        setState(() {
+          _controller.play();
+        });
       });
   }
 

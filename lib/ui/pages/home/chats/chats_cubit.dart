@@ -1,11 +1,9 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_base/database/share_preferences_helper.dart';
 import 'package:flutter_base/models/enums/load_status.dart';
 import 'package:flutter_base/network/fire_base_api.dart';
 import 'package:flutter_base/ui/pages/message/type_document.dart';
-import 'package:meta/meta.dart';
 
 import '../../../../models/entities/story_entity.dart';
 import '../../../../models/entities/user_entity.dart';
@@ -54,23 +52,23 @@ class ChatsCubit extends Cubit<ChatsState> {
     try {
       emit(state.copyWith(loadStatus: LoadStatus.loading));
       await FirebaseApi.getStory().then((value) {
-        List<StoryEntity> listStory = value;
-        if (listStory.isNotEmpty) {
-          for (int i = 0; i < listStory.length; i++) {
-            for (int j = 0; j < listStory[i].listStory!.length; j++) {
-              if (DateTime.parse(listStory[i].listStory![j].createdAt ?? "").isBefore(
-                DateTime.now().toUtc().subtract(
-                      const Duration(days: 1),
-                    ),
-              )) {
-                listStory[i].listStory!.removeAt(j);
+        if (value.isNotEmpty) {
+          for (int i = 0; i < value.length; i++) {
+            if ((value[i].listStory ?? []).isNotEmpty) {
+              List<StoryItemEntity> listStory = value[i].listStory ?? [];
+              List<StoryItemEntity> listStoryNew = [];
+              for (int j = 0; j < listStory.length; j++) {
+                if (DateTime.parse(listStory[j].createdAt ?? "").isAfter(
+                  DateTime.now().toUtc().subtract(const Duration(days: 1)),
+                )) {
+                  listStoryNew.add(listStory[j]);
+                }
               }
+              value[i].listStory = listStoryNew;
             }
           }
-          emit(state.copyWith(listStory: listStory, loadStatus: LoadStatus.success));
-        } else {
-          emit(state.copyWith(loadStatus: LoadStatus.failure));
         }
+        emit(state.copyWith(listStory: value, loadStatus: LoadStatus.success));
       });
     } catch (e) {
       emit(state.copyWith(loadStatus: LoadStatus.failure));
@@ -81,10 +79,7 @@ class ChatsCubit extends Cubit<ChatsState> {
     try {
       emit(state.copyWith(loadStatusGetUser: LoadStatus.loading));
       await FirebaseApi.getListUser().then((value) {
-        emit(state.copyWith(
-          loadStatusGetUser: LoadStatus.success,
-          listUser: value,
-        ));
+        emit(state.copyWith(loadStatusGetUser: LoadStatus.success, listUser: value));
       });
     } catch (e) {
       emit(state.copyWith(loadStatusGetUser: LoadStatus.failure));
@@ -119,26 +114,36 @@ class ChatsCubit extends Cubit<ChatsState> {
     );
   }
 
-  realTimeFireBase() {
-    FirebaseApi.getStory().then(
-      (value) {
-        emit(
-          state.copyWith(
-            listStory: value,
-          ),
-        );
-      },
-    );
-    FirebaseApi.getListUser().then((value) {
+  realTimeFireBase() async {
+    await FirebaseApi.getStory().then((value) {
+      if (value.isNotEmpty) {
+        for (int i = 0; i < value.length; i++) {
+          if ((value[i].listStory ?? []).isNotEmpty) {
+            List<StoryItemEntity> listStory = value[i].listStory ?? [];
+            List<StoryItemEntity> listStoryNew = [];
+            for (int j = 0; j < listStory.length; j++) {
+              if (DateTime.parse(listStory[j].createdAt ?? "").isAfter(
+                DateTime.now().toUtc().subtract(const Duration(days: 1)),
+              )) {
+                listStoryNew.add(listStory[j]);
+              } else {}
+            }
+            value[i].listStory = listStoryNew;
+          }
+        }
+      }
+      emit(state.copyWith(listStory: value, loadStatus: LoadStatus.success));
+    });
+    await FirebaseApi.getListUser().then((value) {
       emit(state.copyWith(listUser: value));
     });
   }
 
-  searchUser(String searchTetx) {
+  searchUser(String searchTetx) async {
     try {
       emit(state.copyWith(loadStatusGetUser: LoadStatus.loading));
       List<UserEntity> listUser = [];
-      FirebaseApi.getListUser().then((value) {
+      await FirebaseApi.getListUser().then((value) {
         int index = value.indexWhere((element) => (element.name ?? "").contains(searchTetx));
         if (index == -1) {
           listUser = [];
@@ -150,5 +155,9 @@ class ChatsCubit extends Cubit<ChatsState> {
     } catch (e) {
       emit(state.copyWith(loadStatusGetUser: LoadStatus.failure));
     }
+  }
+
+  isClose() {
+    emit(state.copyWith(isClose: !state.isClose));
   }
 }

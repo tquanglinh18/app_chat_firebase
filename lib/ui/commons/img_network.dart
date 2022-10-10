@@ -32,64 +32,66 @@ class ImgNetwork extends StatelessWidget {
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       imageUrl: urlFile,
-      imageBuilder: (context, imageProvider) => Image.network(
-        urlFile,
-        errorBuilder: (
-          context,
-          error,
-          stackTrace,
-        ) {
-          return Container(
-            decoration: BoxDecoration(
-              borderRadius: !isBorderRadius ? BorderRadius.circular(16) : BorderRadius.zero,
-              border: Border.all(
-                color: isBorderSide ? Colors.transparent : AppColors.hintTextColor,
-                width: 1,
-              ),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: Padding(
-                padding: documentIsVideo ? const EdgeInsets.only(top: 90) : EdgeInsets.zero,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    !documentIsVideo
-                        ? Padding(
-                            padding: const EdgeInsets.only(bottom: 5),
-                            child: Icon(
-                              Icons.info_outline,
-                              color: !isSent
-                                  ? darkModeIconColor
-                                  : isReplyMsg
-                                      ? AppColors.backgroundDark
-                                      : AppColors.backgroundLight,
-                            ),
-                          )
-                        : const SizedBox(),
-                    textMsgError.isNotEmpty
-                        ? Center(
-                            child: Text(
-                              'Đã xảy ra lỗi \nVui lòng thử lại',
-                              textAlign: TextAlign.center,
-                              style: isSent
-                                  ? AppTextStyle.whiteS14.copyWith(
-                                      color: isReplyColor,
-                                    )
-                                  : AppTextStyle.blackS14.copyWith(
-                                      color: darkModeIconColor,
-                                    ),
-                            ),
-                          )
-                        : const SizedBox(),
-                  ],
+      imageBuilder: (context, imageProvider) {
+        return Image.network(
+          urlFile,
+          errorBuilder: (
+            context,
+            error,
+            stackTrace,
+          ) {
+            return Container(
+              decoration: BoxDecoration(
+                borderRadius: !isBorderRadius ? BorderRadius.circular(16) : BorderRadius.zero,
+                border: Border.all(
+                  color: isBorderSide ? Colors.transparent : AppColors.hintTextColor,
+                  width: 1,
                 ),
               ),
-            ),
-          );
-        },
-        fit: BoxFit.cover,
-      ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: Padding(
+                  padding: documentIsVideo ? const EdgeInsets.only(top: 90) : EdgeInsets.zero,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      !documentIsVideo
+                          ? Padding(
+                              padding: const EdgeInsets.only(bottom: 5),
+                              child: Icon(
+                                Icons.info_outline,
+                                color: !isSent
+                                    ? darkModeIconColor
+                                    : isReplyMsg
+                                        ? AppColors.backgroundDark
+                                        : AppColors.backgroundLight,
+                              ),
+                            )
+                          : const SizedBox(),
+                      textMsgError.isNotEmpty
+                          ? Center(
+                              child: Text(
+                                'Đã xảy ra lỗi \nVui lòng thử lại',
+                                textAlign: TextAlign.center,
+                                style: isSent
+                                    ? AppTextStyle.whiteS14.copyWith(
+                                        color: isReplyColor,
+                                      )
+                                    : AppTextStyle.blackS14.copyWith(
+                                        color: darkModeIconColor,
+                                      ),
+                              ),
+                            )
+                          : const SizedBox(),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+          fit: BoxFit.cover,
+        );
+      },
       placeholder: (context, url) => const Center(
         child: Padding(
           padding: EdgeInsets.all(15),

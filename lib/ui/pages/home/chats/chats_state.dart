@@ -1,6 +1,5 @@
 part of 'chats_cubit.dart';
 
-@immutable
 class ChatsState extends Equatable {
   final String? searchText;
   final LoadStatus? loadStatus;
@@ -11,6 +10,7 @@ class ChatsState extends Equatable {
   final LoadStatus? loadStatusUpStory;
   final String nameUserLogin;
   final String uid;
+  final bool isClose;
 
   const ChatsState({
     this.searchText = '',
@@ -18,10 +18,11 @@ class ChatsState extends Equatable {
     this.listStory = const [],
     this.loadStatusGetUser,
     this.listUser = const [],
-    this.storyItem ,
+    this.storyItem,
     this.loadStatusUpStory,
     this.nameUserLogin = '',
     this.uid = '',
+    this.isClose = false ,
   });
 
   ChatsState copyWith({
@@ -34,6 +35,7 @@ class ChatsState extends Equatable {
     LoadStatus? loadStatusUpStory,
     String? nameUserLogin,
     String? uid,
+    bool? isClose,
   }) {
     return ChatsState(
       searchText: searchText ?? this.searchText,
@@ -45,6 +47,7 @@ class ChatsState extends Equatable {
       loadStatusUpStory: loadStatusUpStory ?? this.loadStatusUpStory,
       nameUserLogin: nameUserLogin ?? this.nameUserLogin,
       uid: uid ?? this.uid,
+      isClose: isClose ?? this.isClose,
     );
   }
 
@@ -60,5 +63,6 @@ class ChatsState extends Equatable {
         loadStatusUpStory,
         nameUserLogin,
         uid,
+        isClose,
       ];
 }

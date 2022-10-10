@@ -7,7 +7,7 @@ class SearchBar extends StatelessWidget {
   final String? hintText;
   final TextEditingController? controller;
   final bool isClose;
-  final VoidCallback? onClose;
+  final VoidCallback? onTapClose;
   final void Function(String)? onChanged;
   final void Function(String)? onSubmit;
 
@@ -16,7 +16,7 @@ class SearchBar extends StatelessWidget {
     this.hintText,
     this.controller,
     this.isClose = true,
-    this.onClose,
+    this.onTapClose,
     this.onChanged,
     this.onSubmit,
   }) : super(key: key);
@@ -38,7 +38,7 @@ class SearchBar extends StatelessWidget {
           suffixIcon: Visibility(
             visible: isClose,
             child: InkWell(
-              onTap: onClose,
+              onTap: onTapClose,
               child: const Icon(
                 Icons.close,
                 color: AppColors.hintTextColor,

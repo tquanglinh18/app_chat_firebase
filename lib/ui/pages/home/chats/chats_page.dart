@@ -24,7 +24,7 @@ class ChatsPage extends StatefulWidget {
 }
 
 class _ChatsPageState extends State<ChatsPage> {
-  TextEditingController controller = TextEditingController(text: "");
+  TextEditingController controller = TextEditingController();
   late ChatsCubit _cubit;
   late final CustomProgressHUD _customProgressHUD;
 
@@ -85,16 +85,19 @@ class _ChatsPageState extends State<ChatsPage> {
         builder: (context, state) {
           return SearchBar(
             hintText: "Tìm kiếm người dùng",
-            onChanged: (value) => _cubit.onSearchTextChanged(value),
+            onChanged: (value) {
+              _cubit.onSearchTextChanged(value);
+              _cubit.searchUser(value);
+            },
             controller: controller,
-            onClose: () {
-              controller.text = '';
+            onTapClose: () {
+              _cubit.onSearchTextChanged(controller.text = "");
               _cubit.getListUser();
             },
             onSubmit: (text) {
               _cubit.searchUser(text);
             },
-            isClose: state.searchText!.isEmpty ? false : true,
+            isClose: state.searchText != "" ? true : false,
           );
         },
       ),
@@ -151,10 +154,9 @@ class _ChatsPageState extends State<ChatsPage> {
                     builder: (context) => ViewStory(
                       urlImagePath: state.listStory[index].listStory ?? [],
                       urlAvatar: state.listUser.isNotEmpty
-                          ? state.listUser
-                                  .where((element) => element.uid == state.listStory[index].uid)
-                                  .toList()
-                                  .first
+                          ? state
+                                  .listUser[
+                                      state.listUser.indexWhere((element) => element.uid == state.listStory[index].uid)]
                                   .avatar ??
                               ""
                           : "",
@@ -356,11 +358,11 @@ class _ChatsPageState extends State<ChatsPage> {
   }
 
   _getFromGallery() async {
-    final image = await ImagePicker().pickImage(source: ImageSource.gallery).whenComplete(() {
-      _customProgressHUD.progress.show();
-    });
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (image == null) {
       return;
+    } else {
+      _customProgressHUD.progress.show();
     }
     _cubit.setImage(image.path);
   }

@@ -4,7 +4,7 @@ import 'package:flutter_base/common/app_text_styles.dart';
 import 'package:flutter_base/ui/commons/datetime_formatter.dart';
 import 'package:flutter_base/ui/commons/img_network.dart';
 import 'package:flutter_base/ui/pages/message/pages/archvies/archives_document_cubit.dart';
-import 'package:flutter_base/ui/pages/message/pages/play_video.dart';
+import 'package:flutter_base/ui/pages/message/pages/view_video_archvies.dart';
 import 'package:flutter_base/ui/widgets/appbar/app_bar_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -13,6 +13,7 @@ import '../../../../../common/app_colors.dart';
 import '../../../../../models/entities/message_entity.dart';
 import '../../../../commons/data_empty.dart';
 import '../../type_document.dart';
+import '../view_img_archvies.dart';
 
 final List<TypeDocument> listDocument = [
   TypeDocument.IMAGE,
@@ -164,7 +165,10 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
                   borderRadius: BorderRadius.circular(10),
                   child: InkWell(
                     onTap: () {
-                      _openFile(widget.listImg[index].path!);
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ViewImgArchvies(
+                                urlImg: widget.listImg[index].path ?? "",
+                              )));
                     },
                     child: ImgNetwork(
                       urlFile: (widget.listImg[index].path ?? ""),
@@ -336,9 +340,9 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
           );
   }
 
-  _openFile(String fileName) async {
+  _openFile(String filePath) async {
     if (!await launchUrl(
-      Uri(path: fileName),
+      Uri.parse(filePath),
       mode: LaunchMode.externalApplication,
     )) {
       throw 'Could not launch';

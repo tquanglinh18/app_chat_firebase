@@ -9,24 +9,4 @@ class ViewStoryCubit extends Cubit<ViewStoryState> {
   changeIndexPage(int index) {
     emit(state.copyWith(indexPageView: index));
   }
-
-  storyView(String uid) async {
-    try {
-      List<StoryItemEntity> listStory = [];
-      await FirebaseApi.getStory().then((value) {
-        StoryEntity storyEntity = value[value.indexWhere((element) => element.uid == uid)];
-        final DateTime now = DateTime.now().toUtc();
-        List<StoryItemEntity> list = storyEntity.listStory!.toList();
-        for (int i = 0; i < list.length; i++) {
-          final DateTime date = DateTime.parse(storyEntity.listStory![i].createdAt ?? "");
-          if( now.subtract(const Duration( days:  1)).isBefore(date)){
-            listStory.add(storyEntity.listStory![i]);
-          }
-        }
-        emit(state.copyWith(listStory: listStory));
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
 }

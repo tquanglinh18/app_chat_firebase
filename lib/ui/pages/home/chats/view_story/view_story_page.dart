@@ -34,6 +34,7 @@ class _ViewStoryState extends State<ViewStory> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _cubit = ViewStoryCubit();
   }
 
   @override
@@ -68,7 +69,7 @@ class _ViewStoryState extends State<ViewStory> {
             (index, value) {
               return MapEntry(
                 index,
-                _buildItemPageView(widget.urlImagePath[index].urlImage ?? ''),
+                _buildItemPageView(widget.urlImagePath[widget.urlImagePath.length - 1 - index].urlImage ?? ''),
               );
             },
           )
@@ -90,7 +91,7 @@ class _ViewStoryState extends State<ViewStory> {
       },
       nextImage: (indexPage) {
         _cubit.changeIndexPage(indexPage);
-        controller.nextPage(duration: const Duration(milliseconds: 100), curve: Curves.ease);
+        controller.nextPage(duration: const Duration(milliseconds: 50), curve: Curves.ease);
       },
       changeIndexPage: (indexChange) {
         _cubit.changeIndexPage(indexChange);

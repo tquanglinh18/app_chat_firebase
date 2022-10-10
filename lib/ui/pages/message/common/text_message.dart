@@ -1,18 +1,13 @@
-import 'dart:io';
-import 'package:flutter_base/ui/pages/message/pages/play_video.dart';
+import 'package:flutter_base/ui/pages/message/pages/view_video_archvies.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/common/app_images.dart';
 import 'package:flutter_base/models/entities/message_entity.dart';
-import 'package:flutter_base/ui/commons/img_file.dart';
 import 'package:flutter_base/ui/commons/img_network.dart';
 import 'package:flutter_base/ui/pages/message/type_document.dart';
-import 'package:open_file/open_file.dart';
-import 'package:path_provider/path_provider.dart';
 
 import '../../../../common/app_colors.dart';
 import '../../../../common/app_text_styles.dart';
-import '../../../commons/flus_bar.dart';
 
 class TextMessage extends StatefulWidget {
   final String? message;
@@ -90,7 +85,7 @@ class _TextMessageState extends State<TextMessage> {
                                 })
                               : widget.listDocumnet.first.type == TypeDocument.FILE.toTypeDocument
                                   ? _typeFileMsg(() {
-                                      _openfile(widget.listDocumnet.first.path!);
+                                      _openFile(urlFile: widget.listDocumnet.first.path!);
                                     })
                                   : const SizedBox()
                       : const SizedBox(),
@@ -208,9 +203,9 @@ class _TextMessageState extends State<TextMessage> {
     );
   }
 
-  _openfile(String filePath) async {
+  _openFile({required String urlFile}) async {
     if (!await launchUrl(
-      Uri.parse(filePath),
+      Uri.parse(urlFile),
       mode: LaunchMode.externalApplication,
     )) {
       throw 'Could not launch';

@@ -74,7 +74,7 @@ class _ContactPageState extends State<ContactPage> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   _buildAppBar,
-                  _buildSearchBar(state.searchText ?? ''),
+                  _buildSearchBar(),
                   Expanded(
                     child: _contacts,
                   ),
@@ -111,7 +111,7 @@ class _ContactPageState extends State<ContactPage> {
     );
   }
 
-  Widget _buildSearchBar(String searchText) {
+  Widget _buildSearchBar() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: SearchBar(
@@ -121,11 +121,11 @@ class _ContactPageState extends State<ContactPage> {
           _cubit.listSearch(value);
         },
         controller: controller,
-        onClose: () {
-          controller.text = "";
+        onTapClose: () {
+          _cubit.onSearchTextChanged(controller.text = "");
           _cubit.initData();
         },
-        isClose: searchText != "" ? true : false,
+        isClose: _cubit.state.searchText != "" ? true : false,
       ),
     );
   }

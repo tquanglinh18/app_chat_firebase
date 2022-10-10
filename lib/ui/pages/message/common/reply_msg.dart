@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base/models/entities/message_entity.dart';
 import 'package:flutter_base/ui/commons/img_file.dart';
 import 'package:flutter_base/ui/commons/img_network.dart';
-import 'package:flutter_base/ui/pages/message/pages/play_video.dart';
+import 'package:flutter_base/ui/pages/message/pages/view_video_archvies.dart';
 import 'package:flutter_base/ui/pages/message/type_document.dart';
 import 'package:open_file/open_file.dart';
 import '../../../../common/app_colors.dart';
