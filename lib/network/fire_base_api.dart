@@ -7,7 +7,6 @@ import 'package:flutter_base/models/entities/message_entity.dart';
 import 'package:flutter_base/models/entities/story_entity.dart';
 import 'package:flutter_base/models/entities/user_entity.dart';
 import 'package:flutter_base/ui/pages/message/type_document.dart';
-import 'package:path_provider/path_provider.dart';
 
 class FirebaseApi {
   static Future<bool> uploadMessage(
@@ -203,23 +202,17 @@ class FirebaseApi {
     }
   }
 
-  static Future<String> uploadDocument(
-    String filePath,
-    TypeDocument type
-  ) async {
+  static Future<String> uploadDocument(String filePath, TypeDocument type) async {
     String urlLink = '';
     try {
       final firebaseStorage = FirebaseStorage.instance;
       var snapshot = await firebaseStorage
           .ref()
-          .child(
-             "${type.toTypeDocument}/${filePath.split("/").last}" )
-          .putFile(File(filePath))
-          .whenComplete(() {});
+          .child("${type.toTypeDocument}/${filePath.split("/").last}")
+          .putFile(File(filePath));
       await snapshot.ref.getDownloadURL().then((value) {
         urlLink = value;
       });
-
       return urlLink;
     } catch (e) {
       return urlLink;

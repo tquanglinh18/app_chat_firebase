@@ -39,6 +39,7 @@ class _MorePageState extends State<MorePage> {
     super.initState();
     _cubit = MoreCubit();
     _cubit.initData();
+    print("LoadData MorePage");
   }
 
   @override
@@ -83,7 +84,7 @@ class _MorePageState extends State<MorePage> {
                 ? ClipRRect(
                     borderRadius: BorderRadius.circular(16),
                     child: ImgNetwork(
-                      urlFile: urlImage ?? "",
+                      linkUrl: urlImage ?? "",
                     ),
                   )
                 : const CircleAvatar(

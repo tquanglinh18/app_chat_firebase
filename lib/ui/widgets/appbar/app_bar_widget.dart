@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AppBarWidget extends AppBar {
   AppBarWidget({
     Key? key,
-    VoidCallback? onBackPressed,
+    Function()? onBackPressed,
     String title = "",
     List<Widget> rightActions = const [],
     bool showBackButton = true,

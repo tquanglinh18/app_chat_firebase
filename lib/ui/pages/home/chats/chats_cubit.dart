@@ -97,7 +97,10 @@ class ChatsCubit extends Cubit<ChatsState> {
   }
 
   setImage(String path) {
-    FirebaseApi.uploadDocument(path, TypeDocument.IMAGE).then(
+    FirebaseApi.uploadDocument(
+      path,
+      TypeDocument.IMAGE,
+    ).then(
       (value) {
         if (value.isNotEmpty) {
           emit(

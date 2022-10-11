@@ -171,7 +171,7 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
                               )));
                     },
                     child: ImgNetwork(
-                      urlFile: (widget.listImg[index].path ?? ""),
+                      linkUrl: (widget.listImg[index].path ?? ""),
                     ),
                   ),
                 );

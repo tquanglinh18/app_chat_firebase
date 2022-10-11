@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../common/app_images.dart';
+import '../message/common/multi_image.dart';
 import 'chats/chats_page.dart';
 import 'contact/contact_page.dart';
 import 'home_cubit.dart';
@@ -25,7 +26,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<HomePage> {
   late HomeCubit _cubit;
 
   @override
@@ -36,6 +37,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: Column(
         children: [
@@ -138,4 +140,7 @@ class _HomePageState extends State<HomePage> {
       ],
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

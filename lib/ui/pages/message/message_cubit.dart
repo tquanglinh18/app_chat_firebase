@@ -45,36 +45,54 @@ class MessageCubit extends Cubit<MessageState> {
     }
   }
 
+  Future<bool> convertUrl(List<DocumentEntity> documentEntity) async {
+    bool isCheck = false;
+    try {
+      for (int i = 0; i < documentEntity.length; i++) {
+        FirebaseApi.uploadDocument(documentEntity[i].path ?? "", TypeDocument.IMAGE).then((value) {
+          documentEntity[i].path = value;
+          isCheck = (i == (documentEntity.length - 1));
+        });
+      }
+      if (isCheck) {
+        emit(state.copyWith(listDocument: documentEntity));
+      }
+      return isCheck;
+    } catch (e) {
+      return isCheck;
+    }
+  }
+
   sendMsg(
     String text,
     String icConversion,
   ) {
     try {
-      emit(state.copyWith(
-        sendMsgLoadStatus: LoadStatus.loading
-      ));
+      emit(state.copyWith(sendMsgLoadStatus: LoadStatus.loading));
       if (state.listDocument.isNotEmpty) {
-        DocumentEntity documentEntity = state.listDocument.first;
-        switch (TypeDocumentExtension.fromTypeDocument(documentEntity.type ?? "")) {
+        List<DocumentEntity> documentEntity = state.listDocument;
+        switch (TypeDocumentExtension.fromTypeDocument(documentEntity.first.type ?? "")) {
           case TypeDocument.IMAGE:
-            FirebaseApi.uploadDocument(documentEntity.path ?? "", TypeDocument.IMAGE).then((value) {
-              documentEntity.path = value;
-              sendNewMessage(text, icConversion);
+            convertUrl(documentEntity).then((value) {
+              if (value) {
+                sendNewMessage(text, icConversion);
+              }
             });
+
             break;
           case TypeDocument.VIDEO:
-            FirebaseApi.uploadDocument(documentEntity.path ?? "", TypeDocument.VIDEO).then((urlLink) {
-              FirebaseApi.uploadDocument(documentEntity.pathThumbnail ?? "", TypeDocument.VIDEO)
+            FirebaseApi.uploadDocument(documentEntity.first.path ?? "", TypeDocument.VIDEO).then((urlLink) {
+              FirebaseApi.uploadDocument(documentEntity.first.pathThumbnail ?? "", TypeDocument.VIDEO)
                   .then((urlLinkThumnail) {
-                documentEntity.path = urlLink;
-                documentEntity.pathThumbnail = urlLinkThumnail;
+                documentEntity.first.path = urlLink;
+                documentEntity.first.pathThumbnail = urlLinkThumnail;
                 sendNewMessage(text, icConversion);
               });
             });
             break;
           case TypeDocument.FILE:
-            FirebaseApi.uploadDocument(documentEntity.path ?? "", TypeDocument.FILE).then((value) {
-              documentEntity.path = value;
+            FirebaseApi.uploadDocument(documentEntity.first.path ?? "", TypeDocument.FILE).then((value) {
+              documentEntity.first.path = value;
               sendNewMessage(text, icConversion);
             });
             break;
@@ -110,15 +128,11 @@ class MessageCubit extends Cubit<MessageState> {
             listDocument: [],
           ));
         } else {
-          emit(state.copyWith(
-            sendMsgLoadStatus: LoadStatus.failure
-          ));
+          emit(state.copyWith(sendMsgLoadStatus: LoadStatus.failure));
         }
       });
     } catch (e) {
-      emit(state.copyWith(
-        sendMsgLoadStatus: LoadStatus.failure
-      ));
+      emit(state.copyWith(sendMsgLoadStatus: LoadStatus.failure));
     }
   }
 
@@ -229,5 +243,26 @@ class MessageCubit extends Cubit<MessageState> {
     emit(state.copyWith(
       listDocument: [],
     ));
+  }
+
+  addImage({
+    required List<String> path,
+  }) {
+    try {
+      List<DocumentEntity> list = List.from(state.listDocument);
+      for (var i in path) {
+        list.add(DocumentEntity(
+          type: TypeDocument.IMAGE.name,
+          path: i,
+          pathThumbnail: '',
+          name: i.split("/").last,
+          nameSend: state.nameSend,
+          createAt: DateTime.now().toUtc().toString(),
+        ));
+      }
+      emit(state.copyWith(listDocument: list));
+    } catch (e) {
+      print(e);
+    }
   }
 }

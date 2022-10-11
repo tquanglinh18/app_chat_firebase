@@ -170,7 +170,7 @@ class _OptionChatState extends State<OptionChat> {
     images = <Asset>[];
     try {
       resultList = await MultiImagePicker.pickImages(
-        maxImages: 1,
+        maxImages: 10,
         enableCamera: true,
         selectedAssets: images,
         cupertinoOptions: const CupertinoOptions(takePhotoIcon: "chat"),

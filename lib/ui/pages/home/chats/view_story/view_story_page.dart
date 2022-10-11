@@ -79,7 +79,7 @@ class _ViewStoryState extends State<ViewStory> {
   }
 
   Widget _buildItemPageView(String path) {
-    return ImgNetwork(urlFile: path);
+    return ImgNetwork(linkUrl: path);
   }
 
   Widget get _buildProgressView {
@@ -125,7 +125,7 @@ class _ViewStoryState extends State<ViewStory> {
               height: 48,
               width: 48,
               child: ImgNetwork(
-                urlFile: urlAvatar,
+                linkUrl: urlAvatar,
               ),
             ),
           ),

@@ -24,7 +24,7 @@ class ViewImgArchvies extends StatelessWidget {
           AspectRatio(
             aspectRatio: 9/16,
             child: ImgNetwork(
-              urlFile: urlImg,
+              linkUrl: urlImg,
             ),
           ),
         ],

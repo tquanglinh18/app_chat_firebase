@@ -172,7 +172,7 @@ class _ReplyMsgState extends State<ReplyMsg> {
                                   alignment: Alignment.center,
                                   children: [
                                     ImgNetwork(
-                                      urlFile: widget.listDocument.first.type == TypeDocument.VIDEO.toTypeDocument
+                                      linkUrl: widget.listDocument.first.type == TypeDocument.VIDEO.toTypeDocument
                                           ? widget.listDocument.first.pathThumbnail!
                                           : widget.listDocument.first.path!,
                                       isSent: widget.isSent,

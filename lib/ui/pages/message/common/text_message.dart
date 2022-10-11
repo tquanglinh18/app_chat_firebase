@@ -171,7 +171,7 @@ class _TextMessageState extends State<TextMessage> {
           alignment: Alignment.center,
           children: [
             ImgNetwork(
-              urlFile: widget.listDocumnet.first.pathThumbnail ?? "",
+              linkUrl: widget.listDocumnet.first.pathThumbnail ?? "",
               isSent: widget.isSent,
               textMsgError: 'Đã xảy ra lỗi \nVui lòng thử lại',
               documentIsVideo: true,
@@ -182,7 +182,7 @@ class _TextMessageState extends State<TextMessage> {
             Icon(
               Icons.play_circle_fill_outlined,
               size: 50,
-              color: widget.isSent ? AppColors.backgroundLight : Theme.of(context).iconTheme.color!,
+              color: widget.isSent ? AppColors.backgroundLight : AppColors.btnColor,
             ),
           ],
         ),
@@ -194,7 +194,7 @@ class _TextMessageState extends State<TextMessage> {
     return InkWell(
       onTap: onTap,
       child: ImgNetwork(
-        urlFile: widget.listDocumnet.first.path!,
+        linkUrl: widget.listDocumnet.first.path!,
         textMsgError: 'Đã xảy ra lỗi \nVui lòng thử lại',
         isSent: widget.isSent,
         isBorderSide: true,

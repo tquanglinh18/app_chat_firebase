@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_base/common/app_images.dart';
 import 'package:flutter_base/models/entities/message_entity.dart';
 import 'package:flutter_base/models/enums/load_status.dart';
@@ -67,24 +66,6 @@ class _MessagePageState extends State<MessagePage> {
     );
     super.initState();
   }
-
-  // void getSizeAndPosition(_) async {
-  //   try {
-  //     if (_cubit.state.isFirst == false) {
-  //       await controller
-  //           .scrollToIndex(
-  //             _cubit.state.listMessage.length,
-  //             preferPosition: AutoScrollPosition.middle,
-  //             duration: const Duration(seconds: 1),
-  //           )
-  //           .then((value) => {
-  //                 _cubit.state.isFirst = true,
-  //               });
-  //     }
-  //   } catch (e) {
-  //     logger.e('getSizeAndPosition\n$e');
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -180,7 +161,6 @@ class _MessagePageState extends State<MessagePage> {
   }
 
   Widget _listMsg(List<MessageEntity> listMessage) {
-   // SchedulerBinding.instance.addPostFrameCallback(getSizeAndPosition);
     return ListView.builder(
       reverse: true,
       controller: controller,
@@ -199,10 +179,7 @@ class _MessagePageState extends State<MessagePage> {
                         message: messageEntity.message ?? "",
                         isSent: messageEntity.icConversion == state.uidFireBase,
                         timer: (messageEntity.createdAt ?? "").isNotEmpty
-                            ? messageEntity
-                                    .createdAt
-                                    ?.formatToDisplay(formatDisplay: DateTimeFormater.eventHour) ??
-                                ''
+                            ? messageEntity.createdAt?.formatToDisplay(formatDisplay: DateTimeFormater.eventHour) ?? ''
                             : "",
                         textReply: messageEntity.replyMsg ?? "",
                         nameSend: messageEntity.nameSend ?? "",
@@ -213,10 +190,7 @@ class _MessagePageState extends State<MessagePage> {
                         message: messageEntity.message ?? "",
                         isSent: messageEntity.icConversion == state.uidFireBase,
                         timer: (messageEntity.createdAt ?? "").isNotEmpty
-                            ? messageEntity
-                                    .createdAt
-                                    ?.formatToDisplay(formatDisplay: DateTimeFormater.eventHour) ??
-                                ''
+                            ? messageEntity.createdAt?.formatToDisplay(formatDisplay: DateTimeFormater.eventHour) ?? ''
                             : "",
                         listDocumnet: messageEntity.document ?? [],
                         nameSend: messageEntity.nameSend ?? "",
@@ -387,38 +361,35 @@ class _MessagePageState extends State<MessagePage> {
   }
 
   Widget get _isNotEmptyDocument {
-    return Column(
-      children: [
-        BlocBuilder<MessageCubit, MessageState>(
-          bloc: _cubit,
-          builder: (context, state) {
-            return SizedBox(
-              height: 75,
-              child: Stack(
-                alignment: Alignment.topRight,
-                children: [
-                  _buildDocumentSelected(
-                    typeDocument: state.listDocument.first.type ?? '',
-                    urlFile: state.listDocument.first.type == TypeDocument.VIDEO.toTypeDocument
-                        ? state.listDocument.first.pathThumbnail!
-                        : state.listDocument.first.path!,
-                  ),
-                  _buildBtnRemoveDocument,
-                ],
-              ),
-            );
-          },
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 5, bottom: 15),
-          height: 1,
-          color: AppColors.hintTextColor,
-        ),
-      ],
+    return SizedBox(
+      height: 100,
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        children: [
+          BlocBuilder<MessageCubit, MessageState>(
+            bloc: _cubit,
+            builder: (context, state) {
+              return SizedBox(
+                height: 75,
+                width: MediaQuery.of(context).size.width,
+                child: _buildDocumentSelected(
+                  typeDocument: state.listDocument.first.type ?? '',
+                  listDocument: state.listDocument,
+                ),
+              );
+            },
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 5, bottom: 15),
+            height: 1,
+            color: AppColors.hintTextColor,
+          ),
+        ],
+      ),
     );
   }
 
-  Widget get _buildBtnRemoveDocument {
+  Widget _buildBtnRemoveDocument({required int index}) {
     return InkWell(
       onTap: () {
         _cubit.removeImgSelected();
@@ -440,7 +411,7 @@ class _MessagePageState extends State<MessagePage> {
 
   Widget _buildDocumentSelected({
     required String typeDocument,
-    required String urlFile,
+    required List<DocumentEntity> listDocument,
   }) {
     return Container(
       padding: const EdgeInsets.only(top: 5, right: 5),
@@ -460,7 +431,7 @@ class _MessagePageState extends State<MessagePage> {
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
-                          ImgFile(urlFile: urlFile),
+                          ImgFile(urlFile: listDocument.first.path ?? ""),
                           const Icon(
                             Icons.play_circle_fill_outlined,
                             color: AppColors.hintTextColor,
@@ -470,9 +441,27 @@ class _MessagePageState extends State<MessagePage> {
                     )
                   : SizedBox(
                       height: 70,
-                      width: 100,
-                      child: ImgFile(urlFile: urlFile),
-                    ),
+                      width: MediaQuery.of(context).size.width,
+                      child: ListView.builder(
+                        padding: EdgeInsets.zero,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: listDocument.length,
+                        itemBuilder: (context, index) {
+                          return Stack(
+                            alignment: Alignment.topRight,
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.all(5),
+                                height: 70,
+                                width: 100,
+                                child: ImgFile(urlFile: listDocument[index].path ?? ""),
+                              ),
+                              _buildBtnRemoveDocument(index: index),
+                            ],
+                          );
+                        },
+                      ),
+                    )
         ],
       ),
     );
@@ -569,11 +558,8 @@ class _MessagePageState extends State<MessagePage> {
     return OptionChat(
       isSelected: isSelected,
       onChooseImage: (file) {
-        _cubit.addDocument(
-          type: TypeDocument.IMAGE,
-          path: file.first.path,
-          pathThumbnail: '',
-          name: file.first.path.split("/").last,
+        _cubit.addImage(
+          path: file.map((e) => e.path).toList(),
         );
       },
       onChooseVideo: (listFile, file) {

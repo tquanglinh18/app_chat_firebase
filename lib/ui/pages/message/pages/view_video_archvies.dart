@@ -33,7 +33,10 @@ class _PlayVideoState extends State<PlayVideo> {
         children: [
           AppBarWidget(
             title: widget.nameConversion,
-            onBackPressed: Navigator.of(context).pop,
+            onBackPressed: () {
+              _controller.dispose();
+              Navigator.of(context).pop;
+            },
             showBackButton: true,
           ),
           Expanded(

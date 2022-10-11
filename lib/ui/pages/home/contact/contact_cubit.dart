@@ -20,12 +20,7 @@ class ContactCubit extends Cubit<ContactState> {
       emit(state.copyWith(loadStatusSearch: LoadStatus.loading));
       FirebaseApi.getConversion().then(
         (value) {
-          emit(
-            state.copyWith(
-              loadStatusSearch: LoadStatus.success,
-              listConversion: value,
-            ),
-          );
+          emit(state.copyWith(loadStatusSearch: LoadStatus.success, listConversion: value));
         },
       );
     } catch (e) {
@@ -35,7 +30,6 @@ class ContactCubit extends Cubit<ContactState> {
   }
 
   listSearch(String? searchText) {
-    if ((searchText ?? "").isEmpty) return state.listConversion;
     emit(state.copyWith(loadStatusSearch: LoadStatus.loading));
     try {
       FirebaseApi.getConversion().then(
@@ -44,32 +38,19 @@ class ContactCubit extends Cubit<ContactState> {
               ? value.where((element) => (element.nameConversion ?? "").contains(searchText ?? "")).toList()
               : [];
           emit(
-            state.copyWith(
-              loadStatusSearch: LoadStatus.success,
-              listConversion: listSearch,
-            ),
+            state.copyWith(loadStatusSearch: LoadStatus.success, listConversion: listSearch),
           );
         },
       );
     } catch (e) {
-      emit(
-        state.copyWith(
-          loadStatusSearch: LoadStatus.failure,
-        ),
-      );
+      emit(state.copyWith(loadStatusSearch: LoadStatus.failure));
     }
   }
 
   realTimeFireBase() {
-    FirebaseApi.getConversion().then(
-      (value) {
-        emit(
-          state.copyWith(
-            listConversion: value,
-          ),
-        );
-      },
-    );
+    FirebaseApi.getConversion().then((value) {
+      emit(state.copyWith(listConversion: value));
+    });
   }
 
   addConversion(Map<String, dynamic> data) async {
@@ -93,6 +74,4 @@ class ContactCubit extends Cubit<ContactState> {
       emit(state.copyWith(loadStatusAddConversion: LoadStatus.failure));
     }
   }
-
-
 }

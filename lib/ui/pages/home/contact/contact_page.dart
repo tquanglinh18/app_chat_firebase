@@ -44,6 +44,7 @@ class _ContactPageState extends State<ContactPage> {
       loading: true,
       color: Colors.red,
     );
+    print("LoadData ContactPage");
   }
 
   @override
@@ -74,7 +75,7 @@ class _ContactPageState extends State<ContactPage> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   _buildAppBar,
-                  _buildSearchBar(),
+                  _buildSearchBar,
                   Expanded(
                     child: _contacts,
                   ),
@@ -111,7 +112,7 @@ class _ContactPageState extends State<ContactPage> {
     );
   }
 
-  Widget _buildSearchBar() {
+  Widget get _buildSearchBar {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: SearchBar(
@@ -124,6 +125,9 @@ class _ContactPageState extends State<ContactPage> {
         onTapClose: () {
           _cubit.onSearchTextChanged(controller.text = "");
           _cubit.initData();
+        },
+        onSubmit: (text) {
+          _cubit.listSearch(text);
         },
         isClose: _cubit.state.searchText != "" ? true : false,
       ),
@@ -168,7 +172,6 @@ class _ContactPageState extends State<ContactPage> {
                     child: _buildListContact(
                       urlImageNetwok: state.listConversion[index].avatarConversion ?? '',
                       nameConversion: state.listConversion[index].nameConversion ?? '',
-                      style: Theme.of(context).textTheme.bodyText1!,
                     ),
                   );
                 },
@@ -190,7 +193,6 @@ class _ContactPageState extends State<ContactPage> {
   Widget _buildListContact({
     required String urlImageNetwok,
     required String nameConversion,
-    required TextStyle style,
   }) {
     return Container(
       padding: const EdgeInsets.all(4),
@@ -201,25 +203,25 @@ class _ContactPageState extends State<ContactPage> {
           Stack(
             alignment: Alignment.topRight,
             children: [
-              _avtUser(urlImageNetwok),
+              _avtUser(urlImageNetwok: urlImageNetwok),
               _isOnline,
             ],
           ),
           const SizedBox(width: 16),
-          _nameConvertion(nameConversion: nameConversion, style: style),
+          _nameConvertion(nameConversion: nameConversion),
         ],
       ),
     );
   }
 
-  Widget _nameConvertion({required String nameConversion, required TextStyle style}) {
+  Widget _nameConvertion({required String nameConversion}) {
     return Text(
       nameConversion,
-      style: style,
+      style: Theme.of(context).textTheme.bodyText1!,
     );
   }
 
-  Widget _avtUser(String urlImageNetwok) {
+  Widget _avtUser({required String urlImageNetwok}) {
     return Container(
       margin: const EdgeInsets.all(2),
       child: ClipRRect(
@@ -228,7 +230,7 @@ class _ContactPageState extends State<ContactPage> {
           height: 48,
           width: 48,
           child: ImgNetwork(
-            urlFile: urlImageNetwok,
+            linkUrl: urlImageNetwok,
           ),
         ),
       ),

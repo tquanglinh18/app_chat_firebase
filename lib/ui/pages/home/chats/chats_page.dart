@@ -23,7 +23,7 @@ class ChatsPage extends StatefulWidget {
   State<ChatsPage> createState() => _ChatsPageState();
 }
 
-class _ChatsPageState extends State<ChatsPage> {
+class _ChatsPageState extends State<ChatsPage>{
   TextEditingController controller = TextEditingController();
   late ChatsCubit _cubit;
   late final CustomProgressHUD _customProgressHUD;
@@ -46,6 +46,7 @@ class _ChatsPageState extends State<ChatsPage> {
       loading: true,
       color: Colors.red,
     );
+    print("LoadData ChatPage");
   }
 
   @override
@@ -141,7 +142,7 @@ class _ChatsPageState extends State<ChatsPage> {
   Widget get _buildListStory {
     return BlocBuilder<ChatsCubit, ChatsState>(
       bloc: _cubit,
-      buildWhen: (pre, cur) => pre.loadStatus != cur.loadStatus || pre.listStory != cur.listStory,
+      buildWhen: (pre, cur) => pre.loadStatus != cur.loadStatus || pre.listStory != cur.listStory || pre.listUser != cur.listUser,
       builder: (context, state) {
         return ListView.builder(
           itemCount: state.listStory.length,
@@ -217,7 +218,7 @@ class _ChatsPageState extends State<ChatsPage> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(16),
                   child: ImgNetwork(
-                    urlFile: urlFile,
+                    linkUrl: urlFile,
                     isBorderRadius: true,
                     isBorderSide: true,
                     isSent: true,
@@ -341,7 +342,7 @@ class _ChatsPageState extends State<ChatsPage> {
       child: SizedBox(
         height: 48,
         width: 48,
-        child: ImgNetwork(urlFile: urlAvt),
+        child: ImgNetwork(linkUrl: urlAvt),
       ),
     );
   }
