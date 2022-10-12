@@ -1,6 +1,6 @@
 # Miscellaneous
 *.class
-*.lock
+#*.lock
 *.log
 *.pyc
 *.swp
@@ -24,8 +24,6 @@
 
 # Flutter repo-specific
 /bin/cache/
-/bin/internal/bootstrap.bat
-/bin/internal/bootstrap.sh
 /bin/mingit/
 /dev/benchmarks/mega_gallery/
 /dev/bots/.recipe_deps
@@ -46,6 +44,7 @@ analysis_benchmark.json
 
 # Flutter/Dart/Pub related
 **/doc/api/
+**/ios/Flutter/.last_build_id
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
@@ -61,7 +60,7 @@ unlinked_spec.ds
 
 # Android related
 **/android/**/gradle-wrapper.jar
-.gradle/
+**/android/.gradle
 **/android/captures/
 **/android/gradlew
 **/android/gradlew.bat
@@ -92,7 +91,6 @@ unlinked_spec.ds
 **/ios/Flutter/Flutter.framework
 **/ios/Flutter/Flutter.podspec
 **/ios/Flutter/Generated.xcconfig
-**/ios/Flutter/ephemeral
 **/ios/Flutter/app.flx
 **/ios/Flutter/app.zip
 **/ios/Flutter/flutter_assets/
@@ -101,15 +99,10 @@ unlinked_spec.ds
 **/ios/Runner/GeneratedPluginRegistrant.*
 
 # macOS
-**/Flutter/ephemeral/
-**/Pods/
 **/macos/Flutter/GeneratedPluginRegistrant.swift
-**/macos/Flutter/ephemeral
-**/xcuserdata/
-
-# Windows
-**/windows/flutter/generated_plugin_registrant.cc
-**/windows/flutter/generated_plugin_registrant.h
+**/macos/Flutter/Flutter-Debug.xcconfig
+**/macos/Flutter/Flutter-Release.xcconfig
+**/macos/Flutter/Flutter-Profile.xcconfig
 
 # Coverage
 coverage/
@@ -124,3 +117,13 @@ app.*.symbols
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 !/dev/ci/**/Gemfile.lock
+
+*.g.dart
+lib/generated
+.flutter-plugins-dependencies
+pubspec.lock
+analysis_options.yaml
+*.lock
+ios/Podfile.lock
+
+**/scripts/first_run.sh
