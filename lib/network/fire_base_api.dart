@@ -209,7 +209,8 @@ class FirebaseApi {
       var snapshot = await firebaseStorage
           .ref()
           .child("${type.toTypeDocument}/${filePath.split("/").last}")
-          .putFile(File(filePath));
+          .putFile(File(filePath))
+          .whenComplete(() {});
       await snapshot.ref.getDownloadURL().then((value) {
         urlLink = value;
       });

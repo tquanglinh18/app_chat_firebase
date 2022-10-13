@@ -41,7 +41,7 @@ class MessagePage extends StatefulWidget {
 
 class _MessagePageState extends State<MessagePage> {
   late MessageCubit _cubit;
-  TextEditingController controllerMsg = TextEditingController(text: "");
+  TextEditingController controllerMsg = TextEditingController();
   late final CustomProgressHUD _customProgressHUD;
   final FocusNode _focusNode = FocusNode();
   late AutoScrollController controller;
@@ -196,6 +196,7 @@ class _MessagePageState extends State<MessagePage> {
                         nameSend: messageEntity.nameSend ?? "",
                         nameConversion: widget.nameConversion,
                         isDarkModeMsg: Theme.of(context).hoverColor,
+                        uid: widget.idConversion,
                         onLongPress: () {
                           _focusNode.unfocus();
                           _cubit.showInputMsg();
@@ -246,6 +247,9 @@ class _MessagePageState extends State<MessagePage> {
         style: AppTextStyle.whiteS14.copyWith(
           color: Theme.of(context).iconTheme.color!,
         ),
+        onChanged: (value) {
+          _cubit.textInputChanged(value);
+        },
         minLines: 1,
         maxLines: 3,
         decoration: InputDecoration(
@@ -266,7 +270,7 @@ class _MessagePageState extends State<MessagePage> {
       listenWhen: (pre, cur) =>
           pre.sendMsgLoadStatus != cur.sendMsgLoadStatus ||
           pre.replyLoadStatus != cur.replyLoadStatus ||
-          pre.deletLoadStatus != cur.deletLoadStatus ||
+          pre.deleteLoadStatus != cur.deleteLoadStatus ||
           pre.listDocument != cur.listDocument,
       listener: (context, state) {
         if (state.sendMsgLoadStatus == LoadStatus.success || state.replyLoadStatus == LoadStatus.success) {
@@ -274,7 +278,7 @@ class _MessagePageState extends State<MessagePage> {
         } else {
           if (state.sendMsgLoadStatus == LoadStatus.failure ||
               state.replyLoadStatus == LoadStatus.failure ||
-              state.deletLoadStatus == LoadStatus.failure) {
+              state.deleteLoadStatus == LoadStatus.failure) {
             DxFlushBar.showFlushBar(
               context,
               type: FlushBarType.ERROR,
@@ -282,9 +286,9 @@ class _MessagePageState extends State<MessagePage> {
             );
           }
         }
-        if (state.listDocument.isNotEmpty) {
-          _cubit.isSelected();
-        }
+        // if (state.listDocument.isNotEmpty) {
+        //   _cubit.isSelected();
+        // }
       },
       buildWhen: (pre, cur) =>
           pre.sendMsgLoadStatus != cur.sendMsgLoadStatus ||
@@ -335,8 +339,8 @@ class _MessagePageState extends State<MessagePage> {
                       ),
                       const SizedBox(width: 17),
                       _sendBtn(
-                        state.isReplyMsg,
-                        state.sendMsgLoadStatus != LoadStatus.loading,
+                        isReplyMsg: state.isReplyMsg,
+                        sendMsgLoadStatus: state.sendMsgLoadStatus != LoadStatus.loading,
                       )
                     ],
                   ),
@@ -367,15 +371,13 @@ class _MessagePageState extends State<MessagePage> {
       child: Column(
         children: [
           BlocBuilder<MessageCubit, MessageState>(
+            buildWhen: (pre, cur) => pre.listDocument != cur.listDocument,
             bloc: _cubit,
             builder: (context, state) {
               return SizedBox(
                 height: 75,
                 width: MediaQuery.of(context).size.width,
-                child: _buildDocumentSelected(
-                  typeDocument: state.listDocument.first.type ?? '',
-                  listDocument: state.listDocument,
-                ),
+                child: _buildDocumentSelected,
               );
             },
           ),
@@ -392,7 +394,7 @@ class _MessagePageState extends State<MessagePage> {
   Widget _buildBtnRemoveDocument({required int index}) {
     return InkWell(
       onTap: () {
-        _cubit.removeImgSelected();
+        _cubit.removeImgSelected(index: index);
         controllerMsg.text = '';
       },
       child: Container(
@@ -409,61 +411,64 @@ class _MessagePageState extends State<MessagePage> {
     );
   }
 
-  Widget _buildDocumentSelected({
-    required String typeDocument,
-    required List<DocumentEntity> listDocument,
-  }) {
-    return Container(
-      padding: const EdgeInsets.only(top: 5, right: 5),
-      child: Column(
-        children: [
-          typeDocument == TypeDocument.FILE.name
-              ? Image.asset(
-                  AppImages.icFileDefault,
-                  height: 50,
-                  width: 50,
-                  color: Theme.of(context).iconTheme.color,
-                )
-              : typeDocument == TypeDocument.VIDEO.name
-                  ? SizedBox(
-                      height: 70,
-                      width: 100,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          ImgFile(urlFile: listDocument.first.path ?? ""),
-                          const Icon(
-                            Icons.play_circle_fill_outlined,
-                            color: AppColors.hintTextColor,
-                          ),
-                        ],
-                      ),
+  Widget get _buildDocumentSelected {
+    return BlocBuilder<MessageCubit, MessageState>(
+      bloc: _cubit,
+      buildWhen: (pre, cur) => pre.listDocument != cur.listDocument,
+      builder: (context, state) {
+        return Container(
+          padding: const EdgeInsets.only(top: 5, right: 5),
+          child: Column(
+            children: [
+              state.listDocument.first.type == TypeDocument.FILE.name
+                  ? Image.asset(
+                      AppImages.icFileDefault,
+                      height: 50,
+                      width: 50,
+                      color: Theme.of(context).iconTheme.color,
                     )
-                  : SizedBox(
-                      height: 70,
-                      width: MediaQuery.of(context).size.width,
-                      child: ListView.builder(
-                        padding: EdgeInsets.zero,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: listDocument.length,
-                        itemBuilder: (context, index) {
-                          return Stack(
-                            alignment: Alignment.topRight,
+                  : state.listDocument.first.type == TypeDocument.VIDEO.name
+                      ? SizedBox(
+                          height: 70,
+                          width: 100,
+                          child: Stack(
+                            alignment: Alignment.center,
                             children: [
-                              Container(
-                                margin: const EdgeInsets.all(5),
-                                height: 70,
-                                width: 100,
-                                child: ImgFile(urlFile: listDocument[index].path ?? ""),
+                              ImgFile(urlFile: state.listDocument.first.pathThumbnail ?? ""),
+                              const Icon(
+                                Icons.play_circle_fill_outlined,
+                                color: AppColors.hintTextColor,
                               ),
-                              _buildBtnRemoveDocument(index: index),
                             ],
-                          );
-                        },
-                      ),
-                    )
-        ],
-      ),
+                          ),
+                        )
+                      : SizedBox(
+                          height: 70,
+                          width: MediaQuery.of(context).size.width,
+                          child: ListView.builder(
+                            padding: EdgeInsets.zero,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: state.listDocument.length,
+                            itemBuilder: (context, index) {
+                              return Stack(
+                                alignment: Alignment.topRight,
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.all(5),
+                                    height: 70,
+                                    width: 100,
+                                    child: ImgFile(urlFile: state.listDocument[index].path ?? ""),
+                                  ),
+                                  _buildBtnRemoveDocument(index: index),
+                                ],
+                              );
+                            },
+                          ),
+                        )
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -512,10 +517,10 @@ class _MessagePageState extends State<MessagePage> {
     );
   }
 
-  Widget _sendBtn(
-    bool isReplyMsg,
-    bool sendMsgLoadStatus,
-  ) {
+  Widget _sendBtn({
+    required bool isReplyMsg,
+    required bool sendMsgLoadStatus,
+  }) {
     return BlocConsumer<MessageCubit, MessageState>(
       bloc: _cubit,
       listener: (context, state) {
@@ -532,23 +537,32 @@ class _MessagePageState extends State<MessagePage> {
         }
       },
       builder: (context, state) {
-        return InkWell(
-          onTap: () {
-            isReplyMsg == true
-                ? _cubit.replyMsg(
-                    widget.idConversion,
-                    controllerMsg.text,
-                  )
-                : _cubit.sendMsg(
-                    controllerMsg.text,
-                    widget.idConversion,
-                  );
-            _cubit.state.isFirst = false;
+        return BlocBuilder<MessageCubit, MessageState>(
+          bloc: _cubit,
+          buildWhen: (pre, cur) => pre.listDocument != cur.listDocument || pre.textInput != cur.textInput,
+          builder: (context, state) {
+            return InkWell(
+              onTap: () {
+                if (state.listDocument.isNotEmpty || state.textInput.isNotEmpty) {
+                  isReplyMsg == true
+                      ? _cubit.replyMsg(
+                          widget.idConversion,
+                          controllerMsg.text,
+                        )
+                      : _cubit.sendMsg(
+                          controllerMsg.text,
+                          widget.idConversion,
+                        );
+                  state.isFirst = false;
+                  _cubit.textInputChanged('');
+                }
+              },
+              child: Image.asset(
+                AppImages.icSentMessage,
+                color: state.textInput.isNotEmpty | state.listDocument.isNotEmpty ? Colors.blueAccent : Colors.grey,
+              ),
+            );
           },
-          child: Image.asset(
-            AppImages.icSentMessage,
-            color: sendMsgLoadStatus ? Colors.blueAccent : Colors.grey,
-          ),
         );
       },
     );

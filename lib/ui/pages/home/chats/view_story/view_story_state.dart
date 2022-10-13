@@ -1,7 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../../models/entities/story_entity.dart';
-
 class ViewStoryState extends Equatable {
   final int indexPageView;
 

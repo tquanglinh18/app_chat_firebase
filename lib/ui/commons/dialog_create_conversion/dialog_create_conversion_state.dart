@@ -1,6 +1,5 @@
 part of 'dialog_create_conversion_cubit.dart';
 
-@immutable
 class DialogCreateConversionState extends Equatable {
   final String nameRoomConversion;
   final String imgRoomConversdionPath;

@@ -7,7 +7,7 @@ class MessageState extends Equatable {
   final List<MessageEntity> listMessage;
   final LoadStatus? loadStatus;
   final LoadStatus? sendMsgLoadStatus;
-  final LoadStatus? deletLoadStatus;
+  final LoadStatus? deleteLoadStatus;
   final LoadStatus? replyLoadStatus;
   final bool hintOptionMsg;
   final bool isReplyMsg;
@@ -18,12 +18,13 @@ class MessageState extends Equatable {
   final String? nameSend;
   final bool hintInputMsg;
   bool isFirst;
+  final String textInput;
 
   MessageState({
     this.listMessage = const [],
     this.loadStatus,
     this.sendMsgLoadStatus,
-    this.deletLoadStatus,
+    this.deleteLoadStatus,
     this.hintOptionMsg = false,
     this.replyLoadStatus,
     this.isReplyMsg = false,
@@ -34,13 +35,14 @@ class MessageState extends Equatable {
     this.nameSend,
     this.hintInputMsg = true,
     this.isFirst = false,
+    this.textInput = '',
   });
 
   MessageState copyWith({
     List<MessageEntity>? listMessage,
     LoadStatus? loadStatus,
     LoadStatus? sendMsgLoadStatus,
-    LoadStatus? deletLoadStatus,
+    LoadStatus? deleteLoadStatus,
     LoadStatus? replyLoadStatus,
     bool? hintOptionMsg,
     bool? isReplyMsg,
@@ -51,12 +53,13 @@ class MessageState extends Equatable {
     String? nameSend,
     bool? hintInputMsg,
     bool? isFirst,
+    String? textInput,
   }) {
     return MessageState(
       listMessage: listMessage ?? this.listMessage,
       loadStatus: loadStatus ?? this.loadStatus,
       sendMsgLoadStatus: sendMsgLoadStatus ?? this.sendMsgLoadStatus,
-      deletLoadStatus: deletLoadStatus ?? this.deletLoadStatus,
+      deleteLoadStatus: deleteLoadStatus ?? this.deleteLoadStatus,
       replyLoadStatus: replyLoadStatus ?? this.replyLoadStatus,
       hintOptionMsg: hintOptionMsg ?? this.hintOptionMsg,
       isReplyMsg: isReplyMsg ?? this.isReplyMsg,
@@ -67,6 +70,7 @@ class MessageState extends Equatable {
       nameSend: nameSend ?? this.nameSend,
       hintInputMsg: hintInputMsg ?? this.hintInputMsg,
       isFirst: isFirst ?? this.isFirst,
+      textInput: textInput ?? this.textInput,
     );
   }
 
@@ -75,7 +79,7 @@ class MessageState extends Equatable {
         listMessage,
         loadStatus,
         sendMsgLoadStatus,
-        deletLoadStatus,
+        deleteLoadStatus,
         replyLoadStatus,
         hintOptionMsg,
         isReplyMsg,
@@ -86,5 +90,6 @@ class MessageState extends Equatable {
         nameSend,
         hintInputMsg,
         isFirst,
+        textInput,
       ];
 }

@@ -13,8 +13,6 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
-
-import '../../../../common/app_colors.dart';
 import '../../../commons/dialog_helper.dart';
 
 class OptionChat extends StatefulWidget {

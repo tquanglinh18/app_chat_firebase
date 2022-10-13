@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_base/utils/logger.dart';
 
 class ItemProgressView extends StatefulWidget {
   final double widthItem;

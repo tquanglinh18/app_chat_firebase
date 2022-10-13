@@ -44,7 +44,6 @@ class _ContactPageState extends State<ContactPage> {
       loading: true,
       color: Colors.red,
     );
-    print("LoadData ContactPage");
   }
 
   @override

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../common/app_images.dart';
-import '../message/common/multi_image.dart';
 import 'chats/chats_page.dart';
 import 'contact/contact_page.dart';
 import 'home_cubit.dart';

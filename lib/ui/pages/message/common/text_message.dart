@@ -1,4 +1,4 @@
-import 'package:flutter_base/ui/pages/message/pages/view_video_archvies.dart';
+import 'package:flutter_base/ui/pages/message/common/multi_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/common/app_images.dart';
@@ -8,6 +8,7 @@ import 'package:flutter_base/ui/pages/message/type_document.dart';
 
 import '../../../../common/app_colors.dart';
 import '../../../../common/app_text_styles.dart';
+import '../pages/view_video_archvies/view_video_archvies.dart';
 
 class TextMessage extends StatefulWidget {
   final String? message;
@@ -18,6 +19,7 @@ class TextMessage extends StatefulWidget {
   final String nameSend;
   final String nameConversion;
   final Color isDarkModeMsg;
+  final String uid;
 
   const TextMessage({
     Key? key,
@@ -29,6 +31,7 @@ class TextMessage extends StatefulWidget {
     this.nameSend = '',
     this.nameConversion = '',
     this.isDarkModeMsg = AppColors.backgroundLight,
+    this.uid = '',
   }) : super(key: key);
 
   @override
@@ -71,7 +74,11 @@ class _TextMessageState extends State<TextMessage> {
                 children: [
                   widget.listDocumnet.isNotEmpty
                       ? (widget.listDocumnet.first.type == TypeDocument.IMAGE.toTypeDocument)
-                          ? _typeImageMsg(() {})
+                          ? MultiImage(
+                              isSent: widget.isSent,
+                              listDocumnet: widget.listDocumnet,
+                              uid: widget.uid,
+                            )
                           : (widget.listDocumnet.first.type == TypeDocument.VIDEO.toTypeDocument)
                               ? _typeVideoMsg(() {
                                   Navigator.of(context).push(
@@ -186,19 +193,6 @@ class _TextMessageState extends State<TextMessage> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _typeImageMsg(Function() onTap) {
-    return InkWell(
-      onTap: onTap,
-      child: ImgNetwork(
-        linkUrl: widget.listDocumnet.first.path!,
-        textMsgError: 'Đã xảy ra lỗi \nVui lòng thử lại',
-        isSent: widget.isSent,
-        isBorderSide: true,
-        darkModeIconColor: Theme.of(context).iconTheme.color!,
       ),
     );
   }

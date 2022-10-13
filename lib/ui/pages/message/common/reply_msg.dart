@@ -1,16 +1,11 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_base/models/entities/message_entity.dart';
-import 'package:flutter_base/ui/commons/img_file.dart';
 import 'package:flutter_base/ui/commons/img_network.dart';
-import 'package:flutter_base/ui/pages/message/pages/view_video_archvies.dart';
 import 'package:flutter_base/ui/pages/message/type_document.dart';
-import 'package:open_file/open_file.dart';
 import '../../../../common/app_colors.dart';
 import '../../../../common/app_images.dart';
 import '../../../../common/app_text_styles.dart';
-import '../../../commons/flus_bar.dart';
+import '../pages/view_video_archvies/view_video_archvies.dart';
 
 class ReplyMsg extends StatefulWidget {
   final String? message;
@@ -149,7 +144,7 @@ class _ReplyMsgState extends State<ReplyMsg> {
                 widget.listDocument.isNotEmpty
                     ? InkWell(
                         onTap: () {
-                          if (widget.listDocument.first.type == TypeDocument.VIDEO.toTypeDocument) {
+                          if (widget.listDocument.first.type == TypeDocument.FILE.toTypeDocument) {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => PlayVideo(
@@ -171,27 +166,87 @@ class _ReplyMsgState extends State<ReplyMsg> {
                                 child: Stack(
                                   alignment: Alignment.center,
                                   children: [
-                                    ImgNetwork(
-                                      linkUrl: widget.listDocument.first.type == TypeDocument.VIDEO.toTypeDocument
-                                          ? widget.listDocument.first.pathThumbnail!
-                                          : widget.listDocument.first.path!,
-                                      isSent: widget.isSent,
-                                      textMsgError: 'Đã xảy ra lỗi \nVui lòng thử lại',
-                                      isReplyColor: AppColors.textBlack,
-                                      darkModeIconColor: Theme.of(context).iconTheme.color!,
-                                      isReplyMsg: true,
-                                      documentIsVideo:
-                                          widget.listDocument.first.type == TypeDocument.VIDEO.toTypeDocument
-                                              ? true
-                                              : false,
-                                    ),
+                                    widget.listDocument.first.type == TypeDocument.VIDEO.toTypeDocument
+                                        ? Stack(
+                                            children: [
+                                              ImgNetwork(
+                                                linkUrl: widget.listDocument.first.pathThumbnail!,
+                                                isSent: widget.isSent,
+                                                textMsgError: 'Đã xảy ra lỗi \nVui lòng thử lại',
+                                                isReplyColor: AppColors.textBlack,
+                                                darkModeIconColor: Theme.of(context).iconTheme.color!,
+                                                isReplyMsg: true,
+                                                documentIsVideo:
+                                                    widget.listDocument.first.type == TypeDocument.VIDEO.toTypeDocument
+                                                        ? true
+                                                        : false,
+                                              ),
+                                              // Icon(
+                                              //   Icons.play_circle_fill_outlined,
+                                              //   size: 50,
+                                              //   color: widget.isSent ? AppColors.backgroundLight : AppColors.btnColor,
+                                              // ),
+                                            ],
+                                          )
+                                        : Stack(
+                                            alignment: Alignment.centerRight,
+                                            children: [
+                                              ListView.builder(
+                                                itemCount: 2,
+                                                scrollDirection: Axis.horizontal,
+                                                padding: EdgeInsets.zero,
+                                                physics: const NeverScrollableScrollPhysics(),
+                                                itemBuilder: (context, index) {
+                                                  return Container(
+                                                    height: 210,
+                                                    width: (MediaQuery.of(context).size.width - 70) * 1 / 3,
+                                                    decoration: BoxDecoration(
+                                                      color: AppColors.greyBgr.withOpacity(0.7),
+                                                      border: Border.all(
+                                                        width: 3,
+                                                        color: AppColors.textWhite,
+                                                      ),
+                                                    ),
+                                                    child: ImgNetwork(
+                                                      linkUrl: widget.listDocument[index].path!,
+                                                      isSent: widget.isSent,
+                                                      textMsgError: 'Đã xảy ra lỗi \nVui lòng thử lại',
+                                                      isReplyColor: AppColors.textBlack,
+                                                      darkModeIconColor: Theme.of(context).iconTheme.color!,
+                                                      isReplyMsg: true,
+                                                      documentIsVideo: false,
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                              Visibility(
+                                                visible: widget.listDocument.length > 2,
+                                                child: Container(
+                                                  alignment: Alignment.center,
+                                                  height: 210,
+                                                  width: (MediaQuery.of(context).size.width - 70) * 1 / 3,
+                                                  decoration: BoxDecoration(
+                                                    color: AppColors.greyBgr.withOpacity(0.7),
+                                                    border: Border.all(
+                                                      width: 3,
+                                                      color: AppColors.textWhite,
+                                                    ),
+                                                  ),
+                                                  child: Text(
+                                                    "+${widget.listDocument.length - 2}",
+                                                    style: AppTextStyle.moreImg,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                     widget.listDocument.first.type == TypeDocument.VIDEO.toTypeDocument
                                         ? Icon(
                                             Icons.play_circle_fill_outlined,
                                             size: 50,
                                             color: widget.isSent
                                                 ? AppColors.backgroundDark
-                                                : Theme.of(context).iconTheme.color!,
+                                                : AppColors.btnColor,
                                           )
                                         : const SizedBox(),
                                   ],

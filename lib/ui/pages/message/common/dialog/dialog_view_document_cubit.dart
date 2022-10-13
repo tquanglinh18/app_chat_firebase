@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_base/ui/pages/message/type_document.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../models/entities/message_entity.dart';

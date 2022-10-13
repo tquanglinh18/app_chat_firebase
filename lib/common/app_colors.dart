@@ -38,8 +38,6 @@ class AppColors {
   static const Color buttonBGTint = secondary;
   static const Color buttonBorder = secondary;
 
-  /// Tabs
-
   ///BottomNavigationBar
   static const Color bottomNavigationBar = Color(0xFF919191);
 

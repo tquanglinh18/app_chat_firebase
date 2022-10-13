@@ -46,7 +46,6 @@ class _ChatsPageState extends State<ChatsPage>{
       loading: true,
       color: Colors.red,
     );
-    print("LoadData ChatPage");
   }
 
   @override

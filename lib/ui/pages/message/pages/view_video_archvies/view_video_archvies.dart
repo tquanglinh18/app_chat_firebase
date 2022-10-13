@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
-import '../../../widgets/appbar/app_bar_widget.dart';
+import '../../../../widgets/appbar/app_bar_widget.dart';
 
 class PlayVideo extends StatefulWidget {
   final String nameConversion;
@@ -34,8 +34,9 @@ class _PlayVideoState extends State<PlayVideo> {
           AppBarWidget(
             title: widget.nameConversion,
             onBackPressed: () {
-              _controller.dispose();
-              Navigator.of(context).pop;
+              _controller.dispose().then((value) => {
+                    Navigator.of(context).pop(),
+                  });
             },
             showBackButton: true,
           ),

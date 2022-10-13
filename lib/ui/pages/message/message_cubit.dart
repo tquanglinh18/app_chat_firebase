@@ -1,7 +1,6 @@
 import 'package:flutter_base/database/share_preferences_helper.dart';
 import 'package:flutter_base/models/entities/message_entity.dart';
 import 'package:flutter_base/models/enums/load_status.dart';
-import 'package:flutter_base/ui/pages/message/option/option_chat.dart';
 import 'package:flutter_base/ui/pages/message/type_document.dart';
 import 'package:flutter_base/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,7 +48,7 @@ class MessageCubit extends Cubit<MessageState> {
     bool isCheck = false;
     try {
       for (int i = 0; i < documentEntity.length; i++) {
-        FirebaseApi.uploadDocument(documentEntity[i].path ?? "", TypeDocument.IMAGE).then((value) {
+        await FirebaseApi.uploadDocument(documentEntity[i].path ?? "", TypeDocument.IMAGE).then((value) {
           documentEntity[i].path = value;
           isCheck = (i == (documentEntity.length - 1));
         });
@@ -149,21 +148,21 @@ class MessageCubit extends Cubit<MessageState> {
   }
 
   deleteMsg(String icConversion) {
-    emit(state.copyWith(deletLoadStatus: LoadStatus.loading));
+    emit(state.copyWith(deleteLoadStatus: LoadStatus.loading));
     try {
       List<MessageEntity> listMsg = state.listMessage;
       listMsg.removeAt(state.indexMsg!);
       FirebaseApi.uploadMessage(icConversion, listMsg).then(
         (value) {
           if (value) {
-            emit(state.copyWith(deletLoadStatus: LoadStatus.success));
+            emit(state.copyWith(deleteLoadStatus: LoadStatus.success));
           } else {
-            emit(state.copyWith(deletLoadStatus: LoadStatus.failure));
+            emit(state.copyWith(deleteLoadStatus: LoadStatus.failure));
           }
         },
       );
     } catch (e) {
-      emit(state.copyWith(deletLoadStatus: LoadStatus.failure));
+      emit(state.copyWith(deleteLoadStatus: LoadStatus.failure));
     }
   }
 
@@ -235,14 +234,14 @@ class MessageCubit extends Cubit<MessageState> {
       );
       emit(state.copyWith(listDocument: listDocument));
     } catch (e) {
-      print(e);
+      logger.e(e);
     }
   }
 
-  removeImgSelected() {
-    emit(state.copyWith(
-      listDocument: [],
-    ));
+  removeImgSelected({required int index}) {
+    List<DocumentEntity> documentEntity = List.from(state.listDocument);
+    documentEntity.removeAt(index);
+    emit(state.copyWith(listDocument: documentEntity));
   }
 
   addImage({
@@ -262,7 +261,11 @@ class MessageCubit extends Cubit<MessageState> {
       }
       emit(state.copyWith(listDocument: list));
     } catch (e) {
-      print(e);
+      logger.e(e);
     }
+  }
+
+  textInputChanged(String text) {
+    emit(state.copyWith(textInput: text));
   }
 }

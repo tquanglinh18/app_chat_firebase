@@ -4,7 +4,6 @@ import 'package:flutter_base/common/app_text_styles.dart';
 import 'package:flutter_base/ui/commons/datetime_formatter.dart';
 import 'package:flutter_base/ui/commons/img_network.dart';
 import 'package:flutter_base/ui/pages/message/pages/archvies/archives_document_cubit.dart';
-import 'package:flutter_base/ui/pages/message/pages/view_video_archvies.dart';
 import 'package:flutter_base/ui/widgets/appbar/app_bar_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -14,6 +13,7 @@ import '../../../../../models/entities/message_entity.dart';
 import '../../../../commons/data_empty.dart';
 import '../../type_document.dart';
 import '../view_img_archvies.dart';
+import '../view_video_archvies/view_video_archvies.dart';
 
 final List<TypeDocument> listDocument = [
   TypeDocument.IMAGE,

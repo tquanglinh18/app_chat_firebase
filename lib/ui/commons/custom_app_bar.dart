@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../../common/app_text_styles.dart';
-
 class AppBarCustom extends StatelessWidget {
-  String? title;
-  int? icCount;
-  List<String>? image;
-  VoidCallback? onTap;
-  Color? color;
+  final String? title;
+  final int? icCount;
+  final List<String>? image;
+  final VoidCallback? onTap;
+  final Color? color;
 
-  AppBarCustom({
+  const AppBarCustom({
     Key? key,
     this.title,
     this.icCount,

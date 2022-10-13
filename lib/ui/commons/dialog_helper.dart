@@ -19,7 +19,7 @@ class DialogHelper {
               isDefaultAction: true,
               child: const Text(
                 "Huỷ bỏ",
-                style: const TextStyle(fontWeight: FontWeight.normal),
+                style: TextStyle(fontWeight: FontWeight.normal),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -29,7 +29,7 @@ class DialogHelper {
               isDefaultAction: true,
               child: const Text(
                 "Open setting",
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
               onPressed: () {
                 Navigator.pop(context);

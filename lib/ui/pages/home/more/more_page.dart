@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import '../../../../common/app_images.dart';
 import '../../../../common/app_text_styles.dart';
-import '../../../commons/avatar.dart';
 import '../../../commons/custom_app_bar.dart';
 import '../../setting/setting_page.dart';
 import 'more_cubit.dart';
@@ -39,7 +38,6 @@ class _MorePageState extends State<MorePage> {
     super.initState();
     _cubit = MoreCubit();
     _cubit.initData();
-    print("LoadData MorePage");
   }
 
   @override
@@ -51,7 +49,7 @@ class _MorePageState extends State<MorePage> {
         builder: (context, state) {
           return Column(
             children: [
-              AppBarCustom(title: "More"),
+              const AppBarCustom(title: "More"),
               _infoUser(
                 name: state.name,
                 phoneNumber: state.phoneNumber,

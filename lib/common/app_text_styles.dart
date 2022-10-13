@@ -94,4 +94,8 @@ class AppTextStyle {
   static final tintS18 = tint.copyWith(fontSize: 18);
   static final tintS18Bold = tintS18.copyWith(fontWeight: FontWeight.bold);
   static final tintS18W800 = tintS18.copyWith(fontWeight: FontWeight.w800);
+
+  /// GreyHintMore
+  ///
+  static const moreImg = TextStyle(color: AppColors.border, fontSize: 22, fontWeight: FontWeight.bold);
 }

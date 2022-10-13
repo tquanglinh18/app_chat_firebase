@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base/common/app_colors.dart';
 import 'package:flutter_base/common/app_text_styles.dart';
-import 'package:flutter_base/ui/commons/img_file.dart';
 import 'package:flutter_base/ui/commons/img_network.dart';
 import 'package:flutter_base/ui/pages/message/common/dialog/dialog_view_document_cubit.dart';
 import 'package:flutter_base/ui/pages/message/pages/archvies/archives_document_page.dart';
@@ -251,7 +250,7 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: ImgNetwork(
-                          linkUrl: state.listImg[index].path![index],
+                          linkUrl: state.listImg[index].path ?? '',
                         ),
                       ),
                     );

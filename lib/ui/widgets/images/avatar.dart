@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_base/global/global_data.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../common/app_colors.dart';
@@ -43,7 +42,6 @@ class Avatar extends StatelessWidget {
   }) : super(key: key);
 
   final ValueNotifier<String> _keyImage = ValueNotifier(const Uuid().v4());
-  int _count = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +78,6 @@ class Avatar extends StatelessWidget {
                     case AvatarType.normal:
                       if (url.isNotEmpty) {
                         Future.delayed(const Duration(milliseconds: 300), () {
-                          _count++;
                           _keyImage.value = const Uuid().v4();
                         });
                         return Center(
