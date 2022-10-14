@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../common/app_colors.dart';
 import '../../../../common/app_images.dart';
+import '../../../../generated/l10n.dart';
 import '../../../commons/custom_app_bar.dart';
 import '../../../commons/custom_progress_hud.dart';
 import '../../../commons/data_empty.dart';
@@ -23,7 +24,7 @@ class ChatsPage extends StatefulWidget {
   State<ChatsPage> createState() => _ChatsPageState();
 }
 
-class _ChatsPageState extends State<ChatsPage>{
+class _ChatsPageState extends State<ChatsPage> {
   TextEditingController controller = TextEditingController();
   late ChatsCubit _cubit;
   late final CustomProgressHUD _customProgressHUD;
@@ -84,7 +85,7 @@ class _ChatsPageState extends State<ChatsPage>{
         buildWhen: (pre, cur) => pre.searchText != cur.searchText,
         builder: (context, state) {
           return SearchBar(
-            hintText: "Tìm kiếm người dùng",
+            hintText: S.of(context).chats_search,
             onChanged: (value) {
               _cubit.onSearchTextChanged(value);
               _cubit.searchUser(value);
@@ -141,7 +142,8 @@ class _ChatsPageState extends State<ChatsPage>{
   Widget get _buildListStory {
     return BlocBuilder<ChatsCubit, ChatsState>(
       bloc: _cubit,
-      buildWhen: (pre, cur) => pre.loadStatus != cur.loadStatus || pre.listStory != cur.listStory || pre.listUser != cur.listUser,
+      buildWhen: (pre, cur) =>
+          pre.loadStatus != cur.loadStatus || pre.listStory != cur.listStory || pre.listUser != cur.listUser,
       builder: (context, state) {
         return ListView.builder(
           itemCount: state.listStory.length,
@@ -169,7 +171,7 @@ class _ChatsPageState extends State<ChatsPage>{
                   ? _buildItemStr(
                       urlFile: (state.listStory[index].listStory)?.last.urlImage ?? "",
                       nameUpStory:
-                          state.uid == state.listStory[index].uid ? "Your Story" : state.listStory[index].name ?? "",
+                          state.uid == state.listStory[index].uid ? "My Story" : state.listStory[index].name ?? "",
                     )
                   : const SizedBox(),
             );
@@ -179,7 +181,10 @@ class _ChatsPageState extends State<ChatsPage>{
     );
   }
 
-  Widget _buildItemStr({required String urlFile, required String nameUpStory}) {
+  Widget _buildItemStr({
+    required String urlFile,
+    required String nameUpStory,
+  }) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 8),
       child: Column(

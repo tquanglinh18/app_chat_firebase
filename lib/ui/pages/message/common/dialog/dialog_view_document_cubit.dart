@@ -10,23 +10,26 @@ part 'dialog_view_document_state.dart';
 class DialogViewDocumentCubit extends Cubit<DialogViewDocumentState> {
   DialogViewDocumentCubit() : super(const DialogViewDocumentState());
 
-  getListDocument(String uid) {
+  getListDocument(String uid) async {
     emit(state.copyWith(loadStatus: LoadStatus.loading));
     try {
       List<MessageEntity> listMsg = [];
       List<DocumentEntity> listImg = [];
       List<DocumentEntity> listVideo = [];
       List<DocumentEntity> listFile = [];
-      FirebaseApi.getMessages(uid).then((value) => {
+      await FirebaseApi.getMessages(uid).then((value) => {
             if (value.isNotEmpty)
               {
                 value.sort((a, b) => b.createdAt!.compareTo(a.createdAt!)),
-                listMsg = value.where((element) => (element.document ?? []).isNotEmpty && (element.nameReply ?? '').isEmpty).toList(),
-
+                listMsg = value
+                    .where((element) => (element.document ?? []).isNotEmpty && (element.nameReply ?? '').isEmpty)
+                    .toList(),
                 listMsg.forEach((element) {
                   switch ((element.document ?? []).first.type) {
                     case "IMAGE":
-                      listImg.add((element.document ?? []).first);
+                      for (int i = 0; i < (element.document ?? []).length; i++) {
+                        listImg.add((element.document ?? [])[i]);
+                      }
                       return;
                     case "VIDEO":
                       listVideo.add((element.document ?? []).first);

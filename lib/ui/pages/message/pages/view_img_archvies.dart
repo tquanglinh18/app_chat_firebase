@@ -20,9 +20,10 @@ class ViewImgArchvies extends StatelessWidget {
             title: "Xem ảnh",
             onBackPressed: Navigator.of(context).pop,
             showBackButton: true,
+            colorIcon: Theme.of(context).iconTheme.color!,
           ),
-          AspectRatio(
-            aspectRatio: 9/16,
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
             child: ImgNetwork(
               linkUrl: urlImg,
             ),

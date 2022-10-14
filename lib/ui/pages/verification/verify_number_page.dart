@@ -8,7 +8,7 @@ import 'package:flutter_base/models/enums/load_status.dart';
 import 'package:flutter_base/ui/commons/custom_progress_hud.dart';
 import 'package:flutter_base/ui/commons/flus_bar.dart';
 import 'package:flutter_base/ui/commons/my_dialog.dart';
-import 'package:flutter_base/ui/pages/verify_number/verify_number_cubit.dart';
+import 'package:flutter_base/ui/pages/verification/verify_number_cubit.dart';
 import 'package:flutter_base/ui/widgets/appbar/app_bar_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

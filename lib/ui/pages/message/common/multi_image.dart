@@ -31,6 +31,7 @@ class _MultiImageState extends State<MultiImage> {
   @override
   void initState() {
     _cubit = DialogViewDocumentCubit();
+    _cubit.getListDocument(widget.uid);
     super.initState();
   }
 
@@ -39,32 +40,32 @@ class _MultiImageState extends State<MultiImage> {
     return InkWell(
       child: widget.listDocumnet.length == 1
           ? InkWell(
-        onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => ViewImgArchvies(urlImg: widget.listDocumnet.first.path ?? ""),
-            ),
-          );
-        },
-            child: ImgNetwork(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ViewImgArchvies(urlImg: widget.listDocumnet.first.path ?? ""),
+                  ),
+                );
+              },
+              child: ImgNetwork(
                 linkUrl: widget.listDocumnet.first.path!,
                 textMsgError: 'Đã xảy ra lỗi \nVui lòng thử lại',
                 isSent: widget.isSent,
                 isBorderSide: true,
                 darkModeIconColor: Theme.of(context).iconTheme.color!,
               ),
-          )
+            )
           : widget.listDocumnet.length == 2
-              ? _isTwoImage()
+              ? _isTwoImage
               : widget.listDocumnet.length == 3
-                  ? _isThreeImage()
+                  ? _isThreeImage
                   : widget.listDocumnet.length >= 4
-                      ? _multiImage()
+                      ? _multiImage
                       : const SizedBox(),
     );
   }
 
-  Widget _isTwoImage() {
+  Widget get _isTwoImage {
     return SizedBox(
       height: 250,
       width: MediaQuery.of(context).size.width - 120,
@@ -101,13 +102,13 @@ class _MultiImageState extends State<MultiImage> {
     );
   }
 
-  Widget _isThreeImage() {
+  Widget get _isThreeImage {
     return SizedBox(
       height: 300,
       width: MediaQuery.of(context).size.width,
       child: Row(
         children: [
-          _firstImage(),
+          _firstImage,
           Expanded(
             child: ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
@@ -146,13 +147,13 @@ class _MultiImageState extends State<MultiImage> {
     );
   }
 
-  Widget _multiImage() {
+  Widget get _multiImage {
     return SizedBox(
       height: 300,
       width: MediaQuery.of(context).size.width,
       child: Row(
         children: [
-          _firstImage(),
+          _firstImage,
           Expanded(
             child: Column(
               children: [
@@ -167,7 +168,7 @@ class _MultiImageState extends State<MultiImage> {
     );
   }
 
-  Widget _firstImage() {
+  Widget get _firstImage {
     return InkWell(
       onTap: () {
         Navigator.of(context).push(

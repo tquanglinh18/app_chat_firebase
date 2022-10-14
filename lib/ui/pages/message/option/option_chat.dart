@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:io' as io;
 import 'dart:typed_data';
 import 'package:flutter_audio_recorder2/flutter_audio_recorder2.dart';
+import 'package:flutter_base/models/entities/message_entity.dart';
 import 'package:path/path.dart' as p;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import '../../../commons/dialog_helper.dart';
+import '../type_document.dart';
 
 class OptionChat extends StatefulWidget {
   final bool isSelected;
@@ -21,6 +23,7 @@ class OptionChat extends StatefulWidget {
   final Function(List<File>, File)? onChooseVideo;
   final Function(List<File>)? onChooseDocument;
   final Function(Recording? record)? callBackRecord;
+  final List<DocumentEntity> listDocument;
 
   const OptionChat({
     Key? key,
@@ -29,6 +32,7 @@ class OptionChat extends StatefulWidget {
     required this.onChooseVideo,
     required this.onChooseDocument,
     this.callBackRecord,
+    required this.listDocument,
   }) : super(key: key);
 
   @override
@@ -50,21 +54,25 @@ class _OptionChatState extends State<OptionChat> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             InkWell(
-              onTap: loadAssets,
+              onTap: widget.listDocument.isEmpty |
+                      (widget.listDocument.isNotEmpty &&
+                          widget.listDocument.first.type == TypeDocument.IMAGE.toTypeDocument)
+                  ? _loadAssets
+                  : _warning,
               child: Icon(
                 Icons.image,
                 color: theme.hintColor,
               ),
             ),
             InkWell(
-              onTap: _openVideo,
+              onTap: widget.listDocument.isEmpty ? _openVideo : _warning,
               child: Icon(
                 Icons.videocam,
                 color: theme.hintColor,
               ),
             ),
             InkWell(
-              onTap: _openDocument,
+              onTap: widget.listDocument.isEmpty ? _openDocument : _warning,
               child: Icon(
                 Icons.file_open_rounded,
                 color: theme.hintColor,
@@ -76,6 +84,14 @@ class _OptionChatState extends State<OptionChat> {
       secondCurve: Curves.easeIn,
       crossFadeState: widget.isSelected ? CrossFadeState.showSecond : CrossFadeState.showFirst,
       duration: const Duration(milliseconds: 250),
+    );
+  }
+
+  _warning() {
+    return DxFlushBar.showFlushBar(
+      context,
+      title: "Chỉ chọn được Tệp đính kèm cùng loại !",
+      type: FlushBarType.WARNING,
     );
   }
 
@@ -136,39 +152,47 @@ class _OptionChatState extends State<OptionChat> {
   }
 
   //get image
-  Future<void> loadAssets() async {
-    if (Platform.isIOS) {
-      PermissionStatus permissionPhotosAddOnly = await Permission.photosAddOnly.status;
-      PermissionStatus permissionPhoto = await Permission.photos.status;
-      if (permissionPhotosAddOnly == PermissionStatus.limited && permissionPhoto == PermissionStatus.limited) {
-        ///LIMITED
-      } else {
-        if (permissionPhoto == PermissionStatus.denied) {
-          await Permission.photos.request();
-          permissionPhotosAddOnly = await Permission.photos.status;
-          if (permissionPhotosAddOnly == PermissionStatus.granted) {
-            getAssets();
-          }
+  Future<void> _loadAssets() async {
+    if (widget.listDocument.length < 10) {
+      if (Platform.isIOS) {
+        PermissionStatus permissionPhotosAddOnly = await Permission.photosAddOnly.status;
+        PermissionStatus permissionPhoto = await Permission.photos.status;
+        if (permissionPhotosAddOnly == PermissionStatus.limited && permissionPhoto == PermissionStatus.limited) {
+          ///LIMITED
         } else {
-          if (permissionPhoto == PermissionStatus.permanentlyDenied) {
-            await DialogHelper.showAlertSetting(
-                context, "Thông báo", "Bạn cần mở quyền cho phép truy cập camera ở cài đặt để sử dụng tính năng này.");
+          if (permissionPhoto == PermissionStatus.denied) {
+            await Permission.photos.request();
+            permissionPhotosAddOnly = await Permission.photos.status;
+            if (permissionPhotosAddOnly == PermissionStatus.granted) {
+              getAssets(widget.listDocument.length);
+            }
           } else {
-            getAssets();
+            if (permissionPhoto == PermissionStatus.permanentlyDenied) {
+              await DialogHelper.showAlertSetting(context, "Thông báo",
+                  "Bạn cần mở quyền cho phép truy cập camera ở cài đặt để sử dụng tính năng này.");
+            } else {
+              getAssets(widget.listDocument.length);
+            }
           }
         }
+      } else {
+        getAssets(widget.listDocument.length);
       }
     } else {
-      getAssets();
+      DxFlushBar.showFlushBar(
+        context,
+        title: "Chỉ chọn tối đa 10 ảnh!",
+        type: FlushBarType.WARNING,
+      );
     }
   }
 
-  void getAssets() async {
+  void getAssets(int imageSelected) async {
     List<Asset> resultList = <Asset>[];
     images = <Asset>[];
     try {
       resultList = await MultiImagePicker.pickImages(
-        maxImages: 10,
+        maxImages: 10 - imageSelected,
         enableCamera: true,
         selectedAssets: images,
         cupertinoOptions: const CupertinoOptions(takePhotoIcon: "chat"),

@@ -324,5 +324,4 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
       ),
     );
   }
-
 }

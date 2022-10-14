@@ -125,3 +125,4 @@ analysis_options.yaml
 ios/Podfile.lock
 
 **/scripts/first_run.sh
+android/gradle.properties

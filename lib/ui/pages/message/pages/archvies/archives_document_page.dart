@@ -13,7 +13,7 @@ import '../../../../../models/entities/message_entity.dart';
 import '../../../../commons/data_empty.dart';
 import '../../type_document.dart';
 import '../view_img_archvies.dart';
-import '../view_video_archvies/view_video_archvies.dart';
+import '../view_video_archvies.dart';
 
 final List<TypeDocument> listDocument = [
   TypeDocument.IMAGE,

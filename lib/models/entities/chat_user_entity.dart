@@ -2,20 +2,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'chat_user_entity.g.dart';
 
-// @JsonSerializable()
-// class ChatUserEntity {
-//   @JsonKey()
-//   List<UserEntity>? listUser;
-//
-//   ChatUserEntity({
-//     this.listUser,
-//   });
-//
-//   factory ChatUserEntity.fromJson(Map<String, dynamic> json) => _$ChatUserEntityFromJson(json);
-//
-//   Map<String, dynamic> toJson() => _$ChatUserEntityToJson(this);
-// }
-
 @JsonSerializable()
 class ConversionEntity {
   @JsonKey()

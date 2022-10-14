@@ -7,6 +7,7 @@ import 'package:flutter_base/ui/commons/flus_bar.dart';
 import 'package:flutter_base/ui/commons/img_network.dart';
 import 'package:flutter_base/ui/commons/search_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../generated/l10n.dart';
 import '../../../../utils/logger.dart';
 import '../../../commons/custom_app_bar.dart';
 import '../../../commons/custom_progress_hud.dart';
@@ -115,7 +116,7 @@ class _ContactPageState extends State<ContactPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: SearchBar(
-        hintText: "Tìm kiếm cuộc hội thoại",
+        hintText: S.of(context).contacts_search,
         onChanged: (value) {
           _cubit.onSearchTextChanged(value);
           _cubit.listSearch(value);

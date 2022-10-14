@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base/common/app_text_styles.dart';
 import 'package:flutter_base/models/enums/load_status.dart';
 import 'package:flutter_base/ui/commons/flus_bar.dart';
-import 'package:flutter_base/ui/pages/verify_number/verify_number_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-
 import '../../commons/app_buttons.dart';
 import '../../widgets/appbar/app_bar_widget.dart';
+import '../verification/verify_number_page.dart';
 import 'input_number_cubit.dart';
 
 class InputNumberPage extends StatefulWidget {

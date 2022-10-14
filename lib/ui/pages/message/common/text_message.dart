@@ -8,7 +8,7 @@ import 'package:flutter_base/ui/pages/message/type_document.dart';
 
 import '../../../../common/app_colors.dart';
 import '../../../../common/app_text_styles.dart';
-import '../pages/view_video_archvies/view_video_archvies.dart';
+import '../pages/view_video_archvies.dart';
 
 class TextMessage extends StatefulWidget {
   final String? message;

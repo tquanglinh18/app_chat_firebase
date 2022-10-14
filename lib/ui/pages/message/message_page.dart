@@ -169,7 +169,7 @@ class _MessagePageState extends State<MessagePage> {
       itemBuilder: (BuildContext context, int index) {
         return BlocBuilder<MessageCubit, MessageState>(
           bloc: _cubit,
-          buildWhen: (pre, cur) => pre.hintOptionMsg != cur.hintOptionMsg || pre.hintInputMsg != cur.hintInputMsg,
+          buildWhen: (pre, cur) => pre.hintInputMsg != cur.hintInputMsg,
           builder: (context, state) {
             MessageEntity messageEntity = listMessage[listMessage.length - 1 - index];
             return listMessage.isEmpty
@@ -286,9 +286,6 @@ class _MessagePageState extends State<MessagePage> {
             );
           }
         }
-        // if (state.listDocument.isNotEmpty) {
-        //   _cubit.isSelected();
-        // }
       },
       buildWhen: (pre, cur) =>
           pre.sendMsgLoadStatus != cur.sendMsgLoadStatus ||
@@ -344,7 +341,10 @@ class _MessagePageState extends State<MessagePage> {
                       )
                     ],
                   ),
-                  _inputDocumnet(state.isSelected),
+                  _inputDocumnet(
+                    isSelected: state.isSelected,
+                      listDocument: state.listDocument
+                  ),
                 ],
               ),
             ),
@@ -418,55 +418,57 @@ class _MessagePageState extends State<MessagePage> {
       builder: (context, state) {
         return Container(
           padding: const EdgeInsets.only(top: 5, right: 5),
-          child: Column(
-            children: [
-              state.listDocument.first.type == TypeDocument.FILE.name
-                  ? Image.asset(
-                      AppImages.icFileDefault,
-                      height: 50,
-                      width: 50,
-                      color: Theme.of(context).iconTheme.color,
+          child: state.listDocument.first.type == TypeDocument.FILE.name
+              ? Image.asset(
+                  AppImages.icFileDefault,
+                  height: 50,
+                  width: 50,
+                  color: Theme.of(context).iconTheme.color,
+                )
+              : state.listDocument.first.type == TypeDocument.VIDEO.name
+                  ? SizedBox(
+                      height: 70,
+                      width: 100,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          ImgFile(urlFile: state.listDocument.first.pathThumbnail ?? ""),
+                          const Icon(
+                            Icons.play_circle_fill_outlined,
+                            color: AppColors.hintTextColor,
+                          ),
+                        ],
+                      ),
                     )
-                  : state.listDocument.first.type == TypeDocument.VIDEO.name
-                      ? SizedBox(
-                          height: 70,
-                          width: 100,
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              ImgFile(urlFile: state.listDocument.first.pathThumbnail ?? ""),
-                              const Icon(
-                                Icons.play_circle_fill_outlined,
-                                color: AppColors.hintTextColor,
-                              ),
-                            ],
-                          ),
-                        )
-                      : SizedBox(
-                          height: 70,
-                          width: MediaQuery.of(context).size.width,
-                          child: ListView.builder(
-                            padding: EdgeInsets.zero,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: state.listDocument.length,
-                            itemBuilder: (context, index) {
-                              return Stack(
-                                alignment: Alignment.topRight,
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.all(5),
-                                    height: 70,
-                                    width: 100,
-                                    child: ImgFile(urlFile: state.listDocument[index].path ?? ""),
-                                  ),
-                                  _buildBtnRemoveDocument(index: index),
-                                ],
-                              );
-                            },
-                          ),
-                        )
-            ],
-          ),
+                  : SizedBox(
+                      height: 70,
+                      width: MediaQuery.of(context).size.width - 20,
+                      child: Center(
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.zero,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: state.listDocument.length,
+                          itemBuilder: (context, index) {
+                            return Stack(
+                              alignment: Alignment.topRight,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.all(5),
+                                  height: 70,
+                                  width: 100,
+                                  child: ImgFile(urlFile: state.listDocument[index].path ?? ""),
+                                ),
+                                _buildBtnRemoveDocument(index: index),
+                              ],
+                            );
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return const SizedBox(width: 10);
+                          },
+                        ),
+                      ),
+                    ),
         );
       },
     );
@@ -556,6 +558,9 @@ class _MessagePageState extends State<MessagePage> {
                   state.isFirst = false;
                   _cubit.textInputChanged('');
                 }
+                if (state.isSelected == true) {
+                  _cubit.isSelected();
+                }
               },
               child: Image.asset(
                 AppImages.icSentMessage,
@@ -568,9 +573,13 @@ class _MessagePageState extends State<MessagePage> {
     );
   }
 
-  Widget _inputDocumnet(bool isSelected) {
+  Widget _inputDocumnet({
+    required bool isSelected,
+    required List<DocumentEntity> listDocument,
+  }) {
     return OptionChat(
       isSelected: isSelected,
+      listDocument: listDocument,
       onChooseImage: (file) {
         _cubit.addImage(
           path: file.map((e) => e.path).toList(),

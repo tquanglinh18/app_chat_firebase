@@ -7,5 +7,7 @@
   "settings_languageVietnamese": "Tiếng việt",
   "settings_languageEnglish": "English",
   "settings_language": "Language",
-  "button_signIn": "Sign In"
+  "button_signIn": "Sign In",
+  "contacts_search": "Search",
+  "chats_search": "Search"
 }
