@@ -9,5 +9,19 @@
   "settings_language": "Language",
   "button_signIn": "Sign In",
   "contacts_search": "Search",
-  "chats_search": "Search"
+  "chats_search": "Search",
+  "contacts_create_conversation": "Create Conversation",
+  "contacts_neme_conversation": "Enter name conversation...",
+  "contacrs_cancel": "Cancel",
+  "contacrs_create": "Create",
+  "warning_update": "Feature is being updated!",
+  "msg_reply": "Reply",
+  "msg_delete": "Delete",
+  "conversation_infomation": "Conversation_infomation",
+  "archives_document": "Archives",
+  "image": "Image",
+  "notifi_is_empty_image": "The latest image of the conversation will be displayed here",
+  "empty_data": "No data here!",
+  "max_selected_image": "Only select up to 10 photos!",
+  "selected_document_type": "Only Attachments of the same type can be selected"
 }

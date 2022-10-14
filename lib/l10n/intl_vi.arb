@@ -9,5 +9,21 @@
   "settings_language": "Ngôn ngữ",
   "button_signIn": "Đăng nhập",
   "contacts_search": "Tìm kiếm cuộc hội thoại",
-  "chats_search": "Tìm kiếm người dùng"
+  "chats_search": "Tìm kiếm người dùng",
+  "contacts_create_conversation": "Tạo cuộc hội thoại",
+  "contacts_name_conversation": " Nhập tên cuộc hội thoại...",
+  "contacrs_cancel": "Huỷ",
+  "contacrs_create": "Tạo",
+  "warning_update": "Tính năng đang được cập nhật!",
+  "msg_reply": "Trả lời",
+  "msg_delete": "Xoá",
+  "conversation_infomation": "Thông tin cuộc hội thoại",
+  "archives_document": "Kho lưu trữ",
+  "iamge": "Ảnh",
+  "notifi_is_empty_image": "Hình ảnh mới nhất của cuộc hội thoại sẽ hiển thị ở đây",
+  "empty_data": "Không có dữ liệu!",
+  "max_selected_image": "Chỉ chọn tối đa 10 ảnh!",
+  "selected_document_type": "Chỉ chọn được Tệp đính kèm cùng loại"
+
+
 }
