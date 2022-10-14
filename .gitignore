@@ -86,7 +86,6 @@ unlinked_spec.ds
 **/ios/**/profile
 **/ios/**/xcuserdata
 **/ios/.generated/
-**/ios/Flutter/.last_build_id
 **/ios/Flutter/App.framework
 **/ios/Flutter/Flutter.framework
 **/ios/Flutter/Flutter.podspec
@@ -120,7 +119,6 @@ app.*.symbols
 
 *.g.dart
 lib/generated
-.flutter-plugins-dependencies
 pubspec.lock
 analysis_options.yaml
 *.lock
