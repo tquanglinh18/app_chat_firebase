@@ -5,10 +5,12 @@ import '../../../widgets/appbar/app_bar_widget.dart';
 
 class ViewImgArchvies extends StatelessWidget {
   final String urlImg;
+  final String nameSent;
 
   const ViewImgArchvies({
     Key? key,
     required this.urlImg,
+    required this.nameSent,
   }) : super(key: key);
 
   @override
@@ -17,7 +19,7 @@ class ViewImgArchvies extends StatelessWidget {
       body: Column(
         children: [
           AppBarWidget(
-            title: "Xem ảnh",
+            title: '$nameSent',
             onBackPressed: Navigator.of(context).pop,
             showBackButton: true,
             colorIcon: Theme.of(context).iconTheme.color!,

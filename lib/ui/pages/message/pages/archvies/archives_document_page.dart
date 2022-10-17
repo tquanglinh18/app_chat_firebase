@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../../common/app_colors.dart';
+import '../../../../../generated/l10n.dart';
 import '../../../../../models/entities/message_entity.dart';
 import '../../../../commons/data_empty.dart';
 import '../../type_document.dart';
@@ -94,7 +95,7 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
 
   Widget get _buildAppBar {
     return AppBarWidget(
-      title: "Kho lưu trữ",
+      title: S.of(context).archives_document,
       onBackPressed: () {
         Navigator.of(context).pop();
       },
@@ -167,7 +168,7 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => ViewImgArchvies(
-                                urlImg: widget.listImg[index].path ?? "",
+                                urlImg: widget.listImg[index].path ?? "", nameSent: widget.listImg[index].nameSend ?? "",
                               )));
                     },
                     child: ImgNetwork(
@@ -227,14 +228,14 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
                   return _itemFilePreview(
                     name: (state.listDocumentVideo[index].name ?? ""),
                     onTap: () {
-                      (Navigator.of(context).push(
+                      Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => PlayVideo(
-                            nameConversion: "hhaha",
+                            nameConversion: state.listDocumentVideo[index].nameSend ?? "",
                             path: state.listDocumentVideo[index].path ?? "",
                           ),
                         ),
-                      ));
+                      );
                     },
                     type: (state.listDocumentVideo[index].name ?? "").split(".").last,
                     nameSend: state.listDocumentVideo[index].nameSend ?? "",
@@ -268,7 +269,7 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             height: 40,
             child: Text(
-              "Ngày ${DateFormat('dd-MM-yyyy').format(timeSend.toDateLocal() ?? DateTime.now())}",
+              "${S.of(context).day} ${DateFormat('dd-MM-yyyy').format(timeSend.toDateLocal() ?? DateTime.now())}",
               style: AppTextStyle.greyS14.copyWith(
                 fontWeight: FontWeight.w400,
                 fontSize: 14,
@@ -345,7 +346,7 @@ class _ArchivesDocumentPageState extends State<ArchivesDocumentPage> {
       Uri.parse(filePath),
       mode: LaunchMode.externalApplication,
     )) {
-      throw 'Could not launch';
+      throw 'Could not launch ';
     }
   }
 }

@@ -12,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../common/app_colors.dart';
 import '../../../database/share_preferences_helper.dart';
+import '../../../generated/l10n.dart';
 import '../home/home_page.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -70,7 +71,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget get _buildAppBar {
     return AppBarWidget(
       onBackPressed: Navigator.of(context).pop,
-      title: "Your Profile",
+      title: S.of(context).profile_user,
       colorIcon: Theme.of(context).iconTheme.color!,
     );
   }
@@ -94,7 +95,7 @@ class _ProfilePageState extends State<ProfilePage> {
           DxFlushBar.showFlushBar(
             context,
             type: FlushBarType.ERROR,
-            title: "Không thể lưu",
+            title: S.of(context).cannot_save,
           );
         }
       },
@@ -112,7 +113,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
               FocusScope.of(context).unfocus();
             },
-            title: "Save",
+            title: S.of(context).save,
           ),
         );
       },
@@ -135,7 +136,7 @@ class _ProfilePageState extends State<ProfilePage> {
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
           border: InputBorder.none,
-          hintText: "First Name (Required)",
+          hintText: S.of(context).first_name,
           hintStyle: AppTextStyle.greyS14.copyWith(
             color: AppColors.hintTextColor,
             fontWeight: FontWeight.w600,
@@ -159,7 +160,7 @@ class _ProfilePageState extends State<ProfilePage> {
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
           border: InputBorder.none,
-          hintText: "Last Name (Optional)",
+          hintText: S.of(context).last_name,
           hintStyle: AppTextStyle.greyS14.copyWith(
             color: AppColors.hintTextColor,
             fontWeight: FontWeight.w600,
@@ -263,14 +264,14 @@ class _ProfilePageState extends State<ProfilePage> {
         width: MediaQuery.of(context).size.width - 100,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             Icon(
               Icons.camera_alt_outlined,
               color: AppColors.textBlack,
             ),
             SizedBox(width: 15),
             Text(
-              'Pick Image from Camera',
+              S.of(context).pick_from_camera,
               style: AppTextStyle.black,
             ),
           ],
@@ -289,14 +290,14 @@ class _ProfilePageState extends State<ProfilePage> {
         width: MediaQuery.of(context).size.width - 100,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             Icon(
               Icons.camera,
               color: AppColors.textBlack,
             ),
             SizedBox(width: 15),
             Text(
-              'Pick image from gallery',
+              S.of(context).pick_from_gallery,
               style: AppTextStyle.black,
             ),
           ],

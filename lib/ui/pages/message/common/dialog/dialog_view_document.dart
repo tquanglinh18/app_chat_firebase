@@ -6,6 +6,7 @@ import 'package:flutter_base/ui/pages/message/common/dialog/dialog_view_document
 import 'package:flutter_base/ui/pages/message/pages/archvies/archives_document_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../generated/l10n.dart';
 import '../../type_document.dart';
 
 final List<TypeDocument> listDocument = [
@@ -79,7 +80,7 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
         children: [
           Expanded(
             child: Text(
-              'Thông tin cuộc hội thoại',
+              S.of(context).conversation_infomation,
               style: Theme.of(context).textTheme.bodyText1,
               textAlign: TextAlign.center,
             ),
@@ -159,7 +160,7 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
                   ),
                   const SizedBox(width: 15),
                   Text(
-                    "Kho lưu trữ",
+                    S.of(context).archives_document,
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
                 ],
@@ -315,7 +316,7 @@ class _DialogViewDocumentState extends State<DialogViewDocument> {
           const SizedBox(width: 15),
           Expanded(
             child: Text(
-              "Hình ảnh mới nhất của cuộc hội thoại sẽ hiển thị ở đây",
+              S.of(context).notifi_is_empty_image,
               style: AppTextStyle.blackS14.copyWith(fontSize: 15),
               overflow: TextOverflow.visible,
             ),

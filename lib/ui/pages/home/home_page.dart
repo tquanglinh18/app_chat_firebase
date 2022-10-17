@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../common/app_images.dart';
+import '../../../generated/l10n.dart';
 import 'chats/chats_page.dart';
 import 'contact/contact_page.dart';
 import 'home_cubit.dart';
 import 'more/more_page.dart';
 
 List<String> listUrlImage = [AppImages.icPerson, AppImages.icChat, AppImages.icMore];
-List<String> listTitle = ["Contacts", "Chats", "More"];
 
 class HomePage extends StatefulWidget {
   final String? name;
@@ -36,6 +36,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<
 
   @override
   Widget build(BuildContext context) {
+    List<String> listTitle = [S.of(context).contact, S.of(context).chats, S.of(context).more];
     super.build(context);
     return Scaffold(
       body: Column(
@@ -57,13 +58,13 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<
               },
             ),
           ),
-          _bottomNavigator,
+          _bottomNavigator(listTitle: listTitle),
         ],
       ),
     );
   }
 
-  Widget get _bottomNavigator {
+  Widget _bottomNavigator({required List<String> listTitle}) {
     return Visibility(
       visible: MediaQuery.of(context).viewInsets.bottom == 0,
       child: BlocBuilder<HomeCubit, HomeState>(

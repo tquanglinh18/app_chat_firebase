@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base/common/app_text_styles.dart';
 
 import '../../common/app_colors.dart';
+import '../../generated/l10n.dart';
 
 class DataEmpty extends StatelessWidget {
   final Color color;
@@ -20,7 +21,7 @@ class DataEmpty extends StatelessWidget {
           ),
           const SizedBox(height: 15),
           Text(
-            "Không có dữ liệu!",
+            S.of(context).empty_data,
             style: AppTextStyle.greyS14.copyWith(color: color),
           ),
         ],

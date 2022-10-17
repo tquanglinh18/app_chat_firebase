@@ -4,6 +4,7 @@ import 'package:flutter_base/utils/logger.dart';
 
 import '../../common/app_colors.dart';
 import '../../common/app_text_styles.dart';
+import '../../generated/l10n.dart';
 
 class ImgNetwork extends StatelessWidget {
   final String linkUrl;
@@ -42,7 +43,6 @@ class ImgNetwork extends StatelessWidget {
             stackTrace,
           ) {
             logger.e(errorr);
-            logger.e(linkUrl);
             return Container(
               decoration: BoxDecoration(
                 borderRadius: !isBorderRadius ? BorderRadius.circular(16) : BorderRadius.zero,
@@ -74,7 +74,7 @@ class ImgNetwork extends StatelessWidget {
                       textMsgError.isNotEmpty
                           ? Center(
                               child: Text(
-                                'Đã xảy ra lỗi \nVui lòng thử lại',
+                                S.of(context).error_message,
                                 textAlign: TextAlign.center,
                                 style: isSent
                                     ? AppTextStyle.whiteS14.copyWith(
@@ -95,12 +95,12 @@ class ImgNetwork extends StatelessWidget {
           fit: BoxFit.cover,
         );
       },
-      placeholder: (context, url) => const Center(
+      placeholder: (context, url) => Center(
         child: Padding(
           padding: EdgeInsets.all(15),
           child: CircularProgressIndicator(
             strokeWidth: 2,
-            color: AppColors.btnColor,
+            color: Theme.of(context).iconTheme.color,
           ),
         ),
       ),
@@ -136,7 +136,7 @@ class ImgNetwork extends StatelessWidget {
                 textMsgError.isNotEmpty
                     ? Center(
                         child: Text(
-                          'Đã xảy ra lỗi \nVui lòng thử lại',
+                          S.of(context).error_message,
                           textAlign: TextAlign.center,
                           style: isSent
                               ? AppTextStyle.whiteS14.copyWith(

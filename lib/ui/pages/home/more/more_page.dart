@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import '../../../../common/app_images.dart';
 import '../../../../common/app_text_styles.dart';
+import '../../../../generated/l10n.dart';
 import '../../../commons/custom_app_bar.dart';
 import '../../setting/setting_page.dart';
 import 'more_cubit.dart';
@@ -49,7 +50,7 @@ class _MorePageState extends State<MorePage> {
         builder: (context, state) {
           return Column(
             children: [
-              const AppBarCustom(title: "More"),
+              AppBarCustom(title: S.of(context).more),
               _infoUser(
                 name: state.name,
                 phoneNumber: state.phoneNumber,

@@ -5,6 +5,7 @@ import 'package:flutter_base/models/enums/load_status.dart';
 import 'package:flutter_base/ui/commons/flus_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import '../../../generated/l10n.dart';
 import '../../commons/app_buttons.dart';
 import '../../widgets/appbar/app_bar_widget.dart';
 import '../verification/verify_number_page.dart';
@@ -71,7 +72,7 @@ class _InputNumberPageState extends State<InputNumberPage> {
     return Column(
       children: [
         Text(
-          'Enter Your Phone Number',
+          S.of(context).phone_input,
           textAlign: TextAlign.center,
           style: AppTextStyle.blackS18.copyWith(
             fontWeight: FontWeight.w600,
@@ -81,7 +82,7 @@ class _InputNumberPageState extends State<InputNumberPage> {
         ),
         const SizedBox(height: 8),
         Text(
-          'Please confirm your country code and enter your phone number',
+          S.of(context).phone_input_guide,
           textAlign: TextAlign.center,
           style: AppTextStyle.blackS14.copyWith(
             fontWeight: FontWeight.w400,
@@ -121,7 +122,7 @@ class _InputNumberPageState extends State<InputNumberPage> {
       builder: (context, state) {
         return AppButtons(
           buttonType: state.phoneNumber != '' ? ButtonType.ACTIVE : ButtonType.IN_ACTIVE,
-          title: "Continue",
+          title: S.of(context).continue_,
           isLoading: state.loadStatus == LoadStatus.loading,
           onTap: () {
             _cubit.verifyNumber("$heardPhone $phoneNumber");
@@ -135,12 +136,15 @@ class _InputNumberPageState extends State<InputNumberPage> {
   Widget get _inputPhoneNumberField {
     return InternationalPhoneNumberInput(
       autoFocus: true,
+      textStyle: AppTextStyle.blackS18.copyWith(
+        fontWeight: FontWeight.w400,
+        color: Theme.of(context).iconTheme.color!,
+      ),
       onInputChanged: (PhoneNumber number) {
         heardPhone = number.dialCode ?? "";
         phoneNumber = (number.phoneNumber ?? "").split(heardPhone)[1];
         _cubit.phoneNumberChanged(phoneNumber);
       },
-      onInputValidated: (bool value) {},
       selectorConfig: const SelectorConfig(
         selectorType: PhoneInputSelectorType.DIALOG,
       ),
@@ -155,7 +159,14 @@ class _InputNumberPageState extends State<InputNumberPage> {
         signed: true,
         decimal: true,
       ),
-      inputBorder: const OutlineInputBorder(),
+      inputDecoration: InputDecoration(
+        hintText: S.of(context).phone_number,
+        hintStyle: AppTextStyle.blackS18.copyWith(
+          fontWeight: FontWeight.w400,
+          color: Theme.of(context).iconTheme.color!,
+        ),
+        border: const OutlineInputBorder(),
+      ),
       onSaved: (PhoneNumber number) {},
     );
   }

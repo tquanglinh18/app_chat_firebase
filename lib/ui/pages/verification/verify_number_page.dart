@@ -13,6 +13,7 @@ import 'package:flutter_base/ui/widgets/appbar/app_bar_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/app_text_styles.dart';
+import '../../../generated/l10n.dart';
 import '../../commons/otp/animation_type.dart';
 import '../../commons/otp/pin_theme.dart';
 import '../../commons/otp/pin_code_text_field.dart';
@@ -82,7 +83,7 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
     return Column(
       children: [
         Text(
-          'Enter Code',
+          S.of(context).enter_otp,
           style: AppTextStyle.blackS18.copyWith(
             fontWeight: FontWeight.w600,
             fontSize: 24,
@@ -91,7 +92,7 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
         ),
         const SizedBox(height: 8),
         Text(
-          'We have sent you an SMS with the code to \n ${widget.phoneNumber}',
+          '${S.of(context).verifi_guide}\n ${widget.phoneNumber}',
           textAlign: TextAlign.center,
           style: AppTextStyle.blackS14.copyWith(
             fontWeight: FontWeight.w400,
@@ -114,7 +115,7 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
             DxFlushBar.showFlushBar(
               context,
               type: FlushBarType.SUCCESS,
-              message: "Nhap ma OTP nhan duoc!",
+              message: S.of(context).enter_otp,
             );
           } else if (state.loadStatus == LoadStatus.failure) {
             DxFlushBar.showFlushBar(
@@ -133,7 +134,7 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
             _cubitInput.verifyNumber(widget.phoneNumber);
           },
           child: Text(
-            'Resent code',
+            S.of(context).resend_code,
             style: AppTextStyle.whiteS16.copyWith(
               color: AppColors.btnColor,
             ),

@@ -43,7 +43,10 @@ class _MultiImageState extends State<MultiImage> {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => ViewImgArchvies(urlImg: widget.listDocumnet.first.path ?? ""),
+                    builder: (context) => ViewImgArchvies(
+                      urlImg: widget.listDocumnet.first.path ?? "",
+                      nameSent: widget.listDocumnet.first.nameSend ?? "",
+                    ),
                   ),
                 );
               },
@@ -79,7 +82,10 @@ class _MultiImageState extends State<MultiImage> {
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => ViewImgArchvies(urlImg: widget.listDocumnet[index].path ?? ""),
+                  builder: (context) => ViewImgArchvies(
+                    urlImg: widget.listDocumnet[index].path ?? "",
+                    nameSent: widget.listDocumnet.first.nameSend ?? "",
+                  ),
                 ),
               );
             },
@@ -119,7 +125,10 @@ class _MultiImageState extends State<MultiImage> {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => ViewImgArchvies(urlImg: widget.listDocumnet[index + 1].path ?? ""),
+                        builder: (context) => ViewImgArchvies(
+                          urlImg: widget.listDocumnet[index + 1].path ?? "",
+                          nameSent: widget.listDocumnet.first.nameSend ?? "",
+                        ),
                       ),
                     );
                   },
@@ -173,7 +182,10 @@ class _MultiImageState extends State<MultiImage> {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => ViewImgArchvies(urlImg: widget.listDocumnet.first.path ?? ""),
+            builder: (context) => ViewImgArchvies(
+              urlImg: widget.listDocumnet.first.path ?? "",
+              nameSent: widget.listDocumnet.first.nameSend ?? "",
+            ),
           ),
         );
       },
@@ -198,7 +210,10 @@ class _MultiImageState extends State<MultiImage> {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => ViewImgArchvies(urlImg: linkUrl),
+            builder: (context) => ViewImgArchvies(
+              urlImg: linkUrl,
+              nameSent: widget.listDocumnet.first.nameSend ?? "",
+            ),
           ),
         );
       },
@@ -221,7 +236,10 @@ class _MultiImageState extends State<MultiImage> {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => ViewImgArchvies(urlImg: widget.listDocumnet[3].path ?? ""),
+            builder: (context) => ViewImgArchvies(
+              urlImg: widget.listDocumnet[3].path ?? "",
+              nameSent: widget.listDocumnet.first.nameSend ?? "",
+            ),
           ),
         );
       },

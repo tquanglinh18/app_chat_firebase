@@ -107,7 +107,7 @@ class _ChatsPageState extends State<ChatsPage> {
 
   Widget get _buildAppBar {
     return AppBarCustom(
-      title: "Chats",
+      title: S.of(context).chats,
       icCount: 2,
       image: const [
         AppImages.icNewMessage,
@@ -118,7 +118,7 @@ class _ChatsPageState extends State<ChatsPage> {
         DxFlushBar.showFlushBar(
           context,
           type: FlushBarType.WARNING,
-          title: "Tính năng đang được cập nhật !",
+          title: S.of(context).warning_update,
         );
       },
     );

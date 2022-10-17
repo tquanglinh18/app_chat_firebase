@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../common/app_colors.dart';
+import '../../../generated/l10n.dart';
 
 class DialogCreateCobersion extends StatefulWidget {
   const DialogCreateCobersion({Key? key}) : super(key: key);
@@ -101,7 +102,7 @@ class _DialogCreateCobersionState extends State<DialogCreateCobersion> {
 
   Widget get _createName {
     return Text(
-      "Tạo cuộc hội thoại",
+      S.of(context).create_conversation,
       style: AppTextStyle.greyS14.copyWith(
         fontSize: 18,
         color: AppColors.btnColor,
@@ -120,14 +121,14 @@ class _DialogCreateCobersionState extends State<DialogCreateCobersion> {
       textInputAction: TextInputAction.done,
       autofocus: true,
       style: const TextStyle(fontSize: 14, color: Colors.black),
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
         isDense: true,
         hintStyle: TextStyle(
           fontSize: 14,
           color: Colors.grey,
           fontStyle: FontStyle.italic,
         ),
-        hintText: "Nhập tên cuộc hội thoại",
+        hintText: S.of(context).name_conversation,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(5)),
           borderSide: BorderSide(width: 0, style: BorderStyle.none),
@@ -184,9 +185,9 @@ class _DialogCreateCobersionState extends State<DialogCreateCobersion> {
   Widget get _btnCancel {
     return InkWell(
       onTap: () => Navigator.pop(context),
-      child: const AppButtons(
+      child: AppButtons(
         buttonType: ButtonType.IN_ACTIVE,
-        title: "Hủy",
+        title: S.of(context).cancel,
         heightButton: 42,
         circularButton: 10,
       ),
@@ -199,7 +200,7 @@ class _DialogCreateCobersionState extends State<DialogCreateCobersion> {
   }) {
     return AppButtons(
       buttonType: ButtonType.ACTIVE,
-      title: "Tạo",
+      title: S.of(context).create,
       heightButton: 42,
       circularButton: 10,
       onTap: () {

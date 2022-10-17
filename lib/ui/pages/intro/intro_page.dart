@@ -3,6 +3,7 @@ import 'package:flutter_base/common/app_text_styles.dart';
 import 'package:flutter_base/ui/pages/input_number/input_number_page.dart';
 
 import '../../../common/app_images.dart';
+import '../../../generated/l10n.dart';
 import '../../commons/app_buttons.dart';
 
 class IntroAppPage extends StatelessWidget {
@@ -27,7 +28,7 @@ class IntroAppPage extends StatelessWidget {
                     Image.asset(AppImages.icIntroApp),
                     const SizedBox(height: 43),
                     Text(
-                      'Connect easily with your family and friends over countries',
+                      S.of(context).intro_content,
                       textAlign: TextAlign.center,
                       style: AppTextStyle.blackS18.copyWith(
                         fontWeight: FontWeight.bold,
@@ -37,7 +38,7 @@ class IntroAppPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 130),
                     Text(
-                      'Terms & Privacy Policy',
+                      S.of(context).policy,
                       style: AppTextStyle.blackS14.copyWith(
                         fontWeight: FontWeight.w600,
                         color: Theme.of(context).iconTheme.color,
@@ -67,15 +68,19 @@ class IntroAppPage extends StatelessWidget {
     double width,
     double height,
   ) {
-    return Positioned(
-      top: height - 100,
-      left: 20,
-      child: AppButtons(
-        buttonType: ButtonType.ACTIVE,
-        onTap: onTap,
-        title: "Start Messaging",
-        width: width,
-      ),
+    return Builder(
+      builder: (context) {
+        return Positioned(
+          top: height - 100,
+          left: 20,
+          child: AppButtons(
+            buttonType: ButtonType.ACTIVE,
+            onTap: onTap,
+            title: S.of(context).start_message,
+            width: width,
+          ),
+        );
+      }
     );
   }
 }

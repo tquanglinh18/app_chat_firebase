@@ -21,13 +21,13 @@ class AppBarCustom extends StatelessWidget {
     final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.only(top: 47, right: 24, left: 25, bottom: 13),
-      height: 90,
+      height: 100,
       child: Row(
         children: [
           Expanded(
             child: Text(
               title!,
-              style: theme.textTheme.bodyText1,
+              style: theme.textTheme.bodyText1?.copyWith(fontSize: 22),
             ),
           ),
           icCount != null

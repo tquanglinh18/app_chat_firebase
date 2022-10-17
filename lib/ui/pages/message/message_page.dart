@@ -18,6 +18,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import '../../../../common/app_colors.dart';
 import '../../../../common/app_text_styles.dart';
+import '../../../generated/l10n.dart';
 import '../../commons/flus_bar.dart';
 import 'common/text_message.dart';
 import 'message_cubit.dart';
@@ -129,7 +130,7 @@ class _MessagePageState extends State<MessagePage> {
             DxFlushBar.showFlushBar(
               context,
               type: FlushBarType.WARNING,
-              title: "Tính năng đang được cập nhật !",
+              title: S.of(context).warning_update,
             );
           },
           child: Image.asset(
@@ -255,7 +256,7 @@ class _MessagePageState extends State<MessagePage> {
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(horizontal: 10),
           border: InputBorder.none,
-          hintText: "Typing the message...",
+          hintText: S.of(context).type_mess,
           hintStyle: AppTextStyle.black.copyWith(
             color: AppColors.hintTextColor,
           ),
@@ -282,7 +283,7 @@ class _MessagePageState extends State<MessagePage> {
             DxFlushBar.showFlushBar(
               context,
               type: FlushBarType.ERROR,
-              title: "Đã xảy ra lỗi",
+              title: S.of(context).error,
             );
           }
         }
@@ -325,7 +326,7 @@ class _MessagePageState extends State<MessagePage> {
                                     ? DxFlushBar.showFlushBar(
                                         context,
                                         type: FlushBarType.WARNING,
-                                        title: "Chỉ được chọn 1 File đính kèm!",
+                                        title: S.of(context).only_selected_a_file,
                                       )
                                     : _cubit.isSelected();
                               },
@@ -341,10 +342,7 @@ class _MessagePageState extends State<MessagePage> {
                       )
                     ],
                   ),
-                  _inputDocumnet(
-                    isSelected: state.isSelected,
-                      listDocument: state.listDocument
-                  ),
+                  _inputDocumnet(isSelected: state.isSelected, listDocument: state.listDocument),
                 ],
               ),
             ),
@@ -534,7 +532,7 @@ class _MessagePageState extends State<MessagePage> {
           DxFlushBar.showFlushBar(
             context,
             type: FlushBarType.WARNING,
-            title: "Không gửi được tin nhắn !",
+            title: S.of(context).error_send_msg,
           );
         }
       },
@@ -557,9 +555,8 @@ class _MessagePageState extends State<MessagePage> {
                         );
                   state.isFirst = false;
                   _cubit.textInputChanged('');
-                }
-                if (state.isSelected == true) {
-                  _cubit.isSelected();
+                } else if (state.isSelected == true) {
+                 //ß _cubit.isSelected();
                 }
               },
               child: Image.asset(
@@ -635,7 +632,7 @@ class _MessagePageState extends State<MessagePage> {
             children: [
               ItemOptioneMsg(
                 iconItem: Icons.reply,
-                title: 'Trả lời',
+                title: S.of(context).msg_reply,
                 onTap: () {
                   Navigator.of(contextBottomSheet).pop();
                   _cubit.showReplyMsg();
@@ -644,7 +641,7 @@ class _MessagePageState extends State<MessagePage> {
               ),
               ItemOptioneMsg(
                 iconItem: Icons.delete,
-                title: 'Xóa, gỡ bỏ',
+                title: S.of(context).msg_delete,
                 onTap: () {
                   Navigator.of(contextBottomSheet).pop();
                   _cubit.deleteMsg(widget.idConversion);

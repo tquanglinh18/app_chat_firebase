@@ -59,7 +59,7 @@ class _ContactPageState extends State<ContactPage> {
                 DxFlushBar.showFlushBar(
                   context,
                   type: FlushBarType.ERROR,
-                  title: "Không thể tạo cuộc hội thoại",
+                  title: S.of(context).cannot_create_conversation,
                 );
                 _customProgressHUD.progress.dismiss();
               } else if (state.loadStatusAddConversion == LoadStatus.loading) {
@@ -91,7 +91,7 @@ class _ContactPageState extends State<ContactPage> {
 
   Widget get _buildAppBar {
     return AppBarCustom(
-      title: "Contacts",
+      title: S.of(context).contact,
       icCount: 1,
       image: const [AppImages.icAddContact],
       color: Theme.of(context).iconTheme.color!,
